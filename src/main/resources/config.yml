@@ -1,0 +1,52 @@
+# CivCraft — main configuration. Balance values live in the balance/*.yml files.
+
+# Language file from lang/ (ru_RU, en_US). You can override any string by copying the file
+# to plugins/CivCraft/lang/ and editing it.
+language: ru_RU
+
+storage:
+  # sqlite (single server, zero setup) or mysql (MySQL 8 / MariaDB 10.5+)
+  type: sqlite
+  sqlite-file: civcraft.db
+  mysql:
+    host: localhost
+    port: 3306
+    database: civcraft
+    user: civcraft
+    password: ''
+    pool-size: 6
+  table-prefix: 'civ_'
+  # How often pending changes are written to the database.
+  autosave-seconds: 10
+
+worlds:
+  # The world where towns can be founded. Other worlds are ignored by the plugin.
+  main: world
+  # Worlds where claims and structures are allowed besides the main world.
+  extra: []
+
+# Time zone for daily upkeep and the war schedule.
+timezone: Europe/Moscow
+
+# Hour of the day (time zone above) of the world tax collection: upkeep, taxes, debts. Alcor: 20:00 MSK.
+daily-tick-hour: 20
+
+war:
+  # Weekly war window. Days: MONDAY..SUNDAY, times in HH:mm.
+  schedule:
+    - day: SATURDAY
+      start: '18:00'
+      duration-minutes: 120
+  # Minutes before the war when players are warned.
+  warnings: [60, 30, 10, 5, 1]
+
+templates:
+  # Theme used for new structures when the player has not chosen one.
+  default-theme: default
+
+integrations:
+  placeholderapi: true
+  dynmap: true
+  bluemap: true
+
+debug: false

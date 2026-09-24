@@ -1,0 +1,108 @@
+# Core balance (docs/spec/01_core.md). Money in coins; times in the configured time zone.
+
+resident:
+  starting-balance: 200
+  pvp-protection-minutes: 30
+  pvp-protection-distance: 2000
+  pay-cooldown-seconds: 5
+  rejoin-cooldown-hours: 12
+  exchange-rate: 0.30
+
+names:
+  min-length: 3
+  max-length: 20
+  pattern: '^[A-Za-z0-9_]+$'
+  tag-max-length: 5
+
+# Town levels (spec §6.3): claims limit, daily upkeep, improvement slots, price, hammers, tech.
+town:
+  levels:
+    1: {name: Поселение, claims: 32, upkeep: 500, slots: 4}
+    2: {name: Село, claims: 64, upkeep: 750, slots: 6, cost: 10000, hammers: 600, tech: monarchy}
+    3: {name: Деревня, claims: 80, upkeep: 1250, slots: 8, cost: 20000, hammers: 2000, tech: church}
+    4: {name: Большая деревня, claims: 128, upkeep: 2000, slots: 12, cost: 30000, hammers: 3000, tech: writing}
+    5: {name: Городок, claims: 256, upkeep: 3500, slots: 15, cost: 50000, hammers: 3000, tech: currency}
+    6: {name: Город, claims: 512, upkeep: 5500, slots: 17, cost: 125000, hammers: 6000, tech: alchemy}
+    7: {name: Большой город, claims: 1024, upkeep: 7000, slots: 20, cost: 250000, hammers: 12000, tech: engineering}
+    8: {name: Огромный город, claims: 2048, upkeep: 8000, slots: 25, cost: 500000, hammers: 25000, tech: scientific_method}
+    9: {name: Метрополис, claims: 4096, upkeep: 25000, slots: 30, cost: 1000000, hammers: 50000, tech: innovation}
+  # Price of the N-th claim (spec §6.4): upper bound of the range → price.
+  claim-prices:
+    32: 500
+    64: 1000
+    80: 2000
+    256: 5000
+    512: 7500
+    1024: 15000
+    2048: 20000
+    4096: 30000
+  claim-lock-hours-before-war: 3
+  settler-min-distance: 150
+  foreign-culture-min-distance-blocks: 12.5
+  wonder-min-age-days: 3
+  teleport-cost: 5000
+  teleport-cooldown-seconds: 300
+  teleport-warmup-seconds: 10
+  change-town-cost: 50000
+  inactive-mayor-days: 7
+  warnings-to-disband: 3
+  debt-market-days: 7
+  chammers-hours: 24
+  chammers-divisor: 16
+  town-count-upkeep-percent: 0.03
+
+civ:
+  province-found-balance: 25000
+  settler-base-cost: 25000
+  settler-hammers: 1000
+  tag-color-cost: 1000000
+  beaker-price: 17.5
+  inactive-owner-days: 7
+  default-taxes: 0.10
+  default-science: 0.50
+
+# Culture levels (spec §9.1): accumulated culture required and culture radius in chunks.
+culture:
+  levels:
+    1: {required: 0, radius: 8}
+    2: {required: 500, radius: 10}
+    3: {required: 10000, radius: 13}
+    4: {required: 20000, radius: 15}
+    5: {required: 100000, radius: 17}
+    6: {required: 250000, radius: 19}
+    7: {required: 500000, radius: 22}
+    8: {required: 1000000, radius: 26}
+    9: {required: 2000000, radius: 32}
+    10: {required: 4000000, radius: 40}
+    11: {required: 6500000, radius: 50}
+  town-hall: 25
+  capitol: 50
+
+# Happiness (spec §10).
+happiness:
+  base: 10
+  capital-bonus: 5
+  per-town-unhappiness: 1.25
+  captured-town-unhappiness: 2
+  captured-same-nation-unhappiness: 1
+  resident-factor: 0.125
+  non-resident-factor: 0.075
+  distance-factor: 0.01
+  distance-exponent-touching: 0.75
+  distance-exponent-far: 1.05
+  # Lower bound of happy% → multiplier for beakers, coins, culture, hammers, faith.
+  states:
+    0: {name: Бунт, multiplier: 0.20}
+    20: {name: Беспорядки, multiplier: 0.50}
+    40: {name: Несчастье, multiplier: 0.75}
+    50: {name: Стандарт, multiplier: 1.00}
+    70: {name: Счастье, multiplier: 1.15}
+    85: {name: Ликование, multiplier: 1.30}
+    92: {name: Экстаз, multiplier: 1.50}
+
+growth:
+  seeds-per-tick: 6
+  captured-multiplier: 0.5
+hammers:
+  build-speed-multiplier: 2
+  captured-multiplier: 0.5
