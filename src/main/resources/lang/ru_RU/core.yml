@@ -1,0 +1,19 @@
+error:
+  internal: '<red>Внутренняя ошибка. Сообщите администрации.'
+  players-only: '<red>Эту команду может использовать только игрок.'
+  no-permission: '<red>У вас нет прав на это.'
+  not-enough-money: '<red>Недостаточно денег: нужно <white><amount></white> монет.'
+  invalid-amount: '<red>Неверная сумма.'
+  unknown-player: '<red>Игрок <white><name></white> не найден.'
+  unknown-town: '<red>Город <white><name></white> не найден.'
+  unknown-civ: '<red>Цивилизация <white><name></white> не найдена.'
+  not-in-town: '<red>Вы не состоите в городе.'
+  not-in-civ: '<red>Вы не состоите в цивилизации.'
+protection:
+  claim: '<red>Этот участок защищён.'
+  structure: '<red>Блоки построек защищены.'
+resident:
+  welcome: '<gold>Добро пожаловать в CivCraft!</gold> <gray>Постройте лагерь, основайте цивилизацию и завоюйте мир. <white>/res book</white> — справочник.'
+  pvp-protection-ended: '<yellow>Защита новичка от PvP закончилась.'
+  pvp-protected-self: '<red>Вы под защитой новичка и не можете атаковать игроков (/res pvptimer — снять).'
+  pvp-protected-target: '<red>Этот игрок под защитой новичка.'
