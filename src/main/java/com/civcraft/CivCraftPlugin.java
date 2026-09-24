@@ -32,7 +32,9 @@ public final class CivCraftPlugin extends JavaPlugin {
                 new com.civcraft.boss.ValleyModule(),
                 new com.civcraft.worldevent.WorldEventModule(),
                 new com.civcraft.randomevent.RandomEventModule(),
-                new com.civcraft.ruins.RuinsModule()
+                new com.civcraft.ruins.RuinsModule(),
+                new com.civcraft.fishing.FishingModule(),
+                new com.civcraft.kit.KitModule()
         );
     }
 

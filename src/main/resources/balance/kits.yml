@@ -1,0 +1,104 @@
+# Kits (spec 04 §19, spec 01 §20.2). Composition per the "Donat" page, cooldowns per "Kits".
+# Permission per kit: civcraft.kit.<name>; give it to the vip / pro / premium permission groups:
+#   vip: vip, food, itools   pro: + pro, camp, def   premium: + premium, war, civ, dtools
+# Cooldown format: 14d, 12h, 30m. Donation pickaxes cannot be repaired (no-repair: true).
+kits:
+  vip:
+    cooldown: 14d
+    items:
+      - {item: diamond_pickaxe, enchants: {fortune: 1, unbreaking: 2}, no-repair: true}
+      - {item: diamond_pickaxe, enchants: {efficiency: 2, unbreaking: 2}, no-repair: true}
+      - {item: diamond_shovel, enchants: {efficiency: 2, unbreaking: 2}}
+      - {item: diamond_axe, enchants: {efficiency: 2, unbreaking: 2}}   # [assumption] shovel + axe
+      - {item: diamond, amount: 24}
+      - {item: emerald, amount: 18}
+      - {item: gold_ingot, amount: 32}
+      - {item: leather, amount: 32}
+      - {item: hopper, amount: 2}
+  food:
+    cooldown: 2h
+    items:
+      - {item: bread, amount: 10}
+      - {item: cooked_cod, amount: 10}
+      - {item: baked_potato, amount: 20}
+      - {item: cooked_beef, amount: 20}
+  itools:
+    cooldown: 12h
+    items:
+      - {item: iron_pickaxe, enchants: {efficiency: 3}}
+      - {item: iron_shovel, enchants: {efficiency: 3}}
+      - {item: iron_axe, enchants: {efficiency: 3}}
+      - {item: iron_hoe, enchants: {efficiency: 3}}
+  pro:
+    cooldown: 14d
+    items:
+      - {item: diamond_pickaxe, enchants: {fortune: 2, unbreaking: 3}, no-repair: true}
+      - {item: diamond_pickaxe, enchants: {efficiency: 3, unbreaking: 3}, no-repair: true}
+      - {item: diamond_shovel, enchants: {efficiency: 3, unbreaking: 3}}
+      - {item: diamond_axe, enchants: {efficiency: 3, unbreaking: 3}}
+      - {item: diamond, amount: 48}
+      - {item: emerald, amount: 28}
+      - {item: gold_ingot, amount: 64}
+      - {item: leather, amount: 48}
+      - {item: hopper, amount: 3}
+  camp:
+    cooldown: 7d
+    items:
+      - {item: coal, amount: 64}
+      - {item: bread, amount: 6}
+      - {item: mat_found_camp, amount: 1}        # camp item (item-module id)
+  def:
+    cooldown: 2d
+    items:
+      - {item: arrow, amount: 32}
+      - {item: cobweb, amount: 16}
+      - {item: obsidian, amount: 16}
+      - {item: magma_block, amount: 2}
+      - {item: lava_bucket, amount: 1}
+  premium:
+    cooldown: 14d
+    items:
+      - {item: diamond_pickaxe, enchants: {fortune: 3, unbreaking: 3}, no-repair: true}
+      - {item: diamond_pickaxe, enchants: {efficiency: 5, unbreaking: 3}, no-repair: true}
+      - {item: diamond_shovel, enchants: {efficiency: 5, unbreaking: 3}}
+      - {item: diamond_axe, enchants: {efficiency: 5, unbreaking: 3}}
+      - {item: diamond, amount: 64}
+      - {item: emerald, amount: 48}
+      - {item: gold_ingot, amount: 64}
+      - {item: leather, amount: 64}
+      - {item: hopper, amount: 4}
+  war:
+    cooldown: 7d
+    items:
+      - {item: cooked_porkchop, amount: 10}
+      - {item: mat_found_warcamp, amount: 1}     # war camp (item-module id)
+      - {item: mat_found_warship, amount: 1}     # war ship (item-module id)
+  civ:
+    cooldown: 30d
+    items:
+      - {item: mat_jewelry_grade_gold, amount: 3}
+      - {item: mat_decorative_jewels, amount: 2}
+      - {item: mat_compacted_stone, amount: 5}
+      - {item: mat_masonry_mortar, amount: 3}
+  dtools:
+    cooldown: 1d
+    items:
+      - {item: diamond_pickaxe, enchants: {efficiency: 3}}
+      - {item: diamond_shovel, enchants: {efficiency: 3}}
+      - {item: diamond_axe, enchants: {efficiency: 3}}
+      - {item: diamond_hoe, enchants: {efficiency: 3}}
+
+# Starter kit for new players (spec 04 §19, CL V1.7.5): wooden tools, some food and the /res book,
+# everything SoulBound except the fishing rod.
+starter:
+  enabled: true
+  only-new-players: true
+  soulbound: true
+  items:
+    - {item: wooden_sword}
+    - {item: wooden_pickaxe}
+    - {item: wooden_axe}
+    - {item: wooden_shovel}
+    - {item: bread, amount: 16}                 # [assumption] "some food"
+    - {item: mat_tutorial_book}                 # /res book (item-module id; skipped if unknown)
+    - {item: fishing_rod, no-soulbound: true}
