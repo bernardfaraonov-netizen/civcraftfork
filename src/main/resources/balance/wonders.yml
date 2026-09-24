@@ -1,0 +1,527 @@
+# World wonders and national wonders (docs/spec/03_wonders_science.md §4–§6, 02_buildings.md §10).
+# Same schema as structures.yml. General wonder rules (uniqueness, 2 per town, town age, race refund, architects'
+# experience) are configured in structures.yml → construction / validation.
+#   regen        hit points regenerated per second outside of war (war-regen: false = also not during war)
+#   wonder-slot  counts against the per-town wonder limit (national wonders do not)
+#   requires     {type, scope: all_towns | native_towns, level} – national wonders need the building in every town
+#   requires-active  the requirement must keep holding for the effects to work (national wonders)
+#   required-item    custom item consumed when construction starts (space shuttle)
+
+types:
+  the_great_library:
+    name: Александрийская библиотека
+    aliases: [великая библиотека, библиотека александрии]
+    category: wonder
+    era: 3
+    tech: [wonder_great_library]
+    size: [4, 4]
+    cost: 1000000
+    hammers: 480000
+    hp: 5000
+    regen: 6
+    score: 220000
+    style: wonder
+    icon: KNOWLEDGE_BOOK
+    markers: [sign enchant]
+    effects:
+      - {stat: beakers, percent: 0.15, scope: civ}
+      - {stat: beaker_price, add: -3, scope: civ}
+  great_lighthouse:
+    name: Александрийский маяк
+    category: wonder
+    era: 3
+    tech: [wonder_great_lighthouse]
+    size: [4, 4]
+    cost: 1000000
+    hammers: 600000
+    hp: 5000
+    regen: 6
+    score: 250000
+    style: lighthouse
+    icon: LANTERN
+    effects:
+      - {stat: trade_ship, percent: 0.20}
+      - {stat: scout_range, percent: 0.50, scope: civ}
+      - {stat: limit.cannon_ship, add: 1, scope: civ}
+      - {stat: armor, add: 0.175, scope: civ}
+  angkor_wat:
+    name: Ангкор-Ват
+    category: wonder
+    era: 3
+    tech: [wonder_angkor_wat]
+    size: [5, 5]
+    cost: 1000000
+    hammers: 480000
+    hp: 5000
+    score: 275000
+    style: wonder
+    icon: MOSSY_STONE_BRICKS
+    effects:
+      - {stat: culture_requirement, percent: -0.10, scope: civ}
+      - {stat: beakers, percent: 0.10, scope: civ}
+  burj_al_arab:
+    name: Бурдж Аль Араб
+    aliases: [бурдж]
+    category: wonder
+    era: 5
+    tech: [wonder_burj_al_arab]
+    requires: [{type: hotel, scope: native_towns}]
+    size: [4, 4]
+    cost: 1200000
+    hammers: 650000
+    hp: 5000
+    regen: 6
+    score: 220000
+    style: spire
+    icon: QUARTZ_PILLAR
+    tags: [victory]
+    effects:
+      - {stat: happiness, add: 12, scope: civ}
+  the_hanging_gardens:
+    name: Висячие сады
+    category: wonder
+    era: 2
+    tech: [wonder_hanging_gardens]
+    size: [4, 4]
+    cost: 1000000
+    hammers: 500000
+    hp: 5000
+    regen: 6
+    score: 260000
+    style: wonder
+    icon: FLOWERING_AZALEA
+    effects:
+      - {stat: mine, percent: 1.0}
+      - {stat: cottage, percent: 1.0}
+      - {stat: fishery, percent: 1.0}
+  world_bank:
+    name: Всемирный банк
+    category: wonder
+    era: 5
+    tech: [wonder_world_bank]
+    requires: [{type: stock_exchange, scope: native_towns}, {type: bank, level: 10}]
+    size: [4, 4]
+    cost: 1500000
+    hammers: 1000000
+    hp: 5000
+    regen: 6
+    score: 500000
+    style: wonder
+    icon: GOLD_BLOCK
+    tags: [victory]
+    lose-level-on-destroy: true
+    start-level: 0
+    markers: [sign exchange]
+    levels:
+      1: {cost: 1000000, hammers: 100000, tech: wonder_world_bank}
+      2: {cost: 2500000, hammers: 200000, tech: radio}
+      3: {cost: 5000000, hammers: 300000, tech: biology}
+      4: {cost: 10000000, hammers: 500000, tech: cryogenics}
+      5: {cost: 15000000, hammers: 1000000}
+  world_university:
+    name: Всемирный университет
+    category: wonder
+    era: 6
+    tech: [wonder_world_university]
+    size: [4, 4]
+    cost: 1500000
+    hammers: 600000
+    hp: 5000
+    regen: 6
+    score: 365000
+    style: temple
+    icon: ENCHANTING_TABLE
+    markers: [sign enchant]
+    effects:
+      - {stat: beakers, percent: 0.20, scope: civ}
+      - {stat: research_cost, percent: -0.20, scope: civ}
+  globe_theatre:
+    name: Глобус
+    aliases: [театр глобус, глобус театр]
+    category: wonder
+    era: 4
+    tech: [wonder_globe_theatre]
+    size: [4, 4]
+    cost: 800000
+    hammers: 550000
+    hp: 5000
+    regen: 6
+    score: 250000
+    style: monument
+    icon: MAP
+    effects:
+      - {stat: culture, percent: 0.30, scope: civ}
+      - {stat: culture, percent: 0.25}
+  tree_of_life:
+    name: Древо Жизни
+    category: wonder
+    era: 1
+    tech: [wonder_tree_of_life]
+    size: [4, 4]
+    cost: 1000000
+    hammers: 650000
+    hp: 5000
+    regen: 6
+    score: 275000
+    style: wonder
+    icon: OAK_SAPLING
+    markers: [sign enchant]
+    effects:
+      - {stat: upgrade_cost, percent: -0.20}
+      - {stat: growth, percent: 0.50}
+      - {stat: slots, percent: 1.0}
+      - {stat: culture, percent: 0.20}
+  neuschwanstein:
+    name: Замок Нойшванштайн
+    aliases: [нойшванштайн]
+    category: wonder
+    era: 5
+    tech: [wonder_neuschwanstein]
+    requires: [castle]
+    size: [9, 3]
+    cost: 2500000
+    hammers: 750000
+    hp: 5000
+    war-regen: false
+    score: 350000
+    style: tower
+    icon: PURPLE_BANNER
+    control: {hp: 20, inherit: main}
+    markers: [control, control, sign enchant]
+  himeji_castle:
+    name: Замок Химедзи
+    aliases: [химедзи]
+    category: wonder
+    era: 3
+    tech: [wonder_himeji_castle]
+    size: [4, 4]
+    cost: 1000000
+    hammers: 525000
+    hp: 5000
+    regen: 6
+    score: 300000
+    style: tower
+    icon: CHERRY_LOG
+    effects:
+      - {stat: structure_damage, add: 1, scope: civ}
+      - {stat: spacing.arrow, add: -50, scope: civ}
+  the_colossus:
+    name: Колосс Родосский
+    aliases: [колосс]
+    category: wonder
+    era: 4
+    tech: [wonder_colossus]
+    size: [4, 4]
+    cost: 1000000
+    hammers: 600000
+    hp: 5000
+    war-regen: false
+    score: 190000
+    style: monument
+    icon: COPPER_BLOCK
+    effects:
+      - {stat: captured_town_unhappiness, multiply: 0, scope: civ}
+      - {stat: player_damage, add: 1, scope: civ}
+      - {stat: arrow_damage_taken, percent: -0.20, scope: civ}
+  space_shuttle:
+    name: Космический шаттл
+    aliases: [шаттл]
+    category: wonder
+    era: 4
+    tech: [wonder_space_shuttle]
+    requires: [plant]
+    capital-only: true
+    required-item: space_shuttle
+    size: [4, 3]
+    cost: 1000000
+    upkeep: 25000
+    hammers: 625000
+    hp: 5000
+    regen: 6
+    score: 255000
+    style: spire
+    icon: FIREWORK_ROCKET
+    tags: [victory]
+    effects:
+      - {stat: beakers, percent: 0.25}
+  notre_dame:
+    name: Нотр-Дам-де-Пари
+    aliases: [нотр-дам, нотрдам]
+    category: wonder
+    era: 4
+    tech: [wonder_notre_dame]
+    size: [4, 4]
+    cost: 1750000
+    hammers: 805000
+    hp: 5000
+    regen: 6
+    score: 275000
+    template: notre_dame
+    style: temple
+    icon: WHITE_BANNER
+    tags: [victory]
+    effects:
+      - {stat: government_change_time, percent: -0.25, scope: civ}
+      - {stat: no_anarchy, add: 1, scope: civ}
+  parthenon:
+    name: Парфенон
+    category: wonder
+    era: 1
+    tech: [wonder_parthenon]
+    size: [4, 5]
+    cost: 750000
+    hammers: 500000
+    hp: 5000
+    regen: 6
+    score: 175000
+    style: temple
+    icon: QUARTZ_BLOCK
+    effects:
+      - {stat: faith, percent: 0.50, scope: civ}
+      - {stat: temple_happiness, add: 1}
+      - {stat: temple_culture, percent: 0.50, scope: civ}
+  the_great_pyramid:
+    name: Пирамида Хеопса
+    aliases: [великая пирамида, пирамида]
+    category: wonder
+    era: 1
+    tech: [wonder_great_pyramid]
+    size: [4, 4]
+    cost: 750000
+    hammers: 450000
+    hp: 5000
+    regen: 6
+    score: 190000
+    style: monument
+    icon: SANDSTONE_STAIRS
+    effects:
+      - {stat: cottage_consumption, percent: -0.15}
+      - {stat: cottage, percent: 0.20}
+      - {stat: culture, percent: 0.30, scope: civ}
+  council_of_eight:
+    name: Совет Восьми
+    category: wonder
+    era: 5
+    tech: [wonder_council_of_eight]
+    size: [4, 4]
+    cost: 7500000
+    hammers: 1000000
+    hp: 5000
+    regen: 6
+    score: 350000
+    template: council_of_eight
+    style: wonder
+    icon: CONDUIT
+    tags: [victory]
+    effects:
+      - {stat: spy_defense, add: 0.20, scope: civ}
+  statue_of_zeus:
+    name: Статуя Зевса
+    aliases: [зевс]
+    category: wonder
+    era: 1
+    tech: [wonder_statue_of_zeus]
+    size: [4, 4]
+    cost: 600000
+    hammers: 400000
+    hp: 5000
+    war-regen: false
+    score: 350000
+    spacing: [tesla, 125]
+    style: monument
+    icon: LIGHTNING_ROD
+    markers: [towerfire, towerfire]
+    effects:
+      - {stat: tesla_damage_taken, add: -2, scope: civ}
+  statue_of_liberty:
+    name: Статуя Свободы
+    aliases: [свобода]
+    category: wonder
+    era: 6
+    tech: [wonder_statue_of_liberty]
+    size: [4, 4]
+    cost: 2500000
+    hammers: 750000
+    hp: 5000
+    score: 260000
+    style: monument
+    icon: TORCH
+    effects:
+      - {stat: artifact_slots, add: 1, scope: civ}
+      - {stat: cannon_max_y, add: 15, scope: civ}
+  ingermanland:
+    name: Флагман Ingermanland
+    aliases: [флагман, ингерманланд]
+    category: wonder
+    era: 4
+    tech: [wonder_ingermanland]
+    size: [3, 6]
+    cost: 1500000
+    hammers: 1000000
+    hp: 3000
+    war-regen: false
+    score: 200000
+    water: water
+    y-shift: -3
+    style: ship
+    icon: SPRUCE_BOAT
+    tags: [naval]
+    markers: [towerfire, towerfire, towerfire, towerfire]
+    effects:
+      - {stat: trade_ship, percent: 0.30}
+      - {stat: warship_range, percent: 0.15, scope: civ}
+      - {stat: warship_hp, percent: 1.0, scope: civ}
+  chichen_itza:
+    name: Чичен-Ица
+    category: wonder
+    era: 3
+    tech: [wonder_chichen_itza]
+    size: [4, 4]
+    cost: 800000
+    hammers: 550000
+    hp: 5000
+    war-regen: false
+    score: 250000
+    template: chichen_itza
+    style: monument
+    icon: MOSSY_COBBLESTONE
+    effects:
+      - {stat: control_hp, percent: 0.10}
+      - {stat: cannon_damage, add: 25, scope: civ}
+      - {stat: war_respawn_seconds, max: 30, scope: civ}
+      - {stat: warcamp_cooldown_seconds, add: -600, scope: civ}
+      - {stat: cannon_cooldown_seconds, add: -25, scope: civ}
+  eiffel_tower:
+    name: Эйфелева башня
+    aliases: [эйфелева]
+    category: wonder
+    era: 6
+    tech: [wonder_eiffel_tower]
+    size: [4, 4]
+    cost: 1500000
+    hammers: 725000
+    hp: 5000
+    war-regen: false
+    score: 350000
+    style: spire
+    icon: IRON_BARS
+    effects:
+      - {stat: culture, percent: 0.20, scope: civ}
+
+  # --- national wonders (spec 03 §6): one per civilization, building required in every non-captured town -------------
+  colosseum:
+    name: Колизей
+    category: national_wonder
+    era: 2
+    tech: [taxation]
+    requires: [{type: arena, scope: all_towns}]
+    requires-active: true
+    size: [6, 4]
+    cost: 500000
+    hammers: 250000
+    hp: 2500
+    war-regen: false
+    score: 225000
+    civ-limit: 1
+    style: monument
+    icon: IRON_HORSE_ARMOR
+    effects:
+      - {stat: happiness, add: 10}
+  national_college:
+    name: Национальный колледж
+    aliases: [колледж]
+    category: national_wonder
+    era: 1
+    tech: [productivity]
+    requires: [{type: library, scope: all_towns}]
+    requires-active: true
+    size: [4, 4]
+    cost: 650000
+    hammers: 450000
+    hp: 2500
+    war-regen: false
+    score: 112000
+    civ-limit: 1
+    style: temple
+    icon: LECTERN
+    markers: [sign enchant]
+    effects:
+      - {stat: beakers, percent: 0.15}
+  foundry:
+    name: Литейный завод
+    category: national_wonder
+    era: 4
+    tech: [mechanical_engineering]
+    requires: [{type: stone_quarry, scope: all_towns}]
+    requires-active: true
+    size: [7, 4]
+    cost: 750000
+    hammers: 500000
+    hp: 2500
+    war-regen: false
+    score: 150000
+    civ-limit: 1
+    style: industrial
+    icon: SMITHING_TABLE
+    effects:
+      - {stat: hammers, add: 1500}
+  hermitage:
+    name: Эрмитаж
+    category: national_wonder
+    era: 5
+    tech: [archaeology]
+    requires: [{type: museum, scope: all_towns}]
+    requires-active: true
+    size: [5, 5]
+    cost: 1000000
+    hammers: 600000
+    hp: 2500
+    war-regen: false
+    score: 125000
+    civ-limit: 1
+    style: temple
+    icon: ITEM_FRAME
+    effects:
+      - {stat: culture, percent: 0.30}
+  east_india_company:
+    name: Ост-Индская компания
+    aliases: [ост-индская]
+    category: national_wonder
+    era: 3
+    tech: [currency]
+    requires: [{type: market, scope: all_towns}]
+    requires-active: true
+    size: [4, 4]
+    cost: 1000000
+    hammers: 650000
+    hp: 2500
+    war-regen: false
+    score: 135000
+    civ-limit: 1
+    style: market
+    icon: CHEST
+    effects:
+      - {stat: trade_ship, percent: 0.10}
+      - {stat: bank_rate, percent: 0.10}
+      - {stat: cottage, percent: 0.10}
+  international_port:
+    name: Международный порт
+    aliases: [порт]
+    category: national_wonder
+    era: 2
+    tech: [navigation]
+    requires: [{type: lighthouse, scope: all_towns}]
+    requires-active: true
+    size: [4, 4]
+    cost: 1250000
+    hammers: 650000
+    hp: 5000
+    war-regen: false
+    score: 200000
+    civ-limit: 1
+    style: lighthouse
+    icon: HEART_OF_THE_SEA
+    tags: [naval]
+    effects:
+      - {stat: trade_ship, percent: 0.30}
+      - {stat: trade_ship_resources, percent: 0.20, scope: civ}

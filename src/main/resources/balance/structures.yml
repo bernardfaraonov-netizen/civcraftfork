@@ -1,0 +1,1841 @@
+# Structures (docs/spec/02_buildings.md §1, §2, §5, §6, §7; docs/spec/01_core.md §5.5, §6.2).
+# Money in coins, upkeep per day, hammers total, hp = war hit points, score = civ score points.
+# World and national wonders live in wonders.yml (same schema).
+#
+# Type fields:
+#   name / aliases       Russian display name and extra names for /build (partial names match too)
+#   category             building | improvement | wonder | national_wonder | main | wall | road | defense | ship | special
+#   era                  era index 0..7 (spec 03 §2)
+#   tech                 required technology ids (all of them)
+#   requires             required structures: [type] (in this town) or [{type: x, scope: all_towns|native_towns|town, level: n}]
+#   nation / replaces    nation-exclusive building and the base type it replaces for that nation
+#   counts-as            satisfies requirements / limits of another type (dojo counts as barracks)
+#   size                 footprint in chunks [width (template X), depth (template Z)]
+#   cost/upkeep/hammers/hp/score
+#   limit / civ-limit    per town / per civilization, 0 = unlimited (stat "limit.<id>" adds to it)
+#   slot                 uses an improvement slot of the town
+#   claim                culture (inside town culture) | claimed (all chunks claimed by the town) | auto (claimed automatically, locked)
+#   water                none | water | ocean | river_or_ocean (chunk aligned at sea level)
+#   min-y / max-y        allowed base height (absolute), in addition to the world limits
+#   spacing              [group, blocks]: XZ distance to structures of the same group of the civ (stat "spacing.<group>" adds)
+#   template / y-shift   template file id (templates/<theme>/<template>.schem) and vertical offset
+#   style                procedural template style when no .schem exists: hall | workshop | temple | tower | spire | ship | field | industrial | lighthouse | wonder | monument | market
+#   markers              functional markers the procedural template must contain (chest 1, sign x, control, ...)
+#   tags                 cost/upkeep modifier groups: stats build_cost.<tag>, build_hammers.<tag>, upkeep.<tag>
+#   levels               upgrade levels {n: {cost, hammers, tech}}; max-level for levels earned by production
+#   lose-level-on-destroy  loses one level when destroyed in war
+#   infrastructure       infrastructure bonus targets (cottage / mine) – spec §1.8
+#   effects              static modifiers while complete and not destroyed (EffectParser format)
+#   floating             no ground support check (airship)
+#   capital-only / culture-level / war-only / required-item / resource-point  extra placement rules
+#
+# Technology ids are those of balance/techs.yml (science module, spec 03 §3):
+#   C1 arsenal, archery, blacksmithing, metal_casting, fletching, leather_refinement, metallurgy, sword_smithing,
+#      composite_bow, tanning, chemistry, damascus_steel, lamination, composite_chemistry, alloying, metal_alloys,
+#      military_science, future_tech
+#   C2 mining, productivity, construction, sailing, architecture, taxation, artillery, navigation, efficiency, ballistics,
+#      engineering, alchemy, assembly_line, scientific_method, electricity, innovation, fertilizer, radio,
+#      electrodynamics, biology, plastics, cryogenics
+#   C3 agriculture, pottery, hunting, machinery (Механизмы), beekeeping, trade, driven_hunt (Загонная охота), commerce,
+#      education, global_trade, monopoly, mechanical_engineering (Машиностроение), republic
+#   C4 religion, monarchy, winemaking, legislation, church, writing, fermentation, currency, brewing, economics,
+#      nationalism, archaeology, fine_arts
+#   C5 wonder techs: wonder_<wonder>, e.g. wonder_parthenon, wonder_great_pyramid, wonder_council_of_eight
+
+construction:
+  # Build speed = speed-multiplier × town hammers/h (spec §1.4); defaults to core.yml hammers.build-speed-multiplier.
+  speed-multiplier: 2.0
+  # Hammers/h used when no town module provides production figures.
+  fallback-hammers: 100
+  # true: an ordinary building pauses a wonder under construction (spec 02 §1.4 assumption);
+  # false: both progress at full speed (spec 01 §12).
+  pause-wonder-while-building: false
+  # Blocks placed per server tick across all constructions / restorations.
+  blocks-per-tick: 300
+  # Progress message every N percent (wonders are announced to everyone).
+  announce-step: 5
+  # Share of the paid cost returned by /build cancel.
+  cancel-refund: 0.5
+  # Share of the cost returned to a town that lost a wonder race (spec 03 §4.2).
+  wonder-race-refund: 0.5
+  # Architects' experience: hammers × (1 − per-2-percent × floor(progress%/2)), at most max.
+  architects-per-2-percent: 0.01
+  architects-max: 0.5
+  # Include structures still under construction in the daily upkeep.
+  upkeep-under-construction: false
+  # Seconds between database saves of construction progress.
+  save-interval-seconds: 15
+
+validation:
+  ground-solid-ratio: 0.8
+  # spec 02 §1.3: build.minY = 9, build.maxY = world height − template height.
+  min-y: 9
+  # Water structures: the player must be within this many blocks of sea level; share of the footprint that must be water.
+  water-y-tolerance: 10
+  water-min-ratio: 0.5
+  # Maximum distance (blocks) between the command position and the confirmation.
+  confirm-radius: 12
+  # Seconds the placement preview / confirmation stays valid.
+  confirm-seconds: 90
+  # Minimum XZ distance from a town hall / capitol to the main building of another town.
+  main-building-distance: 150
+  # A town must be this old to start a world wonder (spec 03 §4.4).
+  wonder-min-age-days: 3
+  # World wonders per town (national wonders and types with wonder-slot: false do not count).
+  wonders-per-town: 2
+  # Worlds in which wonders may be built (empty = every CivCraft world).
+  wonder-worlds: []
+
+repair:
+  # spec 02 §1.6: 50% of the price and hammers / 3; speed = town hammers/h / number of parallel repairs.
+  cost-share: 0.5
+  hammers-divisor: 3
+refresh:
+  cooldown-minutes: 10
+
+destroy:
+  # What a destroyed structure turns into (spec 02 §1.6: "загорается, превращается в булыжник").
+  rubble-block: cobblestone
+  rubble-share: 0.6
+  fire-blocks: 16
+
+control:
+  block: obsidian
+  base-block: chiseled_stone_bricks
+  destroyed-block: cobblestone
+  hologram-height: 1.6
+
+progress:
+  bossbar-radius: 96
+  hologram: true
+
+preview:
+  enabled: true
+  valid-block: lime_stained_glass
+  invalid-block: red_stained_glass
+  beam-height: 40
+  edge-thickness: 0.08
+
+# Structure blocks: who may use containers and doors inside structures (town | civ | all). War rules override this.
+interact:
+  containers: town
+  doors: all
+  other: all
+
+themes:
+  default: {name: Стандартный}
+  arctic: {name: Арктический}
+  aztec: {name: Ацтекский}
+  egyptian: {name: Египетский}
+  hell: {name: Адский}
+  roman: {name: Римский}
+
+# Nation ids as used by Civilization.nation(); aliases make the check independent of the naming used by the civ module.
+nations:
+  aztec: [aztec, aztecs, ацтеки]
+  american: [american, americans, usa, американцы]
+  greek: [greek, greeks, греки]
+  egyptian: [egyptian, egyptians, египтяне]
+  turkish: [turkish, turks, turk, турки]
+  french: [french, france, французы]
+  japanese: [japanese, japan, японцы]
+
+types:
+  # --- main buildings (spec 01 §5.5, §6.2; 02 §2.4) -----------------------------------------------------------------
+  town_hall:
+    name: Ратуша
+    aliases: [townhall, ратуша]
+    category: main
+    era: 0
+    size: [2, 2]
+    cost: 0
+    relocate-cost: 50000
+    upkeep: 0
+    hammers: 600
+    hp: 0
+    score: 1000
+    limit: 1
+    claim: auto
+    template: town_hall
+    style: hall
+    icon: BELL
+    demolish: false
+    control: {hp: 20}
+    markers: [control, control, control, control, control, control, respawn, revive, itemframe]
+    effects:
+      - {stat: culture, add: 25}
+  capitol:
+    name: Капитолий
+    aliases: [capital, капитолий, столица]
+    category: main
+    era: 0
+    tech: [architecture, trade, legislation]
+    culture-level: 3
+    capital-only: true
+    size: [4, 4]
+    cost: 125000
+    upkeep: 0
+    hammers: 600
+    hp: 0
+    score: 6000
+    limit: 1
+    civ-limit: 1
+    claim: auto
+    template: capital
+    style: wonder
+    icon: BEACON
+    demolish: false
+    # spec 01 §5.5: HP = min(100, 50 + 10·max(0, era − 1))
+    control: {hp: 50, per-era: 10, era-from: 1, max: 100}
+    markers: [control, control, control, control, control, control, control, control, respawn, revive, revive, warroom, towerfire, towerfire, towerfire, towerfire]
+    effects:
+      - {stat: culture, add: 50}
+
+  # --- ordinary buildings (spec 02 §2.1) -------------------------------------------------------------------------------
+  bank:
+    name: Банк
+    category: building
+    era: 0
+    tech: [religion]
+    size: [1, 1]
+    cost: 2250
+    upkeep: 100
+    hammers: 1200
+    hp: 200
+    score: 3000
+    limit: 1
+    template: bank
+    icon: GOLD_BLOCK
+    markers: [sign exchange]
+    levels:
+      2: {cost: 4000, hammers: 400, tech: monarchy}
+      3: {cost: 6000, hammers: 600, tech: legislation}
+      4: {cost: 12000, hammers: 1200, tech: writing}
+      5: {cost: 14000, hammers: 1400, tech: currency}
+      6: {cost: 16000, hammers: 1600, tech: economics}
+      7: {cost: 18000, hammers: 1800, tech: nationalism}
+      8: {cost: 20000, hammers: 2000, tech: mechanical_engineering}
+      9: {cost: 22000, hammers: 2200, tech: scientific_method}
+      10: {cost: 24000, hammers: 2400, tech: innovation}
+  barracks:
+    name: Бараки
+    aliases: [казармы]
+    category: building
+    era: 0
+    tech: [arsenal]
+    size: [2, 2]
+    cost: 15000
+    upkeep: 1000
+    hammers: 1500
+    hp: 700
+    score: 3000
+    limit: 1
+    template: barracks
+    icon: IRON_SWORD
+    markers: [chest 0, sign train, sign progress]
+    effects:
+      - {stat: war_upkeep_reduction, add: 0.25}
+  trommel:
+    name: Дробилка
+    aliases: [треммель]
+    category: building
+    era: 0
+    tech: [mining]
+    size: [1, 1]
+    cost: 5000
+    upkeep: 1000
+    hammers: 800
+    hp: 200
+    score: 1500
+    limit: 2
+    template: trommel
+    style: workshop
+    icon: GRINDSTONE
+    markers: [chest 1, chest 1, chest 2, chest 2]
+    levels:
+      2: {cost: 10000, hammers: 1000, tech: construction}
+      3: {cost: 20000, hammers: 2000, tech: architecture}
+      4: {cost: 50000, hammers: 5000, tech: metallurgy}
+  monument:
+    name: Монумент
+    category: building
+    era: 0
+    tech: [religion]
+    size: [1, 1]
+    cost: 15000
+    upkeep: 1500
+    hammers: 2000
+    hp: 250
+    score: 1500
+    limit: 1
+    template: monument
+    y-shift: -2
+    style: monument
+    icon: CHISELED_STONE_BRICKS
+    infrastructure: [cottage]
+    effects:
+      - {stat: happiness, add: 3}
+      - {stat: culture, add: 200}
+  cathedral:
+    name: Собор
+    category: building
+    era: 0
+    tech: [religion]
+    size: [2, 2]
+    cost: 5000
+    upkeep: 500
+    hammers: 1000
+    hp: 100
+    score: 1000
+    limit: 1
+    style: temple
+    icon: CANDLE
+    tags: [religious]
+    effects:
+      - {stat: faith, add: 1}
+  granary:
+    name: Амбар
+    category: building
+    era: 1
+    tech: [pottery]
+    size: [1, 1]
+    cost: 2500
+    upkeep: 1500
+    hammers: 500
+    hp: 500
+    score: 2000
+    limit: 3
+    template: granary
+    icon: HAY_BLOCK
+    markers: [chest 1, chest 2]
+  arsenal:
+    name: Арсенал
+    category: building
+    era: 1
+    tech: [architecture]
+    requires: [barracks]
+    size: [2, 2]
+    cost: 25000
+    upkeep: 1000
+    hammers: 2500
+    hp: 500
+    score: 2000
+    limit: 1
+    claim: claimed
+    style: workshop
+    icon: BOW
+    markers: [sign shop]
+    levels:
+      2: {cost: 20000, hammers: 2000, tech: alchemy}
+      3: {cost: 30000, hammers: 3000, tech: scientific_method}
+      4: {cost: 40000, hammers: 4000, tech: electricity}
+      5: {cost: 50000, hammers: 5000, tech: biology}
+    effects:
+      - {stat: war_upkeep_reduction, add: 0.10}
+  grocer:
+    name: Бакалея
+    category: building
+    era: 1
+    tech: [hunting]
+    size: [1, 1]
+    cost: 1500
+    upkeep: 150
+    hammers: 900
+    hp: 200
+    score: 2500
+    limit: 1
+    template: grocer
+    icon: BREAD
+    markers: [sign shop]
+    levels:
+      2: {cost: 5000, hammers: 500, tech: hunting}
+      3: {cost: 10000, hammers: 1000, tech: trade}
+      4: {cost: 25000, hammers: 2500, tech: commerce}
+      5: {cost: 50000, hammers: 5000, tech: global_trade}
+  library:
+    name: Библиотека
+    category: building
+    era: 1
+    tech: [productivity]
+    size: [1, 1]
+    cost: 5000
+    upkeep: 500
+    hammers: 1500
+    hp: 250
+    score: 5000
+    limit: 1
+    template: library
+    icon: BOOKSHELF
+    infrastructure: [cottage]
+    tags: [science]
+    markers: [sign enchant]
+    levels:
+      2: {cost: 5000, hammers: 1000, tech: artillery}
+      3: {cost: 10000, hammers: 2000, tech: efficiency}
+      4: {cost: 15000, hammers: 3000, tech: assembly_line}
+    effects:
+      - {stat: beakers, add: 70}
+  shipyard:
+    name: Верфь
+    category: building
+    era: 1
+    tech: [sailing]
+    size: [2, 2]
+    cost: 35000
+    upkeep: 1500
+    hammers: 2000
+    hp: 300
+    score: 7000
+    limit: 1
+    water: ocean
+    template: shipyard
+    y-shift: -3
+    style: ship
+    icon: OAK_BOAT
+    tags: [naval]
+    effects:
+      - {stat: hammers, add: 150}
+  blacksmith:
+    name: Кузница
+    category: building
+    era: 1
+    tech: [blacksmithing]
+    size: [1, 2]
+    cost: 32000
+    upkeep: 2000
+    hammers: 1500
+    hp: 350
+    score: 10000
+    limit: 0
+    civ-limit: 4
+    claim: claimed
+    template: blacksmith
+    y-shift: -2
+    icon: ANVIL
+    infrastructure: [mine]
+    tags: [strategic]
+    markers: [sign repair, sign smelt, sign forge]
+    effects:
+      - {stat: unhappiness, add: 2}
+      - {stat: growth, percent: -0.20}
+      - {stat: hammers, add: 100}
+  warehouse:
+    name: Склад
+    category: building
+    era: 1
+    tech: [pottery]
+    size: [1, 1]
+    cost: 15000
+    upkeep: 1500
+    hammers: 700
+    hp: 300
+    score: 2000
+    limit: 1
+    style: workshop
+    icon: BARREL
+    infrastructure: [mine]
+    markers: [chest 1, chest 1, chest 1, chest 1, chest 1, chest 1, chest 1, chest 1]
+  lighthouse:
+    name: Маяк
+    category: building
+    era: 1
+    tech: [navigation]
+    requires: [shipyard]
+    size: [1, 1]
+    cost: 50000
+    upkeep: 1000
+    hammers: 3000
+    hp: 500
+    score: 5000
+    limit: 1
+    water: water
+    y-shift: -3
+    style: lighthouse
+    icon: SEA_LANTERN
+    tags: [naval]
+    effects:
+      - {stat: growth, add: 150}
+      - {stat: trade_ship, percent: 0.20}
+  portal:
+    name: Портал
+    category: building
+    era: 1
+    tech: [construction]
+    size: [1, 1]
+    cost: 25000
+    upkeep: 250
+    hammers: 1000
+    hp: 200
+    score: 1000
+    limit: 1
+    template: nether_portal
+    icon: ENDER_EYE
+    markers: [sign teleport]
+  temple:
+    name: Храм
+    category: building
+    era: 1
+    tech: [church]
+    requires: [church]
+    size: [2, 2]
+    cost: 32500
+    upkeep: 2500
+    hammers: 2250
+    hp: 250
+    score: 4700
+    limit: 1
+    template: temple
+    icon: GOLDEN_APPLE
+    infrastructure: [cottage]
+    tags: [religious]
+    max-level: 5
+    lose-level-on-destroy: true
+    markers: [chest 1]
+    effects:
+      - {stat: happiness, add: 5}
+      - {stat: faith, add: 5}
+      - {stat: culture, add: 75}
+  church:
+    name: Церковь
+    category: building
+    era: 1
+    tech: [church]
+    size: [1, 2]
+    cost: 15000
+    upkeep: 1000
+    hammers: 2000
+    hp: 250
+    score: 2000
+    limit: 1
+    style: temple
+    icon: LECTERN
+    tags: [religious]
+    effects:
+      - {stat: faith, add: 3}
+  arena:
+    name: Арена
+    category: building
+    era: 2
+    tech: [taxation]
+    size: [2, 2]
+    cost: 30000
+    upkeep: 2000
+    hammers: 1000
+    hp: 500
+    score: 15000
+    limit: 1
+    style: monument
+    icon: IRON_HORSE_ARMOR
+    infrastructure: [cottage]
+    effects:
+      - {stat: happiness, add: 3}
+  sewer:
+    name: Канализация
+    category: building
+    era: 2
+    tech: [efficiency]
+    size: [1, 1]
+    cost: 45000
+    upkeep: 650
+    hammers: 4500
+    hp: 1475
+    score: 3670
+    limit: 1
+    style: workshop
+    icon: IRON_TRAPDOOR
+    markers: [sign teleport]
+  world_market:
+    name: Мировой рынок
+    aliases: [мировой]
+    category: building
+    era: 2
+    tech: [commerce]
+    size: [1, 1]
+    cost: 10000
+    upkeep: 1250
+    hammers: 2600
+    hp: 200
+    score: 3500
+    limit: 1
+    style: market
+    icon: EMERALD
+    infrastructure: [cottage]
+    markers: [sign market]
+    effects:
+      - {stat: happiness, add: 1}
+  hotel:
+    name: Отель
+    category: building
+    era: 2
+    tech: [commerce]
+    size: [2, 2]
+    cost: 100000
+    upkeep: 5000
+    hammers: 5000
+    hp: 2500
+    score: 6000
+    limit: 1
+    style: hall
+    icon: RED_BED
+    infrastructure: [cottage]
+    effects:
+      - {stat: cottage, percent: 0.25}
+      - {stat: resident_unhappiness, multiply: 0.6667}
+  market:
+    name: Рынок
+    category: building
+    era: 2
+    tech: [currency]
+    size: [2, 2]
+    cost: 50000
+    upkeep: 1000
+    hammers: 2000
+    hp: 500
+    score: 1000
+    limit: 1
+    template: market
+    icon: EMERALD_BLOCK
+    effects:
+      - {stat: trade_ship, percent: 0.05}
+      - {stat: cottage, percent: 0.05}
+      - {stat: bank_rate, percent: 0.05}
+  university:
+    name: Университет
+    category: building
+    era: 2
+    tech: [education]
+    size: [1, 1]
+    cost: 25000
+    upkeep: 1000
+    hammers: 3000
+    hp: 500
+    score: 8000
+    limit: 1
+    style: hall
+    icon: WRITABLE_BOOK
+    infrastructure: [cottage]
+    tags: [science]
+    effects:
+      - {stat: beakers, add: 80}
+  road_station:
+    name: Дорожная станция
+    category: building
+    era: 3
+    tech: [mechanical_engineering]
+    size: [1, 2]
+    cost: 175000
+    upkeep: 1500
+    hammers: 4750
+    hp: 1000
+    score: 2500
+    limit: 1
+    style: hall
+    icon: RAIL
+    markers: [sign teleport]
+  gunpowder_workshop:
+    name: Пороховая мастерская
+    aliases: [пороховой завод]
+    category: building
+    era: 3
+    tech: [engineering]
+    size: [1, 1]
+    cost: 75000
+    upkeep: 5000
+    hammers: 5000
+    hp: 500
+    score: 5000
+    limit: 0
+    civ-limit: 3
+    claim: claimed
+    style: industrial
+    icon: GUNPOWDER
+    infrastructure: [mine]
+    tags: [strategic]
+    effects:
+      - {stat: unhappiness, add: 3}
+      - {stat: hammers, add: 250}
+  ore_washer:
+    name: Рудопромывочная машина
+    aliases: [рудопромывка]
+    category: building
+    era: 3
+    tech: [mechanical_engineering]
+    size: [2, 1]
+    cost: 75000
+    upkeep: 1000
+    hammers: 2500
+    hp: 500
+    score: 1500
+    limit: 1
+    style: industrial
+    icon: WATER_BUCKET
+  tavern:
+    name: Таверна
+    category: building
+    era: 3
+    tech: [monopoly]
+    size: [2, 2]
+    cost: 50000
+    upkeep: 15000
+    hammers: 3000
+    hp: 1000
+    score: 16000
+    limit: 1
+    style: hall
+    icon: HONEY_BOTTLE
+    infrastructure: [cottage]
+  mall:
+    name: Торговый центр
+    category: building
+    era: 3
+    tech: [monopoly]
+    size: [3, 5]
+    cost: 125000
+    upkeep: 3000
+    hammers: 3000
+    hp: 2000
+    score: 4000
+    limit: 1
+    style: market
+    icon: CHEST_MINECART
+    infrastructure: [cottage]
+    effects:
+      - {stat: library_enchant_cost, percent: -0.5}
+      - {stat: artifact_cost, percent: -0.25}
+  stock_exchange:
+    name: Фондовая биржа
+    aliases: [биржа]
+    category: building
+    era: 3
+    tech: [economics]
+    size: [1, 1]
+    cost: 100000
+    upkeep: 1500
+    hammers: 7500
+    hp: 750
+    score: 7500
+    limit: 1
+    claim: claimed
+    style: hall
+    icon: GOLD_INGOT
+    effects:
+      - {stat: trade, percent: 0.05}
+      - {stat: income, add: 3500}
+  school:
+    name: Школа
+    category: building
+    era: 3
+    tech: [scientific_method]
+    requires: [university]
+    size: [1, 1]
+    cost: 90000
+    upkeep: 1500
+    hammers: 5000
+    hp: 500
+    score: 8000
+    limit: 1
+    style: hall
+    icon: BOOK
+    infrastructure: [cottage]
+    tags: [science]
+    effects:
+      - {stat: beakers, add: 90}
+  castle:
+    name: Замок
+    category: building
+    era: 4
+    tech: [republic]
+    requires: [barracks]
+    size: [2, 2]
+    cost: 50000
+    upkeep: 5000
+    hammers: 2500
+    hp: 700
+    score: 1500
+    limit: 1
+    style: tower
+    icon: STONE_BRICK_WALL
+    effects:
+      - {stat: war_upkeep_reduction, add: 0.25}
+      - {stat: control_hp, add: 4, scope: civ}
+      - {stat: warcamp_control_hp, add: 2, scope: civ}
+  museum:
+    name: Музей
+    category: building
+    era: 4
+    tech: [archaeology]
+    size: [2, 1]
+    cost: 75000
+    upkeep: 1000
+    hammers: 3600
+    hp: 1000
+    score: 8000
+    limit: 1
+    style: temple
+    icon: ARMOR_STAND
+    infrastructure: [cottage]
+    effects:
+      - {stat: culture, add: 200}
+      - {stat: culture, percent: 0.20}
+      - {stat: happiness, add: 1}
+  factory:
+    name: Фабрика
+    category: building
+    era: 4
+    tech: [innovation]
+    size: [3, 2]
+    cost: 100000
+    upkeep: 15000
+    hammers: 15000
+    hp: 1000
+    score: 5000
+    limit: 0
+    civ-limit: 2
+    claim: claimed
+    style: industrial
+    icon: BLAST_FURNACE
+    infrastructure: [mine]
+    tags: [strategic]
+    effects:
+      - {stat: unhappiness, add: 6}
+      - {stat: hammers, add: 400}
+  radio_tower:
+    name: Радиовышка
+    category: building
+    era: 5
+    tech: [radio]
+    size: [1, 1]
+    cost: 200000
+    upkeep: 10000
+    hammers: 10000
+    hp: 1000
+    score: 25000
+    limit: 1
+    style: spire
+    icon: LIGHTNING_ROD
+    effects:
+      - {stat: culture, add: 200}
+  theatre:
+    name: Театр
+    category: building
+    era: 5
+    tech: [fine_arts]
+    size: [2, 2]
+    cost: 175000
+    upkeep: 1000
+    hammers: 7500
+    hp: 1000
+    score: 16000
+    limit: 1
+    style: temple
+    icon: JUKEBOX
+    infrastructure: [cottage]
+    effects:
+      - {stat: happiness, add: 1}
+      - {stat: unhappiness, add: -1}
+  military_base:
+    name: Военная база
+    category: building
+    era: 6
+    tech: [military_science]
+    requires: [laboratory]
+    capital-only: true
+    size: [3, 3]
+    cost: 400000
+    upkeep: 5000
+    hammers: 10000
+    hp: 5000
+    score: 30000
+    limit: 1
+    claim: auto
+    style: tower
+    icon: TARGET
+    markers: [warroom, respawn, respawn, chest members, chest advisers, chest leaders, sign repair]
+  laboratory:
+    name: Лаборатория
+    category: building
+    era: 6
+    tech: [cryogenics]
+    requires: [school]
+    size: [1, 1]
+    cost: 100000
+    upkeep: 2000
+    hammers: 10000
+    hp: 1000
+    score: 10000
+    limit: 1
+    style: industrial
+    icon: BREWING_STAND
+    tags: [science]
+    effects:
+      - {stat: beakers, add: 200}
+      - {stat: research_cost, percent: -0.05, scope: civ}
+  military_laboratory:
+    name: Военная лаборатория
+    category: building
+    era: 7
+    tech: [future_tech]
+    requires: [laboratory]
+    size: [2, 2]
+    cost: 500000
+    upkeep: 15000
+    hammers: 50000
+    hp: 1000
+    score: 40000
+    limit: 1
+    style: industrial
+    icon: NETHERITE_INGOT
+    tags: [science]
+    effects:
+      - {stat: beakers, percent: 0.05}
+
+  # --- tile improvements (spec 02 §2.2), all use a slot -----------------------------------------------------------------
+  farm:
+    name: Ферма
+    category: improvement
+    era: 0
+    tech: [agriculture]
+    size: [1, 1]
+    cost: 2500
+    upkeep: 500
+    hammers: 800
+    hp: 100
+    score: 1000
+    limit: 0
+    slot: true
+    template: farm
+    y-shift: -1
+    style: field
+    destroyable: true
+    icon: WHEAT
+    tags: [improvement]
+  quarry:
+    name: Карьер
+    category: improvement
+    era: 1
+    tech: [machinery]
+    size: [1, 1]
+    cost: 10000
+    upkeep: 1500
+    hammers: 5000
+    hp: 100
+    score: 3000
+    limit: 1
+    slot: true
+    style: workshop
+    icon: STONE_PICKAXE
+    tags: [improvement]
+    markers: [chest 1, chest 2, chest 2]
+    levels:
+      2: {cost: 10000, hammers: 1000, tech: construction}
+      3: {cost: 20000, hammers: 2000, tech: architecture}
+      4: {cost: 40000, hammers: 4000, tech: metallurgy}
+  cottage:
+    name: Коттедж
+    aliases: [домик]
+    category: improvement
+    era: 1
+    tech: [architecture]
+    size: [1, 1]
+    cost: 5000
+    upkeep: 1000
+    hammers: 1400
+    hp: 100
+    score: 1000
+    limit: 0
+    slot: true
+    template: cottage
+    icon: OAK_DOOR
+    tags: [improvement]
+    max-level: 6
+    lose-level-on-destroy: true
+  trade_camp:
+    name: Лагерь (торговый)
+    aliases: [торговый лагерь, лагерь]
+    category: improvement
+    era: 1
+    tech: [hunting]
+    size: [1, 1]
+    cost: 35000
+    upkeep: 1000
+    hammers: 1000
+    hp: 500
+    score: 1000
+    limit: 0
+    slot: true
+    claim: auto
+    template: trade_outpost
+    icon: LEATHER
+    tags: [improvement, trade_building]
+    resource-point: land
+  sawmill:
+    name: Лесопилка
+    category: improvement
+    era: 1
+    tech: [driven_hunt]
+    size: [1, 1]
+    cost: 40000
+    upkeep: 800
+    hammers: 1000
+    hp: 500
+    score: 2000
+    limit: 1
+    slot: true
+    style: workshop
+    icon: IRON_AXE
+    tags: [improvement]
+    markers: [chest 1, chest 2]
+    levels:
+      2: {cost: 20000, hammers: 2000, tech: taxation}
+      3: {cost: 30000, hammers: 3000, tech: efficiency}
+      4: {cost: 40000, hammers: 4000, tech: engineering}
+  windmill:
+    name: Мельница
+    category: improvement
+    era: 1
+    tech: [machinery]
+    size: [1, 1]
+    cost: 25000
+    upkeep: 2500
+    hammers: 3000
+    hp: 350
+    score: 5000
+    limit: 0
+    slot: true
+    template: windmill
+    icon: WHEAT_SEEDS
+    tags: [improvement]
+  monster_farm:
+    name: Монстр-ферма
+    aliases: [монстроферма]
+    category: improvement
+    era: 1
+    tech: [driven_hunt]
+    size: [1, 1]
+    cost: 10000
+    upkeep: 1500
+    hammers: 7500
+    hp: 200
+    score: 3000
+    limit: 1
+    slot: true
+    style: workshop
+    icon: SPAWNER
+    tags: [improvement]
+    markers: [chest 1, chest 2]
+  apiary:
+    name: Пасека
+    category: improvement
+    era: 1
+    tech: [beekeeping]
+    size: [1, 1]
+    cost: 7500
+    upkeep: 500
+    hammers: 1000
+    hp: 300
+    score: 2000
+    limit: 0
+    slot: true
+    style: field
+    icon: BEEHIVE
+    tags: [improvement]
+    markers: [chest 1]
+    levels:
+      2: {cost: 0, hammers: 0, tech: trade}
+      3: {cost: 0, hammers: 0, tech: commerce}
+      4: {cost: 0, hammers: 0, tech: global_trade}
+  pasture:
+    name: Пастбище
+    category: improvement
+    era: 1
+    tech: [hunting]
+    size: [2, 2]
+    cost: 2500
+    upkeep: 500
+    hammers: 1000
+    hp: 500
+    score: 1000
+    limit: 1
+    slot: true
+    template: pasture
+    y-shift: -2
+    icon: LEAD
+    tags: [improvement]
+    markers: [sign shop]
+  fish_farm:
+    name: Рыбная ферма
+    category: improvement
+    era: 1
+    tech: [machinery]
+    size: [1, 1]
+    cost: 10000
+    upkeep: 5000
+    hammers: 5000
+    hp: 100
+    score: 3000
+    limit: 0
+    slot: true
+    style: field
+    icon: FISHING_ROD
+    tags: [improvement]
+    markers: [chest 1, chest 2]
+    levels:
+      2: {cost: 25000, hammers: 5000, tech: commerce}
+      3: {cost: 50000, hammers: 7500, tech: monopoly}
+      4: {cost: 100000, hammers: 15000, tech: mechanical_engineering}
+  fishing_boat:
+    name: Рыболовное судно
+    aliases: [рыбацкая лодка]
+    category: improvement
+    era: 1
+    tech: [trade]
+    requires: [shipyard]
+    size: [1, 1]
+    cost: 25000
+    upkeep: 500
+    hammers: 2000
+    hp: 500
+    score: 3000
+    limit: 0
+    slot: true
+    claim: auto
+    water: water
+    template: fishingboats
+    y-shift: -3
+    style: ship
+    icon: COD
+    tags: [improvement, naval, trade_building]
+    resource-point: water
+  beehive:
+    name: Улей
+    category: improvement
+    era: 1
+    tech: [beekeeping]
+    requires: [apiary]
+    size: [1, 1]
+    cost: 1500
+    upkeep: 500
+    hammers: 500
+    hp: 100
+    score: 250
+    limit: 0
+    slot: true
+    style: field
+    icon: HONEYCOMB
+    tags: [improvement]
+    markers: [chest 1]
+  mine:
+    name: Шахта
+    category: improvement
+    era: 1
+    tech: [productivity]
+    size: [1, 1]
+    cost: 25000
+    upkeep: 1500
+    hammers: 900
+    hp: 300
+    score: 6200
+    limit: 0
+    slot: true
+    template: mine
+    y-shift: -6
+    icon: IRON_PICKAXE
+    tags: [improvement]
+    max-level: 5
+    lose-level-on-destroy: true
+    effects:
+      - {stat: unhappiness, add: 0.5}
+  plantation:
+    name: Плантация
+    category: improvement
+    era: 2
+    tech: [fermentation]
+    size: [1, 1]
+    cost: 25000
+    upkeep: 1000
+    hammers: 1500
+    hp: 500
+    score: 2000
+    limit: 0
+    slot: true
+    claim: auto
+    template: trade_outpost
+    icon: SUGAR_CANE
+    tags: [improvement, trade_building]
+    resource-point: land
+  ore_mine:
+    name: Рудник
+    category: improvement
+    era: 2
+    tech: [efficiency]
+    size: [1, 1]
+    cost: 50000
+    upkeep: 2000
+    hammers: 2000
+    hp: 500
+    score: 4000
+    limit: 0
+    slot: true
+    claim: auto
+    template: trade_outpost
+    icon: RAW_IRON_BLOCK
+    tags: [improvement, trade_building]
+    resource-point: land
+  trade_ship:
+    name: Торговый корабль
+    aliases: [торговое судно]
+    category: improvement
+    era: 2
+    tech: [navigation]
+    requires: [shipyard]
+    size: [1, 2]
+    cost: 50000
+    upkeep: 1000
+    hammers: 2000
+    hp: 500
+    score: 3000
+    limit: 1
+    slot: true
+    water: river_or_ocean
+    y-shift: -3
+    style: ship
+    icon: CHEST
+    tags: [improvement, naval]
+    max-level: 10
+    lose-level-on-destroy: true
+    markers: [chest outgoing, chest incoming]
+    levels:
+      2: {cost: 50000, hammers: 5000, tech: commerce}
+      3: {cost: 100000, hammers: 10000, tech: global_trade}
+      4: {cost: 250000, hammers: 20000, tech: nationalism}
+      5: {cost: 500000, hammers: 30000, tech: scientific_method}
+      6: {cost: 1000000, hammers: 50000, tech: innovation}
+    effects:
+      - {stat: happiness, add: 2}
+      - {stat: hammers, add: 100}
+      - {stat: culture, add: 100}
+      - {stat: growth, add: 100}
+  plant:
+    name: Завод
+    category: improvement
+    era: 3
+    tech: [assembly_line]
+    size: [3, 3]
+    cost: 100000
+    upkeep: 10000
+    hammers: 7500
+    hp: 1500
+    score: 3550
+    limit: 0
+    civ-limit: 3
+    slot: true
+    claim: claimed
+    style: industrial
+    icon: PISTON
+    infrastructure: [mine]
+    tags: [improvement, strategic]
+    markers: [chest 1, chest 1, chest 1, chest 1, sign assemble]
+    effects:
+      - {stat: unhappiness, add: 4}
+      - {stat: hammers, add: 300}
+  silk_farm:
+    name: Ферма шелкопрядов
+    category: improvement
+    era: 3
+    tech: [monopoly]
+    size: [1, 2]
+    cost: 35000
+    upkeep: 5000
+    hammers: 2500
+    hp: 800
+    score: 3000
+    limit: 1
+    slot: true
+    style: field
+    icon: STRING
+    tags: [improvement]
+    markers: [chest 1, chest 2]
+  stone_quarry:
+    name: Каменоломня
+    category: improvement
+    era: 3
+    tech: [mechanical_engineering]
+    size: [2, 2]
+    cost: 250000
+    upkeep: 20000
+    hammers: 10000
+    hp: 1000
+    score: 15000
+    limit: 1
+    slot: true
+    style: industrial
+    icon: STONECUTTER
+    infrastructure: [mine]
+    tags: [improvement]
+    effects:
+      - {stat: hammers, percent: 0.075}
+  oil_rig:
+    name: Буровая вышка
+    category: improvement
+    era: 4
+    tech: [electricity]
+    size: [1, 1]
+    cost: 250000
+    upkeep: 5000
+    hammers: 10000
+    hp: 500
+    score: 5000
+    limit: 0
+    slot: true
+    claim: auto
+    style: industrial
+    icon: BLACK_CANDLE
+    tags: [improvement, trade_building]
+    resource-point: any
+    markers: [tradeoutpost]
+  nuclear_plant:
+    name: АЭС
+    aliases: [атомная электростанция]
+    category: improvement
+    era: 6
+    tech: [plastics]
+    size: [4, 3]
+    cost: 200000
+    upkeep: 35000
+    hammers: 35000
+    hp: 1500
+    score: 10000
+    limit: 0
+    civ-limit: 2
+    slot: true
+    claim: claimed
+    style: industrial
+    icon: END_CRYSTAL
+    infrastructure: [mine]
+    tags: [improvement, strategic]
+    effects:
+      - {stat: unhappiness, add: 7}
+      - {stat: hammers, add: 500}
+      - {stat: tesla_damage, percent: 0.25}
+
+  # --- military (spec 02 §2.3, §5) ----------------------------------------------------------------------------------------
+  wall:
+    name: Стена
+    category: wall
+    era: 3
+    tech: [ballistics]
+    segment: [1, 6, 1]
+    cost: 100
+    upkeep: 300
+    hammers: 0
+    hp: 15
+    hp-cap: 500
+    score: 50
+    limit: 0
+    icon: STONE_BRICKS
+    tags: [defense]
+  fortified_wall:
+    name: Укреплённая стена
+    aliases: [укрепленная стена]
+    category: wall
+    era: 3
+    tech: [engineering]
+    segment: [3, 10, 3]
+    cost: 500
+    upkeep: 1000
+    hammers: 0
+    hp: 75
+    hp-cap: 2500
+    score: 50
+    limit: 0
+    icon: POLISHED_BLACKSTONE_BRICKS
+    tags: [defense]
+  road:
+    name: Дорога
+    category: road
+    era: 1
+    tech: [construction]
+    segment: [1, 1, 1]
+    cost: 300
+    upkeep: 50
+    hammers: 0
+    hp: 0
+    score: 200
+    limit: 0
+    icon: DIRT_PATH
+  scout_tower:
+    name: Башня разведчиков
+    aliases: [разведвышка]
+    category: defense
+    era: 1
+    tech: [construction]
+    size: [1, 1]
+    cost: 15000
+    upkeep: 800
+    hammers: 1500
+    hp: 500
+    score: 3000
+    limit: 3
+    max-y: 130
+    spacing: [scout, 100]
+    template: scout_tower
+    style: tower
+    icon: SPYGLASS
+    tags: [defense]
+  arrow_tower:
+    name: Башня лучников
+    aliases: [стрелковая башня]
+    category: defense
+    era: 2
+    tech: [artillery]
+    size: [1, 1]
+    cost: 50000
+    upkeep: 1500
+    hammers: 2500
+    hp: 500
+    score: 4650
+    limit: 6
+    max-y: 130
+    spacing: [arrow, 100]
+    template: arrow_tower
+    style: tower
+    icon: ARROW
+    tags: [defense, tower]
+    markers: [towerfire, towerfire, towerfire, towerfire]
+  cannon_tower:
+    name: Башня пушкарей
+    aliases: [пушечная башня]
+    category: defense
+    era: 3
+    tech: [ballistics]
+    size: [1, 1]
+    cost: 250000
+    upkeep: 5000
+    hammers: 5000
+    hp: 1000
+    score: 10000
+    limit: 1
+    max-y: 130
+    spacing: [cannon, 120]
+    template: cannon_tower
+    style: tower
+    icon: FIRE_CHARGE
+    tags: [defense, tower]
+    markers: [towerfire, towerfire, towerfire, towerfire]
+  tesla_tower:
+    name: Башня Теслы
+    aliases: [тесла]
+    category: defense
+    era: 5
+    tech: [electricity]
+    size: [1, 1]
+    cost: 350000
+    upkeep: 4500
+    hammers: 7500
+    hp: 1000
+    score: 20000
+    limit: 1
+    max-y: 130
+    spacing: [tesla, 125]
+    style: tower
+    icon: LIGHTNING_ROD
+    tags: [defense, tower]
+    markers: [towerfire]
+  airship:
+    name: Дирижабль
+    category: defense
+    era: 3
+    tech: [engineering]
+    size: [2, 1]
+    cost: 300000
+    upkeep: 5000
+    hammers: 5500
+    hp: 1000
+    score: 17500
+    limit: 1
+    min-y: 90
+    floating: true
+    spacing: [airship, 120]
+    style: ship
+    icon: PHANTOM_MEMBRANE
+    tags: [defense]
+    markers: [towerfire, towerfire]
+  scout_ship:
+    name: Корабль разведчиков
+    category: ship
+    era: 1
+    tech: [construction]
+    requires: [shipyard]
+    size: [2, 1]
+    cost: 15000
+    upkeep: 800
+    hammers: 1500
+    hp: 500
+    score: 3000
+    limit: 3
+    water: water
+    y-shift: -3
+    spacing: [scout, 100]
+    style: ship
+    icon: SPYGLASS
+    tags: [defense, naval]
+  archer_ship:
+    name: Корабль лучников
+    category: ship
+    era: 2
+    tech: [artillery]
+    requires: [shipyard]
+    size: [2, 1]
+    cost: 50000
+    upkeep: 1500
+    hammers: 2500
+    hp: 250
+    score: 4650
+    limit: 6
+    water: water
+    y-shift: -3
+    spacing: [arrow, 100]
+    style: ship
+    icon: CROSSBOW
+    tags: [defense, naval, tower]
+    markers: [towerfire, towerfire]
+  cannon_ship:
+    name: Корабль пушкарей
+    category: ship
+    era: 3
+    tech: [ballistics]
+    requires: [shipyard]
+    size: [2, 1]
+    cost: 250000
+    upkeep: 5000
+    hammers: 5000
+    hp: 500
+    score: 10000
+    limit: 1
+    water: water
+    y-shift: -3
+    spacing: [cannon, 120]
+    style: ship
+    icon: TNT_MINECART
+    tags: [defense, naval, tower]
+    markers: [towerfire, towerfire]
+  tesla_ship:
+    name: Корабль Теслы
+    category: ship
+    era: 5
+    tech: [electricity]
+    requires: [shipyard]
+    size: [1, 1]
+    cost: 350000
+    upkeep: 4500
+    hammers: 7500
+    hp: 500
+    score: 20000
+    limit: 1
+    water: water
+    y-shift: -3
+    spacing: [tesla, 125]
+    style: ship
+    icon: TRIDENT
+    tags: [defense, naval, tower]
+    markers: [towerfire]
+  # War-only structures are placed with an item by the war module (spec 02 §5.10); listed here for limits/templates.
+  war_camp:
+    name: Военный лагерь
+    category: special
+    era: 0
+    war-only: true
+    size: [2, 2]
+    cost: 0
+    upkeep: 0
+    hammers: 0
+    hp: 0
+    score: 0
+    civ-limit: 3
+    limit-group: war_camp
+    template: warcamp
+    style: tower
+    icon: RED_BANNER
+    control: {hp: 20}
+    markers: [control, control, respawn, respawn]
+  war_ship:
+    name: Военный корабль
+    category: special
+    era: 0
+    war-only: true
+    size: [2, 1]
+    cost: 0
+    upkeep: 0
+    hammers: 0
+    hp: 0
+    score: 0
+    civ-limit: 3
+    limit-group: war_camp
+    water: water
+    y-shift: -3
+    style: ship
+    icon: BLUE_BANNER
+    control: {hp: 10}
+    markers: [control, control, respawn]
+
+  # --- national exclusives (spec 02 §6) -----------------------------------------------------------------------------------
+  altar:
+    name: Алтарь
+    category: building
+    era: 1
+    nation: aztec
+    replaces: temple
+    tech: [church]
+    requires: [church]
+    size: [2, 2]
+    cost: 32500
+    upkeep: 2500
+    hammers: 2250
+    hp: 250
+    score: 4700
+    limit: 1
+    template: temple
+    icon: CRIMSON_NYLIUM
+    infrastructure: [cottage]
+    tags: [religious]
+    max-level: 5
+    lose-level-on-destroy: true
+    markers: [chest 1]
+    effects:
+      - {stat: happiness, add: 5}
+      - {stat: faith, add: 5}
+      - {stat: culture, add: 75}
+  floating_gardens:
+    name: Плавучие сады
+    category: building
+    era: 2
+    nation: aztec
+    tech: [fermentation]
+    size: [2, 2]
+    cost: 25000
+    upkeep: 1000
+    hammers: 2500
+    hp: 250
+    score: 3500
+    limit: 1
+    style: field
+    icon: LILY_PAD
+    effects:
+      - {stat: happiness, add: 2}
+  cafe:
+    name: Кафе
+    category: building
+    era: 2
+    nation: american
+    replaces: grocer
+    tech: [commerce]
+    size: [1, 1]
+    cost: 35000
+    upkeep: 1000
+    hammers: 3500
+    hp: 200
+    score: 2500
+    limit: 1
+    template: grocer
+    icon: COOKIE
+    markers: [sign shop]
+    effects:
+      - {stat: happiness, add: 1}
+      - {stat: trade, percent: 0.05}
+  cinema:
+    name: Кинотеатр
+    category: building
+    era: 5
+    nation: american
+    replaces: theatre
+    tech: [fine_arts]
+    size: [2, 2]
+    cost: 175000
+    upkeep: 1000
+    hammers: 7500
+    hp: 1000
+    score: 16000
+    limit: 1
+    style: temple
+    icon: PAINTING
+    infrastructure: [cottage]
+    effects:
+      - {stat: culture, add: 100}
+      - {stat: happiness, add: 1}
+      - {stat: unhappiness, add: -1}
+  academy:
+    name: Академия
+    category: building
+    era: 2
+    nation: greek
+    replaces: university
+    tech: [education]
+    size: [1, 1]
+    cost: 25000
+    upkeep: 1000
+    hammers: 3000
+    hp: 500
+    score: 8000
+    limit: 1
+    style: temple
+    icon: ENCHANTED_BOOK
+    infrastructure: [cottage]
+    tags: [science]
+    effects:
+      - {stat: beakers, add: 100}
+  amphitheatre:
+    name: Амфитеатр
+    category: building
+    era: 2
+    nation: greek
+    replaces: arena
+    tech: [taxation]
+    size: [2, 2]
+    cost: 30000
+    upkeep: 2000
+    hammers: 1000
+    hp: 500
+    score: 15000
+    limit: 1
+    style: monument
+    icon: SMOOTH_QUARTZ
+    infrastructure: [cottage]
+    effects:
+      - {stat: culture, add: 50}
+      - {stat: happiness, add: 3}
+  tomb:
+    name: Гробница
+    category: building
+    era: 0
+    nation: egyptian
+    replaces: cathedral
+    tech: [religion]
+    size: [2, 2]
+    cost: 5000
+    upkeep: 500
+    hammers: 1000
+    hp: 100
+    score: 1000
+    limit: 1
+    style: monument
+    icon: SANDSTONE
+    tags: [religious]
+    effects:
+      - {stat: faith, add: 1}
+      - {stat: happiness, add: 1}
+  mosque:
+    name: Мечеть
+    category: building
+    era: 0
+    nation: turkish
+    replaces: cathedral
+    tech: [religion]
+    size: [2, 2]
+    cost: 5000
+    upkeep: 500
+    hammers: 1000
+    hp: 100
+    score: 1000
+    limit: 1
+    style: temple
+    icon: END_ROD
+    tags: [religious]
+    effects:
+      - {stat: faith, add: 1}
+  fortress:
+    name: Крепость
+    category: building
+    era: 4
+    nation: turkish
+    replaces: castle
+    tech: [republic]
+    requires: [barracks]
+    size: [2, 2]
+    cost: 50000
+    upkeep: 5000
+    hammers: 2500
+    hp: 1000
+    score: 1500
+    limit: 1
+    style: tower
+    icon: POLISHED_DEEPSLATE
+    effects:
+      - {stat: war_upkeep_reduction, add: 0.25}
+      - {stat: control_hp, add: 5, scope: civ}
+      - {stat: warcamp_control_hp, add: 4, scope: civ}
+  chateau:
+    name: Шато
+    category: building
+    era: 3
+    nation: french
+    tech: [engineering]
+    size: [2, 2]
+    cost: 50000
+    upkeep: 2500
+    hammers: 7500
+    hp: 500
+    score: 8000
+    limit: 1
+    style: hall
+    icon: SWEET_BERRIES
+    infrastructure: [cottage]
+  dojo:
+    name: Додзё
+    category: building
+    era: 0
+    nation: japanese
+    replaces: barracks
+    tech: [arsenal]
+    size: [2, 2]
+    cost: 15000
+    upkeep: 1000
+    hammers: 1500
+    hp: 1000
+    score: 3000
+    limit: 1
+    template: barracks
+    icon: BAMBOO
+    markers: [chest 0, sign train, sign progress]
+    effects:
+      - {stat: war_upkeep_reduction, add: 0.25}
+      - {stat: artifact_cost, percent: -0.10}
+  pagoda:
+    name: Пагода
+    category: building
+    era: 0
+    nation: japanese
+    replaces: cathedral
+    tech: [religion]
+    size: [2, 2]
+    cost: 5000
+    upkeep: 500
+    hammers: 1000
+    hp: 100
+    score: 1000
+    limit: 1
+    style: tower
+    icon: CHERRY_SAPLING
+    tags: [religious]
+    effects:
+      - {stat: faith, add: 1.25}
+  rice_field:
+    name: Рисовое поле
+    category: improvement
+    era: 0
+    nation: japanese
+    replaces: farm
+    tech: [agriculture]
+    size: [1, 1]
+    cost: 2500
+    upkeep: 500
+    hammers: 800
+    hp: 100
+    score: 1000
+    limit: 0
+    slot: true
+    template: farm
+    y-shift: -1
+    style: field
+    destroyable: true
+    icon: SHORT_GRASS
+    tags: [improvement]
