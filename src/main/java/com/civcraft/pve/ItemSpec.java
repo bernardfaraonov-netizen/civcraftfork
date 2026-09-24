@@ -54,6 +54,7 @@ public record ItemSpec(String item, double chance, int min, int max, Map<String,
 
     public static ItemSpec parse(Map<?, ?> map, Logger logger, String where) {
         Object id = map.get("item");
+        if (id == null && map.get("choices") instanceof List<?> choices && !choices.isEmpty()) id = choices.getFirst();
         if (id == null) {
             logger.warning("Loot entry without 'item' in " + where + ": " + map);
             return null;

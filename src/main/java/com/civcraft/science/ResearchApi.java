@@ -22,4 +22,19 @@ public interface ResearchApi {
 
     /** Adds beakers to the civ's current research (spy missions, scrolls, space missions...). */
     void addBeakers(Civilization civ, double beakers);
+
+    /** Tech the civ is researching right now, or null (used by the ruin technology scroll). */
+    default String currentResearch(Civilization civ) {
+        return null;
+    }
+
+    /** Beakers the civ needs in total for the tech (after discounts); 0 when unknown. */
+    default double researchCost(Civilization civ, String techId) {
+        return 0;
+    }
+
+    /** Era index of a tech on the same scale as {@link #era}; -1 when unknown. */
+    default int techEra(String techId) {
+        return -1;
+    }
 }

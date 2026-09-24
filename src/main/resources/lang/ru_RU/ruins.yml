@@ -1,0 +1,143 @@
+ruins:
+  lucky:
+    opened: '<gold>Лаки-блок открыт! Выпало предметов: <white><count></white>.'
+  scroll:
+    used: '<green>Свиток использован.'
+    unavailable: '<red>Этот свиток сейчас нельзя использовать.'
+    no-research: '<red>Цивилизация сейчас ничего не изучает.'
+    wrong-era: '<red>Свиток действует только на технологии своей эры.'
+    tech-used: '<green>Изучение <white><tech></white> продвинулось на <white><percent>%</white> (+<beakers> колб).'
+    town-level-high: '<red>Уровень города уже не ниже, чем даёт свиток.'
+    town-level: '<green>Уровень города повышен до <white><level></white>.'
+    art: '<green>Город получил <white><culture></white> культуры.'
+    art-talent: '<yellow>Не забудьте выбрать талант цивилизации: /civ talent.'
+    construction: '<green>Город получает <white>+<hammers></white> молоточков в час ещё <white><time></white>.'
+  recipe:
+    applied: '<green>Рецепт «<white><recipe></white>» нанесён на предмет. Все заточки удалены.'
+    wrong-item: '<red>Этот рецепт нельзя нанести на этот предмет.'
+    need-tier: '<red>Рецепты наносятся только на предметы T4.'
+    already: '<red>На предмете уже есть рецепт.'
+    lore: '<light_purple>Рецепт: <recipe>'
+  admin:
+    placed: '<green>Руина построена, лаки-блок: <white><pos></white>.'
+    bad-ground: '<red>Здесь нельзя построить руину (вода, лава или неровная местность).'
+    line: '<gray> - лаки-блок <white><pos></white>: <state>'
+    broken: '<red>сломан'
+    intact: '<green>цел'
+    none: '<gray>Рядом нет руин.'
+    stats: '<gold>Руин: <white><total></white>, сломано лаки-блоков: <white><broken></white>.'
+    unknown-item: '<red>Неизвестный PvE-предмет <white><id></white>.'
+  item:
+    lucky_block:
+      name: '<gold><bold>Лаки-блок'
+      lore:
+        - '<gray>ПКМ — открыть.'
+    ruin_rat_stamen:
+      name: '<green>Крысявая тычинка'
+      lore:
+        - '<gray>T1 меч. Накладывает Отравление II.'
+    ruin_no_library:
+      name: '<green>И без библы могу'
+      lore:
+        - '<gray>T1 меч. Поджигает цель.'
+    ruin_cleaver:
+      name: '<green>Тесак еврея Тмуртника'
+      lore:
+        - '<gray>T1 меч. +3 урона по мобам CivCraft.'
+    ruin_rempty_crusher:
+      name: '<green>Дробитель Ремптри'
+      lore:
+        - '<gray>Копает 1×3×3. Не работает во время войны.'
+    ruin_dragonglass_crusher:
+      name: '<aqua>Дробитель из драконьего стекла'
+      lore:
+        - '<gray>Дробит 3×3×3.'
+    ruin_zarngifm_scratcher:
+      name: '<aqua>Царапалка Зарнгифма'
+      lore:
+        - '<gray>С шансом 20% поднимает цель в воздух.'
+    ruin_ternshni_blade:
+      name: '<aqua>Клинок обжоры Тернсхни'
+      lore:
+        - '<gray>Добыча X.'
+    ruin_fortune_pick:
+      name: '<aqua>Кирка удачи'
+      lore:
+        - '<gray>Удача II. Нельзя чинить.'
+    joke_potato:
+      name: '<yellow>Бронированная картошка'
+      lore:
+        - '<gray>Очень защищённая. Совершенно бесполезная.'
+    scroll_tech_1:
+      name: '<light_purple>Свиток технологии I'
+      lore:
+        - '<gray>+<value>% к изучению технологии 1-й эры.'
+        - '<gray>ПКМ, нужно состоять в городе.'
+    scroll_tech_2:
+      name: '<light_purple>Свиток технологии II'
+      lore:
+        - '<gray>+<value>% к изучению технологии 2-й эры.'
+        - '<gray>ПКМ, нужно состоять в городе.'
+    scroll_bank_2:
+      name: '<light_purple>Свиток банковского дела II'
+      lore:
+        - '<gray>Мгновенно повышает Банк города до 2 уровня.'
+    scroll_bank_3:
+      name: '<light_purple>Свиток банковского дела III'
+      lore:
+        - '<gray>Мгновенно повышает Банк города до 3 уровня.'
+    scroll_settler:
+      name: '<light_purple>Свиток поселенца'
+      lore:
+        - '<gray>+<value>% к подготовке поселенца.'
+    scroll_town_2:
+      name: '<light_purple>Свиток городского дела II'
+      lore:
+        - '<gray>Мгновенно повышает уровень города до 2.'
+    scroll_town_3:
+      name: '<light_purple>Свиток городского дела III'
+      lore:
+        - '<gray>Мгновенно повышает уровень города до 3.'
+    scroll_art:
+      name: '<light_purple>Свиток шедевров искусства'
+      lore:
+        - '<gray>+<value> культуры городу.'
+    scroll_construction:
+      name: '<light_purple>Свиток строительного дела'
+      lore:
+        - '<gray>+<value> молоточков в час на <hours> ч.'
+    recipe_ballista:
+      name: 'Ballista'
+      lore:
+        - '<gray>Лук T4: Бесконечность I.'
+        - '<gray>Возьмите курсором и кликните ЛКМ по предмету.'
+    recipe_mind_breaker:
+      name: 'Mind Breaker'
+      lore:
+        - '<gray>Лук T4: Левитация (20%).'
+        - '<gray>Возьмите курсором и кликните ЛКМ по предмету.'
+    recipe_princes_knife:
+      name: "Prince's Knife"
+      lore:
+        - '<gray>Меч T4: удар молнии.'
+        - '<gray>Возьмите курсором и кликните ЛКМ по предмету.'
+    recipe_paladin_sword:
+      name: 'Paladin Sword'
+      lore:
+        - '<gray>Меч T4: Заговор огня II.'
+        - '<gray>Возьмите курсором и кликните ЛКМ по предмету.'
+    recipe_leveller:
+      name: 'The Leveller'
+      lore:
+        - '<gray>Меч T4: Слепота (10%, только в обычном мире).'
+        - '<gray>Возьмите курсором и кликните ЛКМ по предмету.'
+    recipe_hermes_boots:
+      name: 'Hermes boots'
+      lore:
+        - '<gray>Ботинки T4: постоянная Скорость I, SoulBound.'
+        - '<gray>Возьмите курсором и кликните ЛКМ по предмету.'
+    recipe_turtle_shell:
+      name: 'Turtle shell'
+      lore:
+        - '<gray>Броня T4: +0.15 защиты, SoulBound.'
+        - '<gray>Возьмите курсором и кликните ЛКМ по предмету.'
