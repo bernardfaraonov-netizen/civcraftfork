@@ -1,0 +1,22 @@
+name: CivCraft
+version: '${version}'
+main: com.civcraft.CivCraftPlugin
+api-version: '1.21.11'
+description: Civilizations, towns, science, wonders and war — a modern rewrite of CivCraft.
+authors: [CivCraft contributors]
+website: https://github.com/bernardfaraonov-netizen/civcraftfork
+load: POSTWORLD
+dependencies:
+  server:
+    PlaceholderAPI:
+      load: BEFORE
+      required: false
+      join-classpath: true
+    dynmap:
+      load: BEFORE
+      required: false
+      join-classpath: true
+    BlueMap:
+      load: BEFORE
+      required: false
+      join-classpath: true
