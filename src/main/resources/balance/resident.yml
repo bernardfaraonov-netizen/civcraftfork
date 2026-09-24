@@ -1,0 +1,27 @@
+# Модуль жителей (docs/spec/01_core.md §1, §3, §19.3). Деньги — в монетах.
+
+# Возрождение у ратуши своего города, если нет кровати или якоря.
+respawn-at-town-hall: true
+
+# Настройки /res set и /res toggle (их читают и другие модули через Resident.setting(key)).
+settings: [tpconf, messages, hide-scout, info, combatinfo, itemdrops, map, kills, fire, preview, tiles, timef, trail, mob]
+
+friends:
+  max: 50
+
+# /res exchange: базовые стоимости (100 %); ставка обмена — core.yml resident.exchange-rate (30 %).
+exchange:
+  prices:
+    iron: {material: IRON_INGOT, price: 20}
+    gold: {material: GOLD_INGOT, price: 200}
+    diamond: {material: DIAMOND, price: 400}
+    emerald: {material: EMERALD, price: 500}
+
+# Стартовый набор (§1): деревянные инструменты и еда soulbound, удочка без soulbound, книга /res book.
+starter-kit:
+  - {material: WOODEN_PICKAXE, amount: 1, soulbound: true}
+  - {material: WOODEN_AXE, amount: 1, soulbound: true}
+  - {material: WOODEN_SHOVEL, amount: 1, soulbound: true}
+  - {material: WOODEN_SWORD, amount: 1, soulbound: true}
+  - {material: BREAD, amount: 10, soulbound: true}
+  - {material: FISHING_ROD, amount: 1, soulbound: false}

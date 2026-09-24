@@ -163,7 +163,7 @@ public final class GovernmentModule implements Module {
             }
             return false;
         }
-        return research.hasTech(c, g.tech());
+        return research.hasTech(c, g.tech()) && research.unlocked(c, "governments", g.id());
     }
 
     // --- transitions ----------------------------------------------------------------------------

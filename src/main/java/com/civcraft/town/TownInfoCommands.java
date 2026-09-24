@@ -417,7 +417,7 @@ final class TownInfoCommands {
 
     void location(Player p) throws CivException {
         Town town = module.selectedTown(p);
-        if (town.center() == null) throw new CivException("town.location.none");
+        if (town.center() == null) throw new CivException("town.location-none");
         BlockPos c = town.center();
         civ.messages().send(p, "town.location", Messages.arg("town", town.name()), Messages.arg("world", c.world()),
                 Messages.arg("x", c.x()), Messages.arg("y", c.y()), Messages.arg("z", c.z()));

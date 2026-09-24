@@ -33,7 +33,8 @@ public final class Production {
     public static final String CAPTURED_UNHAPPINESS = "captured_unhappiness";
     public static final String PLAYER_UNHAPPINESS = "player_unhappiness";
     public static final String DISTANCE_UNHAPPINESS = "distance_unhappiness";
-    public static final String CAPTURED_SCIENCE_IMMUNITY = "captured_science_immunity";
+    /** Multiplier on the captured-town science penalty (Paganism: ×0 = no penalty). */
+    public static final String CAPTURED_SCIENCE_PENALTY = "captured_science_penalty";
 
     public record Line(String source, double value) {
     }
@@ -162,7 +163,7 @@ public final class Production {
         double capturedPenalty = civ.balance().getDouble("economy", "captured-multiplier", 0.5);
         double hammersRaw = Math.max(0, sheet.apply(Stats.HAMMERS, 0)) * mult * (isCaptured ? capturedPenalty : 1);
         double beakers = Math.max(0, sheet.apply(Stats.BEAKERS, 0)) * mult;
-        if (isCaptured && sheet.get(CAPTURED_SCIENCE_IMMUNITY) <= 0) beakers *= capturedPenalty;
+        if (isCaptured) beakers *= 1 - (1 - capturedPenalty) * Math.max(0, sheet.apply(CAPTURED_SCIENCE_PENALTY, 1.0));
         double hammers = hammersRaw;
         if (town.convertingHammers()) {
             beakers += EconomyMath.chammers(hammersRaw, civ.balance().getDouble("core", "town.chammers-divisor", 16));

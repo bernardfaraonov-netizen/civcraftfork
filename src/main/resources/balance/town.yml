@@ -1,0 +1,59 @@
+# Города (docs/spec/01_core.md §6–§7). Уровни, цены приватов, телепорт — в core.yml town.*.
+
+# Типы главных зданий в модуле построек.
+main-buildings:
+  town-hall: [town_hall]
+  capitol: [capitol, capital]
+
+# Пошлины для нежителей (§8.4): /t set <ключ>fee. Доли 0..1.
+fees:
+  bank: {min: 0.05, max: 0.15}
+  library: {min: 0.0, max: 0.15}
+  blacksmith: {min: 0.0, max: 0.15}
+  grocer: {min: 0.0, max: 0.15}
+
+# /t set taxrate — максимум [допущение] 100 %; /t set flattax — максимум [допущение].
+max-tax-rate: 1.0
+max-flat-tax: 10000
+
+scout-rate: {min: 10, max: 60}
+
+invite-seconds: 300
+request-seconds: 300
+
+# /t add запрещён за N дней до войны (§6.5 [допущение]); только если цивилизация воюет.
+add-lock-days-before-war: 3
+add-lock-only-if-at-war: true
+
+max-groups: 20
+
+# /t deposit сначала гасит долг города.
+deposit-repays-debt: true
+
+# §18.1: захваченный город не может сжигаться.
+captured-can-disband: false
+
+# §6.5: выход или изгнание во время войны выкидывает с сервера.
+kick-on-leave-during-war: true
+
+# §6.4, §9.1: лава только в культуре своего города.
+lava-only-own-culture: true
+
+# Миры (долины), откуда нельзя /t teleport.
+teleport-forbidden-worlds: [world_nether, world_the_end]
+
+border-alert-cooldown-seconds: 120
+
+# /t happycalc: ввод до 2 000 [CL 0.5].
+happycalc-max: 2000
+
+# Очки для /t top5 и /c top5 (плюс очки построек от модуля построек через TownValuation).
+score:
+  per-resident: 5000
+  per-claim: 200
+  per-culture-chunk: 100
+  coins-per-point: 5
+
+# Дополнительные улучшения /t upgrade (кроме уровней города). Модули построек регистрируют свои через API.
+# id: {name: Название, category: bank, cost: 4000, hammers: 400, tech: monarchy, requires: other_id}
+upgrades: {}

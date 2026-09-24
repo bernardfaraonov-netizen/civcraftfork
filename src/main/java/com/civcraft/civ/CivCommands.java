@@ -16,7 +16,6 @@ import com.civcraft.core.util.Durations;
 import com.civcraft.core.util.Money;
 import com.civcraft.diplomacy.DiplomacyApi;
 import com.civcraft.diplomacy.DiplomacyModule;
-import com.civcraft.diplomacy.VictoryStatus;
 import com.civcraft.economy.Amounts;
 import com.civcraft.economy.EconomyMath;
 import com.civcraft.economy.Ledger;
@@ -728,9 +727,10 @@ final class CivCommands {
         Resident target = Lookup.resident(name);
         if (target.uuid().equals(p.getUniqueId())) throw new CivException("civ.changeowner.self");
         if (!CivPerms.isMember(c, target.uuid())) throw new CivException("civ.group.not-member", Messages.arg("name", target.name()));
-        for (com.civcraft.Module m : civ.modules()) {
-            if (m instanceof VictoryStatus v && v.victoryCountdownRunning() && v.daysUntilVictory() >= 0
-                    && v.daysUntilVictory() <= civ.balance().getInt("civ", "changeowner-victory-lock-days", 3)) {
+        com.civcraft.victory.VictoryApi victory = civ.apiOrNull(com.civcraft.victory.VictoryApi.class);
+        if (victory != null) {
+            Duration left = victory.timeToVictory(c);
+            if (left != null && left.compareTo(Duration.ofDays(civ.balance().getInt("civ", "changeowner-victory-lock-days", 3))) <= 0) {
                 throw new CivException("civ.changeowner.victory");
             }
         }
@@ -832,7 +832,7 @@ final class CivCommands {
             throw new CivException("civ.revolution.too-early", Messages.arg("days", minDays));
         }
         Civilization conqueror = civ.state().civ(home.conqueredBy());
-        if (conqueror != null && civ.stats().civ(conqueror).get("revolution_immunity") > 0) throw new CivException("civ.revolution.immune");
+        if (conqueror != null && civ.stats().civ(conqueror).get("prevent_revolution") > 0) throw new CivException("civ.revolution.immune");
         final Civilization rebel = home;
         long cost = revolutionCost(rebel, captured);
         Messages m = civ.messages();
@@ -870,6 +870,8 @@ final class CivCommands {
         c.conqueredBy(null);
         civ.state().save(c);
         gov().startChange(c, gov().governments().stream().filter(g -> g.id().equals(gov().startId())).findFirst().orElseThrow(), true);
+        ResearchApi research = civ.apiOrNull(ResearchApi.class);
+        if (research != null) research.removeLastTechs(c, civ.balance().getInt("civ", "revolution.lost-techs", 3));
         new RevolutionEvent(c.id()).call();
         Channels.global("civ.revolution.started", Messages.arg("civ", c.name()));
     }

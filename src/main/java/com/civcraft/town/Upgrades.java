@@ -21,7 +21,7 @@ import org.bukkit.configuration.ConfigurationSection;
 public final class Upgrades {
 
     /**
-     * @param id        stable id ({@code town_level_3}, {@code bank_level_2})
+     * @param id        stable id ({@code town_3}, {@code bank_level_2})
      * @param name      display name (Russian) used in lists and matched by /t upgrade buy
      * @param category  grouping for /t upgrade list
      * @param cost      price in hundredths
@@ -44,8 +44,8 @@ public final class Upgrades {
             if (level <= 1) continue;
             ConfigurationSection s = levels.getConfigurationSection(String.valueOf(level));
             if (s == null) continue;
-            String requires = level > 2 ? "town_level_" + (level - 1) : null;
-            register(new Def("town_level_" + level, s.getString("name", "Level " + level), "town",
+            String requires = level > 2 ? "town_" + (level - 1) : null;
+            register(new Def("town_" + level, s.getString("name", "Level " + level), "town",
                     Money.ofCoins(s.getDouble("cost")), s.getDouble("hammers"), s.getString("tech"), requires), townLevelHandler);
         }
         ConfigurationSection extra = civ.balance().section("town", "upgrades");
@@ -61,6 +61,12 @@ public final class Upgrades {
     public void register(Def def, BiConsumer<Town, Def> onComplete) {
         defs.put(def.id(), def);
         handlers.put(def.id(), onComplete);
+    }
+
+    /** Level of a town-level upgrade id ({@code town_4} → 4), or 0 for other upgrades. */
+    public static int townLevel(String id) {
+        if (id == null || !id.matches("town_\\d+")) return 0;
+        return Integer.parseInt(id.substring(5));
     }
 
     public Def get(String id) {

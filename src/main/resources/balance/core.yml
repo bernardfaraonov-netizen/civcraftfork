@@ -23,7 +23,7 @@ town:
     4: {name: Большая деревня, claims: 128, upkeep: 2000, slots: 12, cost: 30000, hammers: 3000, tech: writing}
     5: {name: Городок, claims: 256, upkeep: 3500, slots: 15, cost: 50000, hammers: 3000, tech: currency}
     6: {name: Город, claims: 512, upkeep: 5500, slots: 17, cost: 125000, hammers: 6000, tech: alchemy}
-    7: {name: Большой город, claims: 1024, upkeep: 7000, slots: 20, cost: 250000, hammers: 12000, tech: engineering}
+    7: {name: Большой город, claims: 1024, upkeep: 7000, slots: 20, cost: 250000, hammers: 12000, tech: mechanical_engineering}
     8: {name: Огромный город, claims: 2048, upkeep: 8000, slots: 25, cost: 500000, hammers: 25000, tech: scientific_method}
     9: {name: Метрополис, claims: 4096, upkeep: 25000, slots: 30, cost: 1000000, hammers: 50000, tech: innovation}
   # Price of the N-th claim (spec §6.4): upper bound of the range → price.

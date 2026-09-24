@@ -304,7 +304,7 @@ final class CampCommands {
     private void list(CommandSender sender) {
         List<String> entries = new ArrayList<>();
         for (Camp c : civ.state().camps()) {
-            entries.add(civ.messages().plain("camp.list.entry", Messages.arg("camp", c.name()), Messages.arg("owner", name(c.owner())),
+            entries.add(civ.messages().plain("camp.list-entry", Messages.arg("camp", c.name()), Messages.arg("owner", name(c.owner())),
                     Messages.arg("members", c.members().size())));
         }
         civ.messages().send(sender, "camp.list", Messages.arg("count", entries.size()),

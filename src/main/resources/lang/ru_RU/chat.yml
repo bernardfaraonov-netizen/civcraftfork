@@ -1,0 +1,18 @@
+# Каналы чата: /tc, /cc, /ac, /camp chat, системные сообщения.
+chat:
+  prefix:
+    town-system: '<dark_green>[<green><name></green>]</dark_green> '
+    civ-system: '<dark_aqua>[<aqua><name></aqua>]</dark_aqua> '
+    camp-system: '<dark_gray>[<gray><name></gray>]</dark_gray> '
+  format:
+    town: '<dark_green>[Город <green><town></green>]</dark_green> <white><name></white><gray>: <green><message>'
+    civ: '<dark_aqua>[<aqua><civ></aqua>]</dark_aqua> <white><name></white><gray>: <aqua><message>'
+    ally: '<dark_purple>[Альянс <light_purple><civ></light_purple>]</dark_purple> <white><name></white><gray>: <light_purple><message>'
+    camp: '<dark_gray>[Лагерь <gray><camp></gray>]</dark_gray> <white><name></white><gray>: <gray><message>'
+  mode:
+    global: '<gray>Вы пишете в общий чат.'
+    town: '<green>Вы пишете в чат города. /tc — вернуться.'
+    civ: '<aqua>Вы пишете в чат цивилизации. /cc — вернуться.'
+    ally: '<light_purple>Вы пишете в чат альянса. /ac — вернуться.'
+    camp: '<gray>Вы пишете в чат лагеря. /camp chat — вернуться.'
+  muted: '<red>Вам запрещено писать в чаты цивилизации.'

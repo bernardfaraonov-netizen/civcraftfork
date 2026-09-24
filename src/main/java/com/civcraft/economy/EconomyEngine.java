@@ -14,6 +14,7 @@ import com.civcraft.effect.Scope;
 import com.civcraft.effect.StatSheet;
 import com.civcraft.effect.Stats;
 import com.civcraft.event.BeakersProducedEvent;
+import com.civcraft.event.TaxesConvertedEvent;
 import com.civcraft.government.GovernmentModule;
 import com.civcraft.model.Claim;
 import com.civcraft.model.Civilization;
@@ -168,8 +169,10 @@ public final class EconomyEngine {
             EconomyMath.TaxSplit split = EconomyMath.splitIncome(income, gov.effectiveTaxes(c), c.science());
             Ledger.creditTown(town, split.townShare());
             Ledger.creditCiv(c, split.civTreasury());
-            beakers += EconomyMath.beakers(split.scienceCoins(), gov.beakerPrice(c));
+            double converted = EconomyMath.beakers(split.scienceCoins(), gov.beakerPrice(c));
+            beakers += converted;
             towns.recordTaxes(c, split.civTreasury() + split.scienceCoins(), split.scienceCoins());
+            if (split.scienceCoins() > 0) new TaxesConvertedEvent(c.id(), town.id(), split.scienceCoins(), converted).call();
         }
         if (c != null && beakers > 0) new BeakersProducedEvent(c.id(), town.id(), beakers).call();
     }

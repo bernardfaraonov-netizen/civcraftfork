@@ -288,7 +288,7 @@ public final class TownModule implements Module, TownApi, Listener {
     // --- upgrades -------------------------------------------------------------------------------
 
     private void completeTownLevel(Town town, Upgrades.Def def) {
-        int level = Integer.parseInt(def.id().substring("town_level_".length()));
+        int level = Upgrades.townLevel(def.id());
         if (level > town.level()) {
             town.level(level);
             civ.state().save(town);

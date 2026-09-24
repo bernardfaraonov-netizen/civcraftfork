@@ -1,0 +1,90 @@
+# Цивилизации (docs/spec/01_core.md §5, §6.1, §7.5, §8.7, §18). Основные числа — в core.yml civ.*.
+
+town-hall-type: town_hall
+# §5.2, §6.1: не меньше 80 % твёрдых блоков под ратушей.
+min-ground: 0.8
+
+items:
+  founding-flag: founding_flag
+  settler: settler
+  # PDC-ключ civcraft:<ключ> с id цивилизации на поселенце (привязка к цивилизации, §6.1).
+  settler-civ-key: civ
+
+# Запрос лидеру на основание города поселенцем живёт 5 минут [допущение].
+settler-request-seconds: 300
+
+# Стили ратуши при основании. Без permission — доступен всем.
+themes:
+  - {id: default}
+  - {id: arctic, permission: civcraft.theme.arctic}
+  - {id: aztec, permission: civcraft.theme.aztec}
+  - {id: egyptian, permission: civcraft.theme.egyptian}
+  - {id: hell, permission: civcraft.theme.hell}
+  - {id: roman, permission: civcraft.theme.roman}
+
+# Типы Чудес света (уничтожаются при подарке и покупке на рынке).
+wonder-types: [parthenon, great_pyramid, the_great_pyramid, statue_of_zeus, tree_of_life, hanging_gardens, the_hanging_gardens,
+  angkor_wat, great_lighthouse, chichen_itza, great_library, the_great_library, globe_theatre, colossus, the_colossus,
+  himeji_castle, eiffel_tower, notre_dame, ingermanland, burj_al_arab, space_shuttle, world_bank, statue_of_liberty,
+  world_university, neuschwanstein, council_of_eight]
+
+# Матрица /civ perm (§7.5): OWNER (В), LEADERS (Л), ADVISERS (П), RESIDENTS, ALL.
+perms:
+  rename: LEADERS
+  motd: ADVISERS
+  wperm: LEADERS
+  withdraw: LEADERS
+  waperm: OWNER
+  trade: LEADERS
+  gov: ADVISERS
+  religion: LEADERS
+  religion_found: OWNER
+  religion_purchase: LEADERS
+  joinlog: OWNER
+  ctag: LEADERS
+  dip: LEADERS
+  dipgift: OWNER
+  kick: LEADERS
+  add: LEADERS
+  talent: LEADERS
+  disbandtown: LEADERS
+  mute: LEADERS
+  chammers: LEADERS
+  valley_teleport: ADVISERS
+  war: LEADERS
+  war_destroy: OWNER
+  research: ADVISERS
+  demolish: LEADERS
+  settler: ADVISERS
+  space: LEADERS
+  perm: OWNER
+# Права, для которых допустимы уровни RESIDENTS и ALL (§7.5: только wperm).
+perms-open-levels: [wperm]
+
+join-log-size: 100
+motd-lines: 5
+
+# §6.6: передать владение нельзя, если до победы ≤ 3 дней.
+changeowner-victory-lock-days: 3
+
+# Для /civ time (§1).
+trade-reset: {day: SUNDAY, time: '17:00'}
+
+# Революция (§18.2): окно вторник 18:00 – среда 18:00, не раньше 3 дней после захвата.
+revolution:
+  start-day: TUESDAY
+  start-time: '18:00'
+  duration-hours: 24
+  min-days-after-capture: 3
+  base-cost: 500000
+  per-town: 250000
+  score-factor: 0.1
+  max-cost: 5000000
+  lost-techs: 3
+
+# Рынок (§8.7): цена = долг + 50 % стоимости построек.
+market:
+  structure-share: 0.5
+  town-min-age-days: 7
+  civ-min-age-days: 14
+  lock-days-before-war: 3

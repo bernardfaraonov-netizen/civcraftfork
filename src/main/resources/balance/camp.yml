@@ -1,0 +1,78 @@
+# Лагерь (docs/spec/01_core.md §4, §19.5).
+
+template: camp
+
+items:
+  camp-door: camp_door
+  leadership-token: token_of_leadership
+
+# §4.2: контрольный блок — 70 HP.
+control-hp: 70
+
+# Размещение: 80 % твёрдых блоков, отступ от игрока, зазор между лагерями, расстояние до спавна.
+min-ground: 0.8
+place-gap: 2
+min-camp-gap: 4
+min-spawn-distance: 100
+max-members: 20
+invite-seconds: 300
+
+# §4.1: /camp undo в течение 5 минут [допущение].
+undo-minutes: 5
+# При сносе и разрушении восстанавливать исходный рельеф.
+restore-terrain: true
+
+# §4.3: 4 угля в час из двух печей; без угля лагерь разрушается.
+coal:
+  per-hour: 4
+  items: [COAL, CHARCOAL]
+  warn-hours: 6
+
+# §4.5: рейд-окно 2 часа до времени основания; не раньше 22 ч после постройки.
+raid:
+  window-hours: 2
+  grace-hours: 22
+  tools: [DIAMOND_PICKAXE, NETHERITE_PICKAXE]
+  hit-cooldown-ms: 400
+
+# §6.7: /camp teleport — кулдаун 30 минут, отсчёт 10 секунд.
+teleport:
+  cooldown-minutes: 30
+  warmup-seconds: 10
+
+# §4.4: улучшения (платит владелец).
+upgrades:
+  garden: {cost: 1000}
+  crusher: {cost: 1500}
+  longhouse: {cost: 500}
+
+# Большой дом: хлеб в час, монеты в час, потреблений до следующего уровня, жетонов за потребление [допущение].
+longhouse:
+  food: BREAD
+  levels:
+    - {level: 1, bread: 1, coins: 15, count: 5, tokens: 1}
+    - {level: 2, bread: 2, coins: 40, count: 10, tokens: 1}
+    - {level: 3, bread: 4, coins: 80, count: 15, tokens: 2}
+    - {level: 4, bread: 7, coins: 150, count: 0, tokens: 2}
+
+# Дробилка лагеря: как городская, но без алмазов и изумрудов (spec 02 §3.3). Одна операция за цикл.
+crusher:
+  cycle-seconds: 2
+  inputs:
+    SANDSTONE: 0.6
+    TERRACOTTA: 0.8
+    STONE: 1.0
+    COBBLESTONE: 1.0
+    ANDESITE: 1.1
+    GRANITE: 1.1
+    DIORITE: 1.1
+    OBSIDIAN: 4.0
+  loot:
+    - {item: IRON_INGOT, chance: 0.06}
+    - {item: GOLD_INGOT, chance: 0.06}
+    - {item: REDSTONE, chance: 0.04}
+    - {item: chromium_ore, chance: 0.01}
+
+# Культуры (пшеница, морковь, картофель, свёкла...) вне Сада лагеря и вне приватов не растут (§4.4).
+crops:
+  block-wild-growth: true

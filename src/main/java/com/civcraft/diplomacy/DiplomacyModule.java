@@ -171,10 +171,8 @@ public final class DiplomacyModule implements Module, DiplomacyApi, Listener {
 
     @Override
     public boolean victoryRunning() {
-        for (com.civcraft.Module m : civ.modules()) {
-            if (m instanceof VictoryStatus v && v.victoryCountdownRunning()) return true;
-        }
-        return false;
+        com.civcraft.victory.VictoryApi victory = civ.apiOrNull(com.civcraft.victory.VictoryApi.class);
+        return victory != null && victory.anyCountdown();
     }
 
     private Duration lifetime(RelationType type) {

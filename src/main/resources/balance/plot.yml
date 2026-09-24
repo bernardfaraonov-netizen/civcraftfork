@@ -1,0 +1,7 @@
+# Участки (docs/spec/01_core.md §7.4).
+
+# Максимальная цена /plot fs.
+max-price: 10000000
+
+# После /plot buy группы участка очищаются (как в оригинальном CivCraft): строит только владелец.
+buy-clears-groups: true

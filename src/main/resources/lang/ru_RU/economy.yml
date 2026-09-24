@@ -1,0 +1,21 @@
+# Экономика: доходы, налоги, содержание.
+economy:
+  town-not-enough: '<red>В казне города не хватает денег: нужно <white><amount></white>.'
+  civ-not-enough: '<red>В казне цивилизации не хватает денег: нужно <white><amount></white>.'
+  log:
+    town-deposit: '<gray><white><player></white> внёс в казну <gold><amount></gold> монет.'
+    town-withdraw: '<gray><white><player></white> снял из казны <gold><amount></gold> монет.'
+    civ-deposit: '<gray><white><player></white> внёс в казну цивилизации <gold><amount></gold> монет.'
+    civ-withdraw: '<gray><white><player></white> снял из казны цивилизации <gold><amount></gold> монет.'
+  culture:
+    level-up: '<gold>Границы культуры расширились! Уровень культуры: <white><level></white>.'
+  interest: '<green>Банк начислил <gold><amount></gold> монет процентов на казну.'
+  tax:
+    paid: '<gray>Налоги города <white><town></white>: списано <gold><amount></gold> монет.'
+    partial: '<red>Налоги города <white><town></white>: списано <white><amount></white>, не хватило — долг <white><debt></white> (/res paydebt).'
+    collected: '<green>Собрано налогов с жителей: <gold><amount></gold> монет.'
+    evicted: '<red>Вы изгнаны из города <white><town></white> за неуплату налогов.'
+    evictor: 'налоговая служба'
+  upkeep:
+    paid: '<gray>Содержание города оплачено: <gold><amount></gold> монет.'
+    debt: '<red>На содержание не хватило денег: оплачено <white><amount></white>, долг <white><debt></white>. Город в долгу не растит культуру и не покупает улучшения.'

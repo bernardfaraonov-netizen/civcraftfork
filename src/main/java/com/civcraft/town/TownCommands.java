@@ -389,12 +389,18 @@ public final class TownCommands {
         TownData d = module.data(town);
         if (d.upgrades().contains(def.id())) return false;
         for (Job j : d.jobs()) if (j.upgrade().equals(def.id())) return false;
-        if (def.id().startsWith("town_level_")) {
-            int level = Integer.parseInt(def.id().substring(11));
-            if (level <= town.level()) return false;
-        }
-        return def.requires() == null || d.upgrades().contains(def.requires())
-                || (def.requires().startsWith("town_level_") && town.level() >= Integer.parseInt(def.requires().substring(11)));
+        int level = Upgrades.townLevel(def.id());
+        if (level > 0 && level <= town.level()) return false;
+        if (def.requires() == null || d.upgrades().contains(def.requires())) return true;
+        int required = Upgrades.townLevel(def.requires());
+        return required > 0 && town.level() >= required;
+    }
+
+    /** Tech and research-tree gates of an upgrade (spec §6.3; tech ids of balance/techs.yml). */
+    private boolean techOk(Civilization c, Upgrades.Def def) {
+        if (!module.hasTech(c, def.tech())) return false;
+        com.civcraft.science.ResearchApi research = civ.apiOrNull(com.civcraft.science.ResearchApi.class);
+        return research == null || c == null || research.unlocked(c, "upgrades", def.id());
     }
 
     private void listUpgrades(Player p) throws CivException {
@@ -405,7 +411,7 @@ public final class TownCommands {
         int shown = 0;
         for (Upgrades.Def def : module.upgrades().all()) {
             if (!available(town, def)) continue;
-            boolean tech = module.hasTech(c, def.tech());
+            boolean tech = techOk(c, def);
             m.sendRaw(p, tech ? "town.upgrade.entry" : "town.upgrade.entry-locked", Messages.arg("upgrade", def.name()),
                     Messages.money("cost", upgradeCost(town, def)), Messages.number("hammers", def.hammers()),
                     Messages.arg("tech", def.tech() == null ? "-" : module.techName(def.tech())));
@@ -446,7 +452,7 @@ public final class TownCommands {
         if (def == null) throw new CivException("town.upgrade.unknown", Messages.arg("name", input));
         if (!available(town, def)) throw new CivException("town.upgrade.unavailable", Messages.arg("upgrade", def.name()));
         Civilization c = civ.state().civOf(town);
-        if (!module.hasTech(c, def.tech())) throw new CivException("town.upgrade.tech", Messages.arg("tech", module.techName(def.tech())));
+        if (!techOk(c, def)) throw new CivException("town.upgrade.tech", Messages.arg("tech", def.tech() == null ? "-" : module.techName(def.tech())));
         if (town.inDebt()) throw new CivException("town.debt-blocked");
         long cost = upgradeCost(town, def);
         if (cost > 0) Ledger.chargeTown(town, cost);
