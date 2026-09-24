@@ -166,6 +166,12 @@ public final class ScienceModule implements Module, ResearchApi, Listener {
     }
 
     @Override
+    public double researchCost(Civilization c, String techId) {
+        TechTree.Tech t = tree == null ? null : tree.get(techId);
+        return t == null ? 0 : cost(c, t).beakers();
+    }
+
+    @Override
     public String currentTech(Civilization c) {
         return state(c).current();
     }

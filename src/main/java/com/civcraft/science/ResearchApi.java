@@ -82,4 +82,14 @@ public interface ResearchApi {
     default double beakersPerHour(Civilization civ) {
         return 0;
     }
+
+    /** Tech the civ is researching right now, or null (used by the ruin technology scroll). */
+    default String currentResearch(Civilization civ) {
+        return currentTech(civ);
+    }
+
+    /** Beakers the civ needs in total for the tech (after discounts); 0 when unknown. */
+    default double researchCost(Civilization civ, String techId) {
+        return 0;
+    }
 }

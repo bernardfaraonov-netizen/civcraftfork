@@ -1,0 +1,23 @@
+# Dungeon / sewer (spec 04 §12). The map is a custom build: load it as a world folder, then configure
+# the entry point, zones, rat markers and Home buttons in game with /civadmin area dungeon ...
+world: civ_dungeon
+# Load the world folder on startup if it exists (it is never generated).
+load-world: true
+teleport-cooldown-seconds: 30         # [assumption]
+blindness-seconds: 3                  # CL V1.4.1
+
+rules:
+  # Same restrictions as the Air valley (spec 04 §11.1, §12).
+  banned-commands: [civ teleport, civ tp, c teleport, c tp, town teleport, town tp, t teleport, t tp,
+                    spawn, kill, k, ec, enderchest, ah, auc, auction]
+  friends-no-damage: true
+  pvp-damage-bonus: 0
+  default-zone: PVP                   # outside the admin zones PvP is allowed
+  home-seconds: 10
+  disable-depth-strider: true         # "water walking does not work"
+
+rats:
+  max-alive: 60                       # [assumption]
+  respawn-seconds: 60                 # [assumption] after a rat died
+  respawn-jitter-seconds: 10
+  check-seconds: 5
