@@ -3,8 +3,8 @@ camp:
   help:
     - '<gold><b>Команды лагеря</b> <gray>(/camp)'
     - '<yellow>/camp info</yellow>, <yellow>/camp members</yellow>, <yellow>/camp location</yellow>, <yellow>/camp list</yellow>'
-    - '<yellow>/camp add <ник></yellow>, <yellow>/camp remove <ник></yellow>, <yellow>/camp leave</yellow>, <yellow>/camp setowner <ник></yellow>'
-    - '<yellow>/camp upgrade list|buy <название>|purchased</yellow> <gray>— Сад, Дробилка, Большой дом'
+    - '<yellow>/camp add \<ник></yellow>, <yellow>/camp remove \<ник></yellow>, <yellow>/camp leave</yellow>, <yellow>/camp setowner \<ник></yellow>'
+    - '<yellow>/camp upgrade list|buy \<название>|purchased</yellow> <gray>— Сад, Дробилка, Большой дом'
     - '<yellow>/camp teleport</yellow> <gray>(кулдаун 30 мин), <yellow>/camp refresh</yellow>, <yellow>/camp undo</yellow>, <yellow>/camp disband</yellow>'
     - '<yellow>/camp chat [сообщение]</yellow>, <yellow>/camp motd [текст]</yellow>'
   unknown: '<red>Лагерь <white><name></white> не найден.'

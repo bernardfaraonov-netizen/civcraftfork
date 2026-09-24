@@ -3,12 +3,12 @@ diplomacy:
   help:
     - '<gold><b>/civ dip</b>'
     - '<yellow>/civ dip menu</yellow> <gray>— запросы и отношения'
-    - '<yellow>/civ dip request <цив> <neutral|peace|ally></yellow> <gray>— предложить отношения'
-    - '<yellow>/civ dip declare <цив> <hostile|war></yellow> <gray>— объявить враждебность или войну'
-    - '<yellow>/civ dip respond <yes|no></yellow>, <yellow>/civ dip dissolution <цив></yellow>'
+    - '<yellow>/civ dip request \<цив> \<neutral|peace|ally></yellow> <gray>— предложить отношения'
+    - '<yellow>/civ dip declare \<цив> \<hostile|war></yellow> <gray>— объявить враждебность или войну'
+    - '<yellow>/civ dip respond \<yes|no></yellow>, <yellow>/civ dip dissolution \<цив></yellow>'
     - '<yellow>/civ dip show [цив]</yellow>, <yellow>global</yellow>, <yellow>wars</yellow>, <yellow>allies</yellow>, <yellow>peaces</yellow>, <yellow>hostiles</yellow>'
-    - '<yellow>/civ dip liberate <город></yellow>, <yellow>/civ dip capitulate <город></yellow>'
-    - '<yellow>/civ dip gift town <город> <цив></yellow>, <yellow>/civ dip gift entireciv <цив></yellow>'
+    - '<yellow>/civ dip liberate \<город></yellow>, <yellow>/civ dip capitulate \<город></yellow>'
+    - '<yellow>/civ dip gift town \<город> \<цив></yellow>, <yellow>/civ dip gift entireciv \<цив></yellow>'
   type:
     neutral: 'нейтралитет'
     peace: 'мир'

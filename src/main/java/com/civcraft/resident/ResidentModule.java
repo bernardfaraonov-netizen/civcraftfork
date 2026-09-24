@@ -526,6 +526,9 @@ public final class ResidentModule implements Module, Listener {
         if (d.kitGiven()) return;
         d.kitGiven(true);
         save(d);
+        // Players that existed before this module was installed do not get a starter kit.
+        Resident r = civ.state().resident(p);
+        if (r != null && r.firstJoin().plus(Duration.ofMinutes(5)).isBefore(Instant.now())) return;
         ItemApi items = civ.apiOrNull(ItemApi.class);
         for (Map<?, ?> entry : civ.balance().file("resident").getMapList("starter-kit")) {
             Material mat = Material.matchMaterial(String.valueOf(entry.get("material")));

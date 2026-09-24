@@ -207,6 +207,9 @@ public final class CampModule implements Module, Listener {
                 oz = pz - t.sizeZ() / 2;
             }
         }
+        // A camp is 2×2 chunks (spec §4.2): templates sized in whole chunks snap to the chunk grid.
+        if (t.sizeX() % 16 == 0) ox = Math.round(ox / 16.0f) * 16;
+        if (t.sizeZ() % 16 == 0) oz = Math.round(oz / 16.0f) * 16;
         return new Site(new BlockPos(l.getWorld().getName(), ox, l.getBlockY(), oz), rotation, t);
     }
 

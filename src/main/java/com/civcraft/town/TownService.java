@@ -184,9 +184,12 @@ public final class TownService {
         if (chat != null) chat.reset(id);
         Civilization c = civ.state().civOf(town);
         if (c != null) {
-            c.leaders().remove(id);
-            c.advisers().remove(id);
-            civ.state().save(c);
+            // Moving to another town of the same civ (change town, settler) keeps the civ positions.
+            if (cooldown) {
+                c.leaders().remove(id);
+                c.advisers().remove(id);
+                civ.state().save(c);
+            }
             module.civLog(c, evicted ? "evicted" : "left", r.name(), town.name());
         }
         if (evicted) Channels.town(town, "town.evict.announce", Messages.arg("name", r.name()), Messages.arg("by", by == null ? "-" : by));

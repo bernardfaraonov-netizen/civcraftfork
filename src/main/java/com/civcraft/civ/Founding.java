@@ -335,14 +335,15 @@ public final class Founding {
 
     /** Claims the footprint (locked) and starts the town hall (built with hammers, spec §5.2). */
     private void placeTownHall(Player p, Town town, Site site, String theme) throws CivException {
-        for (ChunkKey chunk : site.box().chunks()) {
-            if (civ.state().claim(chunk) != null) continue;
-            Claim claim = new Claim(chunk, town.id());
-            claim.locked(true);
-            civ.state().addClaim(claim);
-        }
         StructureApi api = civ.apiOrNull(StructureApi.class);
         if (api == null) {
+            // Without a structure module the footprint is claimed here (the module auto-claims it otherwise).
+            for (ChunkKey chunk : site.box().chunks()) {
+                if (civ.state().claim(chunk) != null) continue;
+                Claim claim = new Claim(chunk, town.id());
+                claim.locked(true);
+                civ.state().addClaim(claim);
+            }
             civ.logger().warning("No structure module: town " + town.name() + " was founded without a town hall");
             return;
         }

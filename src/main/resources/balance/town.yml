@@ -40,7 +40,7 @@ kick-on-leave-during-war: true
 lava-only-own-culture: true
 
 # Миры (долины), откуда нельзя /t teleport.
-teleport-forbidden-worlds: [world_nether, world_the_end]
+teleport-forbidden-worlds: [world_nether, world_the_end, civ_valley, civ_dungeon]
 
 border-alert-cooldown-seconds: 120
 

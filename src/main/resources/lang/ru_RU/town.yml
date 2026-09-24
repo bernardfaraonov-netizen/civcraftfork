@@ -6,14 +6,14 @@ town:
   help:
     - '<gold><b>Команды города</b> <gray>(/town, /t)'
     - '<yellow>/t info [страница]</yellow> <gray>— сведения; страницы: happiness, growth, hammers, beakers, culture, upkeep, rates, structures, area, buffs'
-    - '<yellow>/t show <город></yellow>, <yellow>/t list</yellow>, <yellow>/t top5</yellow>, <yellow>/t members [город]</yellow>, <yellow>/t location</yellow>'
-    - '<yellow>/t select <город></yellow> <gray>— выбрать город для управления'
-    - '<yellow>/t add <ник></yellow>, <yellow>/t evict <ник></yellow>, <yellow>/t leave</yellow>, <yellow>/t changetown <город></yellow>'
+    - '<yellow>/t show \<город></yellow>, <yellow>/t list</yellow>, <yellow>/t top5</yellow>, <yellow>/t members [город]</yellow>, <yellow>/t location</yellow>'
+    - '<yellow>/t select \<город></yellow> <gray>— выбрать город для управления'
+    - '<yellow>/t add \<ник></yellow>, <yellow>/t evict \<ник></yellow>, <yellow>/t leave</yellow>, <yellow>/t changetown \<город></yellow>'
     - '<yellow>/t claim [группа]</yellow>, <yellow>/t unclaim</yellow> <gray>— приват чанков'
-    - '<yellow>/t group ...</yellow>, <yellow>/t leavegroup <город> <группа></yellow>, <yellow>/t outlaw ...</yellow>'
+    - '<yellow>/t group ...</yellow>, <yellow>/t leavegroup \<город> \<группа></yellow>, <yellow>/t outlaw ...</yellow>'
     - '<yellow>/t set ...</yellow> <gray>— налоги и пошлины; <yellow>/t upgrade ...</yellow> — улучшения'
-    - '<yellow>/t deposit <сумма></yellow>, <yellow>/t withdraw <сумма|alla></yellow>, <yellow>/t chammers</yellow>'
-    - '<yellow>/t teleport [город]</yellow>, <yellow>/t survey [уровень]</yellow>, <yellow>/t happycalc <H> <U></yellow>'
+    - '<yellow>/t deposit \<сумма></yellow>, <yellow>/t withdraw \<сумма|alla></yellow>, <yellow>/t chammers</yellow>'
+    - '<yellow>/t teleport [город]</yellow>, <yellow>/t survey [уровень]</yellow>, <yellow>/t happycalc \<H> \<U></yellow>'
     - '<yellow>/t claimmayor</yellow>, <yellow>/t disbandtown</yellow>, <yellow>/t capitulate</yellow>, <yellow>/t warning show</yellow>, <yellow>/t motd [текст]</yellow>'
   status:
     native: 'Родной'
@@ -99,10 +99,10 @@ town:
   set:
     help:
       - '<gold><b>/t set</b>'
-      - '<yellow>/t set taxrate <процент></yellow> <gray>— налог на имущество (участки игроков)'
-      - '<yellow>/t set flattax <сумма></yellow> <gray>— ежедневный налог с каждого жителя'
-      - '<yellow>/t set bankfee|libraryfee|blacksmithfee|grocerfee <процент></yellow> <gray>— пошлины для чужих'
-      - '<yellow>/t set scoutrate <10-60></yellow> <gray>— частота сообщений разведки'
+      - '<yellow>/t set taxrate \<процент></yellow> <gray>— налог на имущество (участки игроков)'
+      - '<yellow>/t set flattax \<сумма></yellow> <gray>— ежедневный налог с каждого жителя'
+      - '<yellow>/t set bankfee|libraryfee|blacksmithfee|grocerfee \<процент></yellow> <gray>— пошлины для чужих'
+      - '<yellow>/t set scoutrate \<10-60></yellow> <gray>— частота сообщений разведки'
     range: '<red>Допустимо от <white><min></white> до <white><max></white> %.'
     flattax-max: '<red>Налог не может быть больше <white><max></white> монет.'
     taxrate: '<gold>Налог на имущество теперь <white><value></white> (изменил <by>).'
@@ -241,9 +241,9 @@ town:
   outlaw:
     help:
       - '<gold><b>/t outlaw</b>'
-      - '<yellow>/t outlaw add|remove <ник> [civ]</yellow> <gray>— в розыск / из розыска (civ — во всех городах, лидеры)'
-      - '<yellow>/t outlaw civ [remove] <цив> [civ]</yellow>, <yellow>/t outlaw town [remove] <город> [civ]</yellow>'
-      - '<yellow>/t outlaw list [город]</yellow>, <yellow>/t outlaw check <ник></yellow> <gray>(лидеры)'
+      - '<yellow>/t outlaw add|remove \<ник> [civ]</yellow> <gray>— в розыск / из розыска (civ — во всех городах, лидеры)'
+      - '<yellow>/t outlaw civ [remove] \<цив> [civ]</yellow>, <yellow>/t outlaw town [remove] \<город> [civ]</yellow>'
+      - '<yellow>/t outlaw list [город]</yellow>, <yellow>/t outlaw check \<ник></yellow> <gray>(лидеры)'
     own-resident: '<red><white><name></white> — житель этого города.'
     own-civ-native: '<red>Члена своей цивилизации можно объявить в розыск только в родном городе.'
     own-civ: '<red>Нельзя объявить в розыск свою цивилизацию.'

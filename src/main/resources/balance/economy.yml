@@ -10,8 +10,8 @@ captured-multiplier: 0.5
 debt-stops-culture: true
 
 # Культура Ратуши (+25) и Капитолия (+50) начисляется этим модулем (core.yml culture.town-hall/capitol).
-# Выключите, если модуль построек сам даёт эту культуру эффектом.
-main-building-culture: true
+# Модуль построек уже даёт эту культуру эффектами ратуши и Капитолия, поэтому по умолчанию выключено.
+main-building-culture: false
 
 # Мэры и ассистенты не платят flat tax и налог на имущество (как в оригинальном CivCraft).
 officials-exempt-from-taxes: true

@@ -2,12 +2,12 @@
 civ:
   help:
     - '<gold><b>Команды цивилизации</b> <gray>(/civ, /c)'
-    - '<yellow>/c info [online|upkeep|joinlog|taxes|beakers|revenue]</yellow>, <yellow>/c show <цив></yellow>, <yellow>/c list</yellow>, <yellow>/c top5</yellow>'
+    - '<yellow>/c info [online|upkeep|joinlog|taxes|beakers|revenue]</yellow>, <yellow>/c show \<цив></yellow>, <yellow>/c list</yellow>, <yellow>/c top5</yellow>'
     - '<yellow>/c members [город]</yellow>, <yellow>/c townlist</yellow>, <yellow>/c time</yellow>, <yellow>/c tiles</yellow>, <yellow>/c stats</yellow>, <yellow>/c sort</yellow>, <yellow>/c progress</yellow>'
-    - '<yellow>/c deposit <сумма></yellow>, <yellow>/c withdraw (w) <сумма|alla></yellow>, <yellow>/c debt [pay [статус]]</yellow>'
+    - '<yellow>/c deposit \<сумма></yellow>, <yellow>/c withdraw (w) \<сумма|alla></yellow>, <yellow>/c debt [pay [статус]]</yellow>'
     - '<yellow>/c gov</yellow> <gray>— строй; <yellow>/c nation</yellow> — нация; <yellow>/c dip</yellow> — дипломатия'
-    - '<yellow>/c group add|remove <ник> <leaders|advisers></yellow>, <yellow>/c perm</yellow>, <yellow>/c set ...</yellow>'
-    - '<yellow>/c motd [текст]</yellow>, <yellow>/c changeowner <ник></yellow>, <yellow>/c claimowner</yellow>, <yellow>/c disbandtown <город></yellow>'
+    - '<yellow>/c group add|remove \<ник> \<leaders|advisers></yellow>, <yellow>/c perm</yellow>, <yellow>/c set ...</yellow>'
+    - '<yellow>/c motd [текст]</yellow>, <yellow>/c changeowner \<ник></yellow>, <yellow>/c claimowner</yellow>, <yellow>/c disbandtown \<город></yellow>'
     - '<yellow>/c revolution</yellow>, <yellow>/c mute ...</yellow>, <yellow>/c warning show</yellow>, <yellow>/c teleport</yellow>, <yellow>/c scouts</yellow>'
     - '<yellow>/market</yellow> <gray>— покупка городов и цивилизаций-должников'
   owner-only: '<red>Это может сделать только владелец цивилизации.'
@@ -173,10 +173,10 @@ civ:
   set:
     help:
       - '<gold><b>/c set</b>'
-      - '<yellow>taxes <%></yellow>, <yellow>science <%></yellow>, <yellow>color [hex]</yellow> <gray>— лидеры'
-      - '<yellow>ctag <0-7></yellow> <gray>— цвет тега навсегда (1 000 000)'
-      - '<yellow>moneylog</yellow>, <yellow>joinlog</yellow>, <yellow>wperm <уровень></yellow>, <yellow>waperm <уровень></yellow> <gray>— владелец'
-      - '<yellow>scout <сек></yellow>, <yellow>scoutrate <10-60></yellow>'
+      - '<yellow>taxes \<%></yellow>, <yellow>science \<%></yellow>, <yellow>color [hex]</yellow> <gray>— лидеры'
+      - '<yellow>ctag \<0-7></yellow> <gray>— цвет тега навсегда (1 000 000)'
+      - '<yellow>moneylog</yellow>, <yellow>joinlog</yellow>, <yellow>wperm \<уровень></yellow>, <yellow>waperm \<уровень></yellow> <gray>— владелец'
+      - '<yellow>scout \<сек></yellow>, <yellow>scoutrate \<10-60></yellow>'
     taxes-range: '<red>Налог должен быть от 0 до <white><max></white> (предел строя).'
     percent-range: '<red>Введите процент от 0 до 100.'
     taxes: '<gold>Налог цивилизации: <white><value></white> (<by>).'

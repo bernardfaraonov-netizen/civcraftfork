@@ -22,6 +22,7 @@ import com.civcraft.model.Resident;
 import com.civcraft.model.Town;
 import com.civcraft.model.TownStatus;
 import com.civcraft.plot.PlotModule;
+import com.civcraft.science.ResearchApi;
 import com.civcraft.structure.StructureApi;
 import com.civcraft.town.TownModule;
 import java.time.Duration;
@@ -92,7 +93,7 @@ public final class EconomyEngine {
 
     /** Biome values of culture chunks and main-building culture as modifiers (source "biome"/"building"). */
     private void contributeBiomes(EffectSink sink) {
-        boolean mainCulture = civ.balance().file("economy").getBoolean("main-building-culture", true);
+        boolean mainCulture = civ.balance().file("economy").getBoolean("main-building-culture", false);
         for (Town town : civ.state().towns()) {
             BiomeTable.Values sum = BiomeTable.Values.ZERO;
             for (ChunkKey chunk : civ.culture().chunks(town)) sum = sum.plus(biomes.values(biomeCache.biome(chunk)));
@@ -147,34 +148,41 @@ public final class EconomyEngine {
         for (Town town : List.copyOf(civ.state().towns())) {
             Production.Figures f = towns.production().figures(town);
             long income = town.disbanding() ? 0 : Money.ofCoins(f.income());
-            depositIncome(town, income, f.beakers(), gov);
+            double converted = split(town, income, gov);
+            Civilization c = civ.state().civOf(town);
+            // Fired every hour even with 0: research keeps the latest hourly rate per town.
+            if (c != null) new BeakersProducedEvent(c.id(), town.id(), Math.max(0, f.beakers() + converted)).call();
         }
     }
 
     /**
-     * Deposits hourly income produced outside of the {@code income} stat (cottages, trade ships...)
-     * applying the civilization's income tax and science conversion exactly like the hourly tick.
+     * Deposits income produced outside of the {@code income} stat (cottages, trade ships...) applying the
+     * civilization's income tax and science conversion exactly like the hourly tick. Converted beakers
+     * go straight to the current research.
      */
     public void depositIncome(Town town, long cents) {
-        depositIncome(town, cents, 0, civ.module(GovernmentModule.class));
+        if (cents <= 0) return;
+        double converted = split(town, cents, civ.module(GovernmentModule.class));
+        Civilization c = civ.state().civOf(town);
+        ResearchApi research = civ.apiOrNull(ResearchApi.class);
+        if (c != null && research != null && converted > 0) research.addBeakers(c, converted);
     }
 
-    private void depositIncome(Town town, long income, double ownBeakers, GovernmentModule gov) {
+    /** Credits town and civ shares exactly once; returns the beakers bought with the science share. */
+    private double split(Town town, long income, GovernmentModule gov) {
         Civilization c = civ.state().civOf(town);
-        if (town.disbanding()) income = 0;
-        double beakers = ownBeakers;
+        if (town.disbanding() || income <= 0) return 0;
         if (c == null) {
             Ledger.creditTown(town, income);
-        } else {
-            EconomyMath.TaxSplit split = EconomyMath.splitIncome(income, gov.effectiveTaxes(c), c.science());
-            Ledger.creditTown(town, split.townShare());
-            Ledger.creditCiv(c, split.civTreasury());
-            double converted = EconomyMath.beakers(split.scienceCoins(), gov.beakerPrice(c));
-            beakers += converted;
-            towns.recordTaxes(c, split.civTreasury() + split.scienceCoins(), split.scienceCoins());
-            if (split.scienceCoins() > 0) new TaxesConvertedEvent(c.id(), town.id(), split.scienceCoins(), converted).call();
+            return 0;
         }
-        if (c != null && beakers > 0) new BeakersProducedEvent(c.id(), town.id(), beakers).call();
+        EconomyMath.TaxSplit split = EconomyMath.splitIncome(income, gov.effectiveTaxes(c), c.science());
+        Ledger.creditTown(town, split.townShare());
+        Ledger.creditCiv(c, split.civTreasury());
+        double converted = EconomyMath.beakers(split.scienceCoins(), gov.beakerPrice(c));
+        towns.recordTaxes(c, split.civTreasury() + split.scienceCoins(), split.scienceCoins());
+        if (split.scienceCoins() > 0) new TaxesConvertedEvent(c.id(), town.id(), split.scienceCoins(), converted).call();
+        return converted;
     }
 
     /** Captured towns capitulate automatically 7 days after capture (spec §17). */

@@ -90,7 +90,7 @@ public final class GovernmentModule implements Module {
         civ.clock().everyMinute("government-transitions", this::tickTransitions);
         // Repair civilizations saved with an unknown government (e.g. removed from the config).
         for (Civilization c : civ.state().civs()) {
-            if (!governments.containsKey(c.government())) {
+            if (!governments.containsKey(c.government()) || (isAnarchy(c) && c.targetGovernment() == null)) {
                 civ.logger().warning("Civilization " + c.name() + " had unknown government " + c.government() + "; reset");
                 c.government(startId());
                 civ.state().save(c);
@@ -202,6 +202,13 @@ public final class GovernmentModule implements Module {
     private void tickTransitions() {
         Instant now = Instant.now();
         for (Civilization c : List.copyOf(civ.state().civs())) {
+            // A civilization created elsewhere starts with the model default (anarchy) and no transition.
+            if (isAnarchy(c) && c.targetGovernment() == null) {
+                c.government(startId());
+                civ.state().save(c);
+                civ.stats().invalidate();
+                continue;
+            }
             if (c.governmentChangeEnds() == null || c.governmentChangeEnds().isAfter(now)) continue;
             String old = c.government();
             c.finishGovernmentChange();

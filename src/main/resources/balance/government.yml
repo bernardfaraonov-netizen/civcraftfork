@@ -170,16 +170,15 @@ governments:
     beaker-price: 17.5
     description: ['<gray>Без особых эффектов (только множители).']
 
-# Нации (§14). Стат-идентификаторы для модулей построек и войны:
-#   tower_build_cost, tower_upkeep (Ацтеки), beehive_frame_uses (Ацтеки), learning_buff (Греки),
-#   warship_hp, warship_damage, sea_structure_cost, sea_structure_hammers, sea_structure_upkeep (Турки).
+# Нации (§14). Статы модуля построек: build_cost.<тег>, build_hammers.<тег>, upkeep.<тег>, structure_hp.<тег>
+# (теги tower, naval...). Прочие статы: beehive_frame_uses (Ацтеки), learning_buff (Греки), warship_damage (Турки).
 nations:
   aztecs:
     name: Ацтеки
     government: monarchy
     effects:
-      - {stat: tower_build_cost, percent: -0.10}
-      - {stat: tower_upkeep, percent: -0.25}
+      - {stat: build_cost.tower, percent: -0.10}
+      - {stat: upkeep.tower, percent: -0.25}
       - {stat: beehive_frame_uses, add: 1}
     town-with-chunk-class:
       - {class: jungle, stat: happiness, add: 0.25}
@@ -215,11 +214,11 @@ nations:
     name: Турки
     government: communism
     effects:
-      - {stat: warship_hp, percent: 0.25}
+      - {stat: structure_hp.naval, percent: 0.25}
       - {stat: warship_damage, add: 1}
-      - {stat: sea_structure_cost, percent: -0.25}
-      - {stat: sea_structure_hammers, percent: -0.25}
-      - {stat: sea_structure_upkeep, percent: -0.25}
+      - {stat: build_cost.naval, percent: -0.25}
+      - {stat: build_hammers.naval, percent: -0.25}
+      - {stat: upkeep.naval, percent: -0.25}
     per-structure:
       - {types: [fishing_boat, fishingboats], stat: hammers, add: 100}
     description:

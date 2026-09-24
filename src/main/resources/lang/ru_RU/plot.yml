@@ -3,9 +3,9 @@ plot:
   help:
     - '<gold><b>Команды участка</b> <gray>(/plot, /p)'
     - '<yellow>/p info</yellow> <gray>— сведения; <yellow>/p perm</yellow> — права'
-    - '<yellow>/p perm set <build|destroy|interact|itemuse|*> <owner|group|others|civ|*> <on|off></yellow>'
-    - '<yellow>/p setowner <ник|none></yellow>, <yellow>/p addgroup|removegroup <группа></yellow>, <yellow>/p cleargroups</yellow>'
-    - '<yellow>/p toggle <mobs|fire></yellow>, <yellow>/p fs <цена></yellow>, <yellow>/p nfs</yellow>, <yellow>/p buy</yellow>, <yellow>/p farminfo</yellow>'
+    - '<yellow>/p perm set \<build|destroy|interact|itemuse|*> \<owner|group|others|civ|*> \<on|off></yellow>'
+    - '<yellow>/p setowner \<ник|none></yellow>, <yellow>/p addgroup|removegroup \<группа></yellow>, <yellow>/p cleargroups</yellow>'
+    - '<yellow>/p toggle \<mobs|fire></yellow>, <yellow>/p fs \<цена></yellow>, <yellow>/p nfs</yellow>, <yellow>/p buy</yellow>, <yellow>/p farminfo</yellow>'
   'on': 'вкл'
   'off': 'выкл'
   'yes': 'да'

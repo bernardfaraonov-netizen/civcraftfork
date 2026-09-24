@@ -19,7 +19,6 @@ import io.papermc.paper.event.player.AsyncChatEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -30,7 +29,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerQuitEvent;
 
 /**
  * Town, civilization, alliance and camp chat channels (spec §19.6: /tc, /cc, /ac, /camp chat).
@@ -188,12 +186,5 @@ public final class ChatModule implements Module, Listener {
                 civ.messages().send(p, ex.key(), ex.args());
             }
         });
-    }
-
-    @EventHandler
-    public void onQuit(PlayerQuitEvent e) {
-        // Keep the mode across sessions only while the player still qualifies; recheck on next message.
-        if (!Objects.equals(modes.get(e.getPlayer().getUniqueId()), Channel.GLOBAL)) return;
-        modes.remove(e.getPlayer().getUniqueId());
     }
 }
