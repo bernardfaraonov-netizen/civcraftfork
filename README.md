@@ -51,4 +51,4 @@
 
 ## Лицензия
 
-GPL-3.0, см. [LICENSE](LICENSE).
+GPL-2.0 (как у оригинального CivCraft), см. [LICENSE](LICENSE).
