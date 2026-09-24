@@ -20,6 +20,8 @@ public final class ResidentData implements Stored {
     private boolean kitGiven;
     /** Cooldown key ("town-teleport", "camp-teleport"...) → last use. */
     private Map<String, Instant> cooldowns = new HashMap<>();
+    /** Remaining paid /rename uses (spec §6.8). */
+    private int renames;
 
     private ResidentData() {
     }
@@ -60,5 +62,13 @@ public final class ResidentData implements Stored {
     public void cooldown(String key, Instant at) {
         if (at == null) cooldowns.remove(key);
         else cooldowns.put(key, at);
+    }
+
+    public int renames() {
+        return renames;
+    }
+
+    public void renames(int renames) {
+        this.renames = renames;
     }
 }

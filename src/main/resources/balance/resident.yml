@@ -25,3 +25,11 @@ starter-kit:
   - {material: WOODEN_SWORD, amount: 1, soulbound: true}
   - {material: BREAD, amount: 10, soulbound: true}
   - {material: FISHING_ROD, amount: 1, soulbound: false}
+
+# /rename (§6.8): платная одноразовая услуга. Использования выдаёт донат-магазин: /rename give <ник> [кол-во]
+# (право civcraft.admin или консоль). Право civcraft.rename.unlimited — без ограничений.
+rename:
+  # Запрет во время военного времени (кроме войны самой цивилизации, которая запрещает всегда).
+  block-during-war-time: true
+  # Запрет, если до победы цивилизации осталось не больше N дней [CL 1.7.5].
+  victory-lock-days: 7

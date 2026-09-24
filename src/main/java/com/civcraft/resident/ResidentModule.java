@@ -93,6 +93,8 @@ public final class ResidentModule implements Module, Listener {
         CmdKit.register(civ, this::payCommand, "Pay a player", List.of());
         CmdKit.register(civ, () -> answerCommand("accept", true), "Accept a request", List.of("yes"));
         CmdKit.register(civ, () -> answerCommand("deny", false), "Deny a request", List.of("no"));
+        Rename rename = new Rename(civ, this);
+        CmdKit.register(civ, rename::command, "Rename a town, civilization or tag (paid service)", List.of());
     }
 
     public Requests requests() {

@@ -141,3 +141,32 @@ resident:
       hide-chat-town: 'Скрыть чат города'
       hide-chat-camp: 'Скрыть чат лагеря'
       hide-chat-ally: 'Скрыть чат альянса'
+
+rename:
+  help:
+    - '<gold><b>Переименование</b> <gray>(услуга, осталось использований: <white><uses></white>)'
+    - '<yellow>/rename town \<название></yellow> <gray>— переименовать свой город (мэр)'
+    - '<yellow>/rename civ \<название></yellow> <gray>— переименовать цивилизацию (право /civ perm rename)'
+    - '<yellow>/rename tag \<тег></yellow> <gray>— сменить тег цивилизации (право /civ perm rename)'
+  no-uses: '<red>У вас нет оплаченных переименований. Услугу можно приобрести в магазине сервера.'
+  war: '<red>Переименование недоступно во время войны.'
+  victory: '<red>Переименование недоступно, если до победы осталось <white><days></white> дн. или меньше.'
+  not-mayor: '<red>Переименовать город может только мэр.'
+  same: '<red>Новое название совпадает с текущим.'
+  civ-taken: '<red>Цивилизация <white><name></white> уже существует.'
+  tag-taken: '<red>Тег <white><tag></white> уже занят.'
+  confirm-title: '<gold>Подтвердите переименование'
+  confirm-town:
+    - 'Город <old> получит название <name>.'
+    - 'Будет израсходовано одно переименование.'
+  confirm-civ:
+    - 'Цивилизация <old> получит название <name>.'
+    - 'Будет израсходовано одно переименование.'
+  confirm-tag:
+    - 'Тег <old> будет заменён на <name>.'
+    - 'Будет израсходовано одно переименование.'
+  town-done: '<gold>Город <white><old></white> теперь называется <white><name></white>.'
+  civ-done: '<gold>Цивилизация <white><old></white> теперь называется <white><name></white>.'
+  tag-done: '<gold>Цивилизация <white><civ></white> сменила тег <white><old></white> на <white><name></white>.'
+  given: '<green>Игроку <white><name></white> выданы переименования. Всего: <white><uses></white>.'
+  received: '<green>Вам доступно переименований: <white><uses></white> (/rename).'
