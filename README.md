@@ -1,24 +1,54 @@
-civcraft
-========
+# CivCraft 2
 
-CivCraft is a massive, server side Minecraft modification written for Bukkit. In CivCraft, players band together to construct camps, towns, and civilizations which go on to research technology, engage in diplomacy, build wonders, and fight for world dominance. 
+Полная переработка плагина **CivCraft** для **Paper 1.21.11** (Java 21): лагеря, провинции и цивилизации,
+города с культурой и счастьем, постройки и Чудеса света, дерево технологий, религия, таланты,
+дипломатия и еженедельные войны, кастомные предметы, мобы и мировые события.
 
-In addition to the CivCraft game this plugin also includes a multi-server ban and server perk system to use inside of a large server hub. 
+Механики воспроизводят режим CivCraft сервера VimeWorld **Alcor** (CivilizationCraft 1.10.x).
+Исходная версия плагина (Bukkit 1.7.10) лежит в `legacy/` только как справочник: весь код написан заново.
 
-Installation Instructions
-==========================
-See INSTALL.txt
+## Установка
 
-Credits
-=======
-AvRGaming LLC
-- Netizen539 (Ryan Jones) Plugin Programmer, Game Designer
-- Robosnail (Adam Osness) Game Designer, Template Artist
-- Precurssor (Fletcher Almond) Template Artist
-- DrDibble (Eli Osness) Template Artist
+1. Нужен сервер **Paper 1.21.11** и Java 21.
+2. Соберите плагин (`./gradlew build`) или возьмите готовый `build/libs/civcraft-2.0.0.jar` и положите его в `plugins/`.
+3. Запустите сервер. В `plugins/CivCraft/` появятся:
+   - `config.yml` — хранилище, игровой мир, часовой пояс, расписание войны;
+   - `balance/*.yml` — все игровые числа: цены, молоточки, бонусы, формулы (правятся без перекомпиляции);
+   - `lang/ru_RU/*.yml` — все тексты (MiniMessage), можно переопределить любую строку;
+   - `templates/<тема>/<id>.schem` — сюда можно положить свои шаблоны построек (формат WorldEdit Sponge v3).
 
-Additional Contributors
-========================
-The community at http://civcraft.net/
+### Хранилище
 
-A special thanks to HighlifeTTU and LazerTester from the ShotBow Network at http://shotbow.net.
+По умолчанию используется **SQLite** (`plugins/CivCraft/civcraft.db`), настройка не нужна.
+Для сети серверов или больших онлайнов переключите на **MySQL 8 / MariaDB** в `config.yml` (`storage.type: mysql`).
+Драйверы уже встроены в Paper.
+
+### Необязательные интеграции
+
+| Плагин | Что даёт |
+|---|---|
+| PlaceholderAPI | `%civcraft_balance%`, `%civcraft_town%`, `%civcraft_town_level%`, `%civcraft_culture%`, `%civcraft_civ%`, `%civcraft_civ_tag%`, `%civcraft_civ_government%`, `%civcraft_rank%`, `%civcraft_debt%`, `%civcraft_camp%` |
+| BlueMap / Dynmap | Границы культуры городов (цвет цивилизации) и маркеры ратуш на веб-карте |
+
+## Шаблоны построек
+
+Постройки ставятся по шаблонам `.schem`. Табличка, у которой первая строка начинается с `/`
+(`/control`, `/chest`, `/respawn`, `/towerfire` …), — это функциональная точка: при вставке на её месте
+ничего не остаётся, а постройка ставит туда нужный блок сама. Поэтому шаблоны удобно делать в WorldEdit:
+постройте здание, поставьте таблички-маркеры, `//copy` и `//schem save`.
+
+Шаблоны старой версии конвертированы скриптом `tools/convert_legacy_templates.py`: он переводит
+числовые ID 1.7.10 в состояния блоков 1.21.11 по встроенной в Minecraft таблице.
+Для построек без готового шаблона плагин генерирует аккуратное здание нужного размера автоматически.
+
+## Для разработчиков
+
+- Архитектура и правила: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+- Спецификации механик по вики Alcor: [`docs/spec/`](docs/spec).
+- Разбор ошибок старого кода, которые нельзя повторить: [`docs/audit/`](docs/audit).
+
+Сборка: `./gradlew build` (Gradle 9, shadow). HikariCP встроен и перемещён в `com.civcraft.lib`.
+
+## Лицензия
+
+GPL-3.0, см. [LICENSE](LICENSE).
