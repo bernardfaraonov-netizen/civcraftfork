@@ -1,0 +1,143 @@
+# Weapons, armor and tools T1–T4 (spec 04 §5). Damage/health in HP, speed as a fraction per piece.
+# Armor points per piece sum up to the [допущение] full-set values of §5.3 (heavy 8/12/16/20,
+# light 5/8/11/14, soul and valley 16). Heavy armor: +¼ of the tier's hearts per piece and −1.25%·tier
+# speed; light armor: +1.25%·tier speed.
+#
+# Gear keys: kind (weapon|bow|armor|tool), damage, no-tech-damage, armor, armor-class (heavy|light|soul|valley),
+# slot (head|chest|legs|feet), health, speed, sharpen (attack|defense|none; default from kind),
+# durability, death-loss, repair-tier, repair-cost, tech (symbolic, see items.yml `techs`), realm (normal|valley),
+# color (leather dye), effects, custom-enchants, enchants.
+
+items:
+  # ================================================================ swords
+  iron_sword: {name: 'T1 Железный меч', material: IRON_SWORD, tier: 1, kind: weapon, damage: 13, tech: metal_casting}
+  steel_sword: {name: 'T2 Стальной меч', material: IRON_SWORD, model-data: 2, tier: 2, kind: weapon, damage: 19, tech: sword_smithing}
+  carbide_sword: {name: 'T3 Карбидный меч', material: DIAMOND_SWORD, tier: 3, kind: weapon, damage: 25, tech: damascus_steel}
+  tungsten_sword: {name: 'T4 Вольфрамовый меч', material: NETHERITE_SWORD, tier: 4, kind: weapon, damage: 31, tech: alloying}
+
+  # ================================================================ bows (damage at full draw)
+  hunting_bow: {name: 'T1 Охотничий лук', material: BOW, tier: 1, kind: bow, damage: 16, no-tech-damage: 12, tech: archery}
+  recurve_bow: {name: 'T2 Составной лук', material: BOW, model-data: 2, tier: 2, kind: bow, damage: 22, tech: fletching}
+  longbow: {name: 'T3 Длинный лук', material: BOW, model-data: 3, tier: 3, kind: bow, damage: 28, tech: composite_bow}
+  composite_bow: {name: 'T4 Композитный лук', material: BOW, model-data: 4, tier: 4, kind: bow, damage: 34, tech: laminates}
+
+  # ================================================================ heavy armor (for swords)
+  iron_helmet: {name: 'T1 Железный шлем', material: IRON_HELMET, tier: 1, kind: armor, armor-class: heavy, slot: head, armor: 1.5, health: 0.5, speed: -0.0125, tech: blacksmithing}
+  iron_chestplate: {name: 'T1 Железный нагрудник', material: IRON_CHESTPLATE, tier: 1, kind: armor, armor-class: heavy, slot: chest, armor: 2.5, health: 0.5, speed: -0.0125, tech: blacksmithing}
+  iron_leggings: {name: 'T1 Железные поножи', material: IRON_LEGGINGS, tier: 1, kind: armor, armor-class: heavy, slot: legs, armor: 2.5, health: 0.5, speed: -0.0125, tech: blacksmithing}
+  iron_boots: {name: 'T1 Железные ботинки', material: IRON_BOOTS, tier: 1, kind: armor, armor-class: heavy, slot: feet, armor: 1.5, health: 0.5, speed: -0.0125, tech: blacksmithing}
+
+  steel_helmet: {name: 'T2 Стальной шлем', material: CHAINMAIL_HELMET, tier: 2, kind: armor, armor-class: heavy, slot: head, armor: 2, health: 1.0, speed: -0.025, tech: metallurgy}
+  steel_chestplate: {name: 'T2 Стальной нагрудник', material: CHAINMAIL_CHESTPLATE, tier: 2, kind: armor, armor-class: heavy, slot: chest, armor: 4, health: 1.0, speed: -0.025, tech: metallurgy}
+  steel_leggings: {name: 'T2 Стальные поножи', material: CHAINMAIL_LEGGINGS, tier: 2, kind: armor, armor-class: heavy, slot: legs, armor: 4, health: 1.0, speed: -0.025, tech: metallurgy}
+  steel_boots: {name: 'T2 Стальные штурмовые ботинки', material: CHAINMAIL_BOOTS, tier: 2, kind: armor, armor-class: heavy, slot: feet, armor: 2, health: 1.0, speed: -0.025, tech: metallurgy}
+
+  carbide_helmet: {name: 'T3 Карбидный шлем', material: DIAMOND_HELMET, tier: 3, kind: armor, armor-class: heavy, slot: head, armor: 3, health: 1.5, speed: -0.0375, tech: chemistry}
+  carbide_chestplate: {name: 'T3 Карбидный нагрудник', material: DIAMOND_CHESTPLATE, tier: 3, kind: armor, armor-class: heavy, slot: chest, armor: 5, health: 1.5, speed: -0.0375, tech: chemistry}
+  carbide_leggings: {name: 'T3 Карбидные поножи', material: DIAMOND_LEGGINGS, tier: 3, kind: armor, armor-class: heavy, slot: legs, armor: 5, health: 1.5, speed: -0.0375, tech: chemistry}
+  carbide_boots: {name: 'T3 Карбидные ботинки', material: DIAMOND_BOOTS, tier: 3, kind: armor, armor-class: heavy, slot: feet, armor: 3, health: 1.5, speed: -0.0375, tech: chemistry}
+
+  tungsten_helmet: {name: 'T4 Вольфрамовый шлем', material: NETHERITE_HELMET, tier: 4, kind: armor, armor-class: heavy, slot: head, armor: 3.5, health: 2.0, speed: -0.05, tech: metal_alloys}
+  tungsten_chestplate: {name: 'T4 Вольфрамовый нагрудник', material: NETHERITE_CHESTPLATE, tier: 4, kind: armor, armor-class: heavy, slot: chest, armor: 6.5, health: 2.0, speed: -0.05, tech: metal_alloys}
+  tungsten_leggings: {name: 'T4 Вольфрамовые поножи', material: NETHERITE_LEGGINGS, tier: 4, kind: armor, armor-class: heavy, slot: legs, armor: 6.5, health: 2.0, speed: -0.05, tech: metal_alloys}
+  tungsten_boots: {name: 'T4 Вольфрамовые ботинки', material: NETHERITE_BOOTS, tier: 4, kind: armor, armor-class: heavy, slot: feet, armor: 3.5, health: 2.0, speed: -0.05, tech: metal_alloys}
+
+  # ================================================================ light armor (for bows)
+  hunter_cap: {name: 'T1 Охотничья шапка', material: LEATHER_HELMET, tier: 1, kind: armor, armor-class: light, slot: head, armor: 1, speed: 0.0125, color: '#C8A165', tech: archery}
+  hunter_jacket: {name: 'T1 Охотничья куртка', material: LEATHER_CHESTPLATE, tier: 1, kind: armor, armor-class: light, slot: chest, armor: 1.5, speed: 0.0125, color: '#C8A165', tech: archery}
+  hunter_pants: {name: 'T1 Охотничьи штаны', material: LEATHER_LEGGINGS, tier: 1, kind: armor, armor-class: light, slot: legs, armor: 1.5, speed: 0.0125, color: '#C8A165', tech: archery}
+  hunter_boots: {name: 'T1 Охотничьи мокасины', material: LEATHER_BOOTS, tier: 1, kind: armor, armor-class: light, slot: feet, armor: 1, speed: 0.0125, color: '#C8A165', tech: archery}
+
+  refined_leather_cap: {name: 'T2 Изысканная кожаная шапка', material: LEATHER_HELMET, tier: 2, kind: armor, armor-class: light, slot: head, armor: 1.5, speed: 0.025, color: '#AB8618', tech: leather_refinement}
+  refined_leather_jacket: {name: 'T2 Изысканная кожаная куртка', material: LEATHER_CHESTPLATE, tier: 2, kind: armor, armor-class: light, slot: chest, armor: 2.5, speed: 0.025, color: '#AB8618', tech: leather_refinement}
+  refined_leather_pants: {name: 'T2 Изысканные кожаные штаны', material: LEATHER_LEGGINGS, tier: 2, kind: armor, armor-class: light, slot: legs, armor: 2.5, speed: 0.025, color: '#AB8618', tech: leather_refinement}
+  refined_leather_boots: {name: 'T2 Изысканные кожаные мокасины', material: LEATHER_BOOTS, tier: 2, kind: armor, armor-class: light, slot: feet, armor: 1.5, speed: 0.025, color: '#AB8618', tech: leather_refinement}
+
+  hardened_leather_cap: {name: 'T3 Закалённая кожаная шапка', material: LEATHER_HELMET, tier: 3, kind: armor, armor-class: light, slot: head, armor: 2, speed: 0.0375, color: '#339933', tech: tanning}
+  hardened_leather_jacket: {name: 'T3 Закалённая кожаная куртка', material: LEATHER_CHESTPLATE, tier: 3, kind: armor, armor-class: light, slot: chest, armor: 3.5, speed: 0.0375, color: '#339933', tech: tanning}
+  hardened_leather_pants: {name: 'T3 Закалённые кожаные штаны', material: LEATHER_LEGGINGS, tier: 3, kind: armor, armor-class: light, slot: legs, armor: 3.5, speed: 0.0375, color: '#339933', tech: tanning}
+  hardened_leather_boots: {name: 'T3 Закалённые кожаные мокасины', material: LEATHER_BOOTS, tier: 3, kind: armor, armor-class: light, slot: feet, armor: 2, speed: 0.0375, color: '#339933', tech: tanning}
+
+  composite_cap: {name: 'T4 Композитная шапка', material: LEATHER_HELMET, tier: 4, kind: armor, armor-class: light, slot: head, armor: 2.5, speed: 0.05, color: '#FF0000', tech: composites}
+  composite_jacket: {name: 'T4 Композитная куртка', material: LEATHER_CHESTPLATE, tier: 4, kind: armor, armor-class: light, slot: chest, armor: 4.5, speed: 0.05, color: '#FF0000', tech: composites}
+  composite_pants: {name: 'T4 Композитные штаны', material: LEATHER_LEGGINGS, tier: 4, kind: armor, armor-class: light, slot: legs, armor: 4.5, speed: 0.05, color: '#FF0000', tech: composites}
+  composite_boots: {name: 'T4 Композитные мокасины', material: LEATHER_BOOTS, tier: 4, kind: armor, armor-class: light, slot: feet, armor: 2.5, speed: 0.05, color: '#FF0000', tech: composites}
+
+  # ================================================================ soul armor (§5.4): +5 hearts base (+1 for the full set),
+  # Regeneration I, incoming damage above 3.5 halved, no speed bonus, cannot be sharpened, loses half as much durability.
+  soul_helmet: {name: 'Шлем души', material: LEATHER_HELMET, tier: 4, rarity: legendary, kind: armor, armor-class: soul, slot: head, armor: 3, health: 2.5, color: '#1D1D21', death-loss: 0.125, repair-tier: 4, tech: military_science}
+  soul_chestplate: {name: 'Нагрудник души', material: LEATHER_CHESTPLATE, tier: 4, rarity: legendary, kind: armor, armor-class: soul, slot: chest, armor: 5, health: 2.5, color: '#1D1D21', death-loss: 0.125, repair-tier: 4, tech: military_science}
+  soul_leggings: {name: 'Поножи души', material: LEATHER_LEGGINGS, tier: 4, rarity: legendary, kind: armor, armor-class: soul, slot: legs, armor: 5, health: 2.5, color: '#1D1D21', death-loss: 0.125, repair-tier: 4, tech: military_science}
+  soul_boots: {name: 'Ботинки души', material: LEATHER_BOOTS, tier: 4, rarity: legendary, kind: armor, armor-class: soul, slot: feet, armor: 3, health: 2.5, color: '#1D1D21', death-loss: 0.125, repair-tier: 4, tech: military_science}
+
+  # ================================================================ Air Valley gear (§5.3, §11): works only in the valley,
+  # cannot be sharpened or enchanted by wonders, repaired like T2. Obtained from ruins (2.15%).
+  sky_sword: {name: 'Меч Воздушной долины', material: GOLDEN_SWORD, tier: 2, rarity: epic, kind: weapon, damage: 30, realm: valley, tech: sword_smithing, sharpen: none, repair-tier: 2, flags: [no-enchant]}
+  sky_bow: {name: 'Лук Воздушной долины', material: BOW, model-data: 10, tier: 2, rarity: epic, kind: bow, damage: 34, realm: valley, tech: fletching, sharpen: none, repair-tier: 2, flags: [no-enchant]}
+  sky_helmet: {name: 'Шлем Воздушной долины', material: GOLDEN_HELMET, tier: 2, rarity: epic, kind: armor, armor-class: valley, slot: head, armor: 3, speed: 0.03, realm: valley, tech: leather_refinement, repair-tier: 2, flags: [no-enchant]}
+  sky_chestplate: {name: 'Нагрудник Воздушной долины', material: GOLDEN_CHESTPLATE, tier: 2, rarity: epic, kind: armor, armor-class: valley, slot: chest, armor: 5, speed: 0.03, realm: valley, tech: leather_refinement, repair-tier: 2, flags: [no-enchant]}
+  sky_leggings: {name: 'Поножи Воздушной долины', material: GOLDEN_LEGGINGS, tier: 2, rarity: epic, kind: armor, armor-class: valley, slot: legs, armor: 5, speed: 0.03, realm: valley, tech: leather_refinement, repair-tier: 2, flags: [no-enchant]}
+  sky_boots: {name: 'Ботинки Воздушной долины', material: GOLDEN_BOOTS, tier: 2, rarity: epic, kind: armor, armor-class: valley, slot: feet, armor: 3, speed: 0.03, realm: valley, tech: leather_refinement, repair-tier: 2, flags: [no-enchant]}
+
+  # ================================================================ T4 tungsten tools (§5.5): no durability loss while
+  # digging, −25% on death, can take SoulBound.
+  tungsten_pickaxe: {name: 'T4 Вольфрамовая кирка', material: NETHERITE_PICKAXE, tier: 4, kind: tool, tech: alloying, repair-tier: 4}
+  tungsten_shovel: {name: 'T4 Вольфрамовая лопата', material: NETHERITE_SHOVEL, tier: 4, kind: tool, tech: alloying, repair-tier: 4}
+  tungsten_axe: {name: 'T4 Вольфрамовый топор', material: NETHERITE_AXE, tier: 4, kind: tool, tech: alloying, repair-tier: 4}
+  tungsten_hoe: {name: 'T4 Вольфрамовая мотыга', material: NETHERITE_HOE, tier: 4, kind: tool, tech: alloying, repair-tier: 4}
+
+recipes:
+  # swords
+  iron_sword: {shape: [' i ', ' i ', ' s '], keys: {i: 'minecraft:iron_ingot', s: 'minecraft:stick'}}
+  steel_sword: {shape: [' b ', ' b ', ' h '], keys: {b: steel_blade, h: steel_hilt}}
+  carbide_sword: {shape: [' b ', ' b ', ' h '], keys: {b: carbide_blade, h: carbide_hilt}}
+  tungsten_sword: {shape: [' b ', ' b ', ' h '], keys: {b: tungsten_blade, h: tungsten_hilt}}
+  # bows (the hunting bow may be crafted without the tech, [CL V0.9])
+  hunting_bow: {shape: ['sw ', 's w', 'sw '], keys: {s: 'minecraft:string', w: 'minecraft:stick'}, tech-optional: true}
+  recurve_bow: {shape: ['sa ', 's a', 'sa '], keys: {a: elastic_stick, s: crafted_string}}
+  longbow: {shape: ['bl ', 'b l', 'bl '], keys: {l: bow_base, b: reinforced_fiber}}
+  composite_bow: {shape: ['sc ', 's c', 'sc '], keys: {c: composite_stave, s: composite_string}}
+  # heavy armor
+  iron_helmet: {shape: ['iii', 'i i'], keys: {i: 'minecraft:iron_ingot'}}
+  iron_chestplate: {shape: ['i i', 'iii', 'iii'], keys: {i: 'minecraft:iron_ingot'}}
+  iron_leggings: {shape: ['iii', 'i i', 'i i'], keys: {i: 'minecraft:iron_ingot'}}
+  iron_boots: {shape: ['i i', 'i i'], keys: {i: 'minecraft:iron_ingot'}}
+  steel_helmet: {shape: ['sss', 's s'], keys: {s: steel_plate}}
+  steel_chestplate: {shape: ['s s', 'sss', 'sss'], keys: {s: steel_plate}}
+  steel_leggings: {shape: ['sss', 's s', 's s'], keys: {s: steel_plate}}
+  steel_boots: {shape: ['s s', 's s'], keys: {s: steel_plate}}
+  carbide_helmet: {shape: ['ccc', 'c c'], keys: {c: carbide_plate}}
+  carbide_chestplate: {shape: ['c c', 'ccc', 'ccc'], keys: {c: carbide_plate}}
+  carbide_leggings: {shape: ['ccc', 'c c', 'c c'], keys: {c: carbide_plate}}
+  carbide_boots: {shape: ['c c', 'c c'], keys: {c: carbide_plate}}
+  tungsten_helmet: {shape: ['ttt', 't t'], keys: {t: tungsten_plate}}
+  tungsten_chestplate: {shape: ['t t', 'ttt', 'ttt'], keys: {t: tungsten_plate}}
+  tungsten_leggings: {shape: ['ttt', 't t', 't t'], keys: {t: tungsten_plate}}
+  tungsten_boots: {shape: ['t t', 't t'], keys: {t: tungsten_plate}}
+  # light armor
+  hunter_cap: {shape: ['lll', 'l l'], keys: {l: carved_leather}}
+  hunter_jacket: {shape: ['l l', 'lll', 'lll'], keys: {l: carved_leather}}
+  hunter_pants: {shape: ['lll', 'l l', 'l l'], keys: {l: carved_leather}}
+  hunter_boots: {shape: ['l l', 'l l'], keys: {l: carved_leather}}
+  refined_leather_cap: {shape: ['lll', 'l l'], keys: {l: leather_belts}}
+  refined_leather_jacket: {shape: ['l l', 'lll', 'lll'], keys: {l: leather_belts}}
+  refined_leather_pants: {shape: ['lll', 'l l', 'l l'], keys: {l: leather_belts}}
+  refined_leather_boots: {shape: ['l l', 'l l'], keys: {l: leather_belts}}
+  hardened_leather_cap: {shape: ['lll', 'l l'], keys: {l: leather_straps}}
+  hardened_leather_jacket: {shape: ['l l', 'lll', 'lll'], keys: {l: leather_straps}}
+  hardened_leather_pants: {shape: ['lll', 'l l', 'l l'], keys: {l: leather_straps}}
+  hardened_leather_boots: {shape: ['l l', 'l l'], keys: {l: leather_straps}}
+  composite_cap: {shape: ['aaa', 'a a'], keys: {a: composite_leather}}
+  composite_jacket: {shape: ['a a', 'aaa', 'aaa'], keys: {a: composite_leather}}
+  composite_pants: {shape: ['aaa', 'a a', 'a a'], keys: {a: composite_leather}}
+  composite_boots: {shape: ['a a', 'a a'], keys: {a: composite_leather}}
+  # soul armor [допущение: как у брони, из слитков души]
+  soul_helmet: {shape: ['sss', 's s'], keys: {s: soul_ingot}}
+  soul_chestplate: {shape: ['s s', 'sss', 'sss'], keys: {s: soul_ingot}}
+  soul_leggings: {shape: ['sss', 's s', 's s'], keys: {s: soul_ingot}}
+  soul_boots: {shape: ['s s', 's s'], keys: {s: soul_ingot}}
+  # tungsten tools [допущение]
+  tungsten_pickaxe: {shape: ['ttt', ' s ', ' s '], keys: {t: tungsten_ingot, s: crafted_sticks}}
+  tungsten_shovel: {shape: [' t ', ' s ', ' s '], keys: {t: tungsten_ingot, s: crafted_sticks}}
+  tungsten_axe: {shape: ['tt ', 'ts ', ' s '], keys: {t: tungsten_ingot, s: crafted_sticks}}
+  tungsten_hoe: {shape: ['tt ', ' s ', ' s '], keys: {t: tungsten_ingot, s: crafted_sticks}}

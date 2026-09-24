@@ -25,6 +25,7 @@ public final class CivCraftPlugin extends JavaPlugin {
     private static List<Module> createModules() {
         return List.of(
                 new com.civcraft.coremod.CoreModule(),
+                new com.civcraft.item.ItemModule(),
                 new com.civcraft.science.ScienceModule(),
                 new com.civcraft.talent.TalentModule(),
                 new com.civcraft.religion.ReligionModule(),

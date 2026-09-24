@@ -1,0 +1,438 @@
+# Item module rules (spec 04 §4–§8, spec 01 §4.1/§5.1/§19, spec 03 §8–§10).
+# Item and recipe definitions live in the files listed under `files`; other modules may add their own
+# files through ItemModule.defineItems()/defineRecipes().
+
+files: [items_materials, items_gear, items_special]
+
+# Symbolic tech names used by `tech:` keys in item/recipe files → tech ids of the science module.
+# Only this table has to change if the science module names its technologies differently.
+techs:
+  archery: archery                         # Стрельба
+  blacksmithing: blacksmithing             # Кузница
+  metal_casting: metal_casting             # Литьё металлов
+  fletching: fletching                     # Оперение стрел
+  leather_refinement: leather_refinement   # Выделка кожи
+  metallurgy: metallurgy                   # Металлургия
+  sword_smithing: sword_smithing           # Ковка мечей
+  composite_bow: composite_bow             # Составной лук
+  tanning: tanning                         # Дубление
+  chemistry: chemistry                     # Химия
+  damascus_steel: damascus_steel           # Булатная сталь
+  laminates: lamination                    # Ламинация
+  composites: composite_chemistry          # Химия композитов
+  alloying: alloying                       # Легирование
+  metal_alloys: metal_alloys               # Сплавы металлов
+  military_science: military_science       # Военная наука
+  future: future_tech                      # Технология будущего (открывает Военную лабораторию)
+  engineering: engineering                 # Инженерия (Воронка)
+  ballistics: ballistics                   # Баллистика (крафт TNT)
+  electricity: electricity                 # Электричество (Электроника) [допущение]
+  assembly_line: assembly_line             # Конвейерная сборка (Завод)
+
+# Alternative ids resolved by ItemApi (create/exists/count/take/is): the legacy materials.yml ids and the
+# ids other modules used before this registry existed. Stacks always carry the canonical id. Ids of the form
+# "artifact_<id>" resolve to <id>, and "<id>_once" creates a single-use copy (civcraft:single_use).
+aliases:
+  # legacy civcraft/data/materials.yml
+  mat_carved_leather: carved_leather
+  mat_refined_stone: refined_stone
+  mat_refined_feathers: packed_feathers
+  mat_crafted_string: crafted_string
+  mat_refined_slime: refined_slime
+  mat_crafted_reeds: crafted_reeds
+  mat_crafted_sticks: crafted_sticks
+  mat_refined_sulphur: refined_sulphur
+  mat_forged_clay: forged_clay
+  mat_refined_sugar: refined_sugar
+  mat_refined_wood: refined_wood
+  mat_crafted_leather: leather_belts
+  mat_decorative_jewels: decorative_jewels
+  mat_crushed_stone: crushed_stone
+  mat_jewelry_grade_gold: jewelry_gold
+  mat_milled_lumber: milled_lumber
+  mat_steel_ingot: steel_ingot
+  mat_varnish: varnish
+  mat_sticky_resin: sticky_resin
+  mat_clay_molding: clay_molding
+  mat_aged_wood_stave: elastic_stick
+  mat_woven_threading: woven_threading
+  mat_steel_sword_blade: steel_blade
+  mat_steel_sword_hilt: steel_hilt
+  mat_steel_plate: steel_plate
+  mat_leather_straps: leather_straps
+  mat_clay_steel_cast: steel_cast
+  mat_reinforced_braid: reinforced_fiber
+  mat_carbide_steel_ingot: carbide_ingot
+  mat_longbow_stave: bow_base
+  mat_feathered_lining: feathered_lining
+  mat_carbide_molding: carbide_mold
+  mat_smithy_resin: hard_rubber
+  mat_tungsten_ingot: tungsten_ingot
+  mat_clay_tungsten_casting: tungsten_cast
+  mat_masonry_mortar: mortar
+  mat_royal_crown: royal_crown
+  mat_proof_of_leadership: leadership_proof
+  mat_badge_of_leadership: leadership_badge
+  mat_token_of_leadership: leadership_token
+  mat_chieftains_headdress: chieftain_headdress
+  mat_compacted_stone: compacted_stone
+  mat_carbide_steel_sword_hilt: carbide_hilt
+  mat_carbide_steel_sword_blade: carbide_blade
+  mat_carbide_steel_plate: carbide_plate
+  mat_artisan_leather: composite_leather
+  mat_tungsten_plate: tungsten_plate
+  mat_tungsten_sword_blade: tungsten_blade
+  mat_tungsten_sword_hilt: tungsten_hilt
+  mat_composite_bow_stave: composite_stave
+  mat_composite_bow_string: composite_string
+  mat_cannon_wheel: lumber_t4
+  mat_found_civ: founding_flag
+  mat_found_camp: camp_door
+  mat_found_warcamp: war_camp
+  mat_found_warship: warship
+  mat_build_cannon: cannon
+  mat_mercury: mercury_t1
+  mat_mercury_bath: mercury_t2
+  mat_mercury_t3: mercury_t3
+  mat_industrial_diamond: industrial_diamond
+  mat_tutorial_book: guide_book
+  mat_iron_sword: iron_sword
+  mat_steel_sword: steel_sword
+  mat_carbide_steel_sword: carbide_sword
+  mat_tungsten_sword: tungsten_sword
+  mat_hunting_bow: hunting_bow
+  mat_recurve_bow: recurve_bow
+  mat_longbow: longbow
+  mat_marksmen_bow: composite_bow
+  mat_metallic_crystal_fragment_1: metallic_fragment_t1
+  mat_metallic_crystal_1: metallic_crystal_t1
+  mat_ionic_crystal_fragment_1: ionic_fragment_t1
+  mat_ionic_crystal_1: ionic_crystal_t1
+  mat_common_attack_catalyst: catalyst_attack_t1
+  mat_common_defense_catalyst: catalyst_defense_t1
+  mat_metallic_crystal_fragment_2: metallic_fragment_t2
+  mat_metallic_crystal_2: metallic_crystal_t2
+  mat_ionic_crystal_fragment_2: ionic_fragment_t2
+  mat_ionic_crystal_2: ionic_crystal_t2
+  mat_uncommon_attack_catalyst: catalyst_attack_t2
+  mat_uncommon_defense_catalyst: catalyst_defense_t2
+  mat_metallic_crystal_fragment_3: metallic_fragment_t3
+  mat_metallic_crystal_3: metallic_crystal_t3
+  mat_ionic_crystal_fragment_3: ionic_fragment_t3
+  mat_ionic_crystal_3: ionic_crystal_t3
+  mat_rare_attack_catalyst: catalyst_attack_t3
+  mat_rare_defense_catalyst: catalyst_defense_t3
+  mat_metallic_crystal_fragment_4: metallic_fragment_t4
+  mat_metallic_crystal_4: metallic_crystal_t4
+  mat_ionic_crystal_fragment_4: ionic_fragment_t4
+  mat_ionic_crystal_4: ionic_crystal_t4
+  mat_legendary_attack_catalyst: catalyst_attack_t4
+  mat_legendary_defense_catalyst: catalyst_defense_t4
+  mat_iron_helmet: iron_helmet
+  mat_steel_helmet: steel_helmet
+  mat_carbide_steel_helmet: carbide_helmet
+  mat_tungsten_helmet: tungsten_helmet
+  mat_iron_chestplate: iron_chestplate
+  mat_steel_chestplate: steel_chestplate
+  mat_carbide_steel_chestplate: carbide_chestplate
+  mat_tungsten_chestplate: tungsten_chestplate
+  mat_iron_leggings: iron_leggings
+  mat_steel_leggings: steel_leggings
+  mat_carbide_steel_leggings: carbide_leggings
+  mat_tungsten_leggings: tungsten_leggings
+  mat_iron_boots: iron_boots
+  mat_steel_boots: steel_boots
+  mat_carbide_steel_boots: carbide_boots
+  mat_tungsten_boots: tungsten_boots
+  mat_refined_leather_helmet: refined_leather_cap
+  mat_hardened_leather_helmet: hardened_leather_cap
+  mat_composite_leather_helmet: composite_cap
+  mat_refined_leather_chestplate: refined_leather_jacket
+  mat_hardened_leather_chestplate: hardened_leather_jacket
+  mat_composite_leather_chestplate: composite_jacket
+  mat_refined_leather_leggings: refined_leather_pants
+  mat_hardened_leather_leggings: hardened_leather_pants
+  mat_composite_leather_leggings: composite_pants
+  mat_refined_leather_boots: refined_leather_boots
+  mat_hardened_leather_boots: hardened_leather_boots
+  mat_composite_leather_boots: composite_boots
+  mat_leather_helmet: hunter_cap
+  mat_leather_chestplate: hunter_jacket
+  mat_leather_leggings: hunter_pants
+  mat_leather_boots: hunter_boots
+  # other modules
+  t2_steel_plate: steel_plate
+  t4_tungsten_plate: tungsten_plate
+  t3_leather_straps: leather_straps
+  t3_reinforced_fiber: reinforced_fiber
+  t3_hard_rubber: hard_rubber
+  t3_compacted_stone: compacted_stone
+  t3_construction_mix: mortar
+  t4_legendary_metal_crystal: metallic_crystal_t4
+  t4_legendary_ion_crystal: ionic_crystal_t4
+  t3_tungsten_ingot: tungsten_ingot
+  t3_carbide_ingot: carbide_ingot
+  t3_steel_casting_mold: steel_cast
+  valley_helmet: sky_helmet
+  valley_chestplate: sky_chestplate
+  valley_leggings: sky_leggings
+  valley_boots: sky_boots
+  valley_sword: sky_sword
+  valley_bow: sky_bow
+  mat_mercury_t1: mercury_t1
+  mat_mercury_t2: mercury_t2
+  mat_soul_shard: soul_shard
+  artifact_gluttons_cache: glutton_stash
+  glutton_cache: glutton_stash
+  invader: conqueror
+  space_landing_module: space_lander
+  space_habitation_module: space_habitat_module
+  space_warp_engine: space_warp_drive
+  space_shuttle_item: space_shuttle
+
+worlds:
+  # Fallback when the PvE module is absent (otherwise ValleyApi.inValley / DungeonApi.inDungeon decide).
+  # Air Valley: only valley (sky) gear works there, normal gear everywhere else.
+  valley: [valley]
+  # Dungeon: halved heavy armor speed penalty, soul armor sharpening cap +5.
+  dungeon: [dungeon]
+
+# Name colors by rarity; the default rarity of an item is picked by its tier.
+rarity-colors:
+  common: '<white>'
+  uncommon: '<green>'
+  rare: '<aqua>'
+  epic: '<light_purple>'
+  legendary: '<gold>'
+  special: '<yellow>'
+  artifact: '<#ff7f50>'
+tier-rarity: {0: common, 1: uncommon, 2: rare, 3: epic, 4: legendary}
+
+# Custom combat (spec 04 §5). Damage in HP.
+combat:
+  enabled: true
+  # [допущение] 1.9+ attack cooldown disabled to reproduce 1.8 PvP (attack speed 1024).
+  disable-attack-cooldown: true
+  crit-multiplier: 1.5
+  # [допущение] vanilla 1.8 armor: 4% per armor point, at most 80%, no toughness.
+  armor-per-point: 0.04
+  armor-max-reduction: 0.8
+  # Legacy rule: gear used without the civ tech deals half damage (min 0.5).
+  no-tech-multiplier: 0.5
+  min-damage: 0.5
+  # Damage of a weapon that does not work in the current world (valley gear outside the valley and vice versa).
+  wrong-realm-damage: 1.0
+  sweep-damage: 1.0
+  # Damage of vanilla melee items (stone sword T0 = 10, [CL V0.2]); tools barely hurt.
+  vanilla-weapons:
+    WOODEN_SWORD: 6
+    STONE_SWORD: 10
+    GOLDEN_SWORD: 8
+    COPPER_SWORD: 10
+    IRON_SWORD: 10
+    DIAMOND_SWORD: 10
+    NETHERITE_SWORD: 10
+    WOODEN_AXE: 2
+    STONE_AXE: 2
+    COPPER_AXE: 2
+    GOLDEN_AXE: 2
+    IRON_AXE: 2
+    DIAMOND_AXE: 2
+    NETHERITE_AXE: 2
+    MACE: 6
+    TRIDENT: 8
+  # Arrow damage at full draw from vanilla bows (loot); custom bows use their own damage.
+  vanilla-bows:
+    BOW: 9
+    CROSSBOW: 9
+  tool-damage: 2
+  sword-sharpen-cap-without-set: 3
+  soul-sharpen-cap: 6
+  soul-sharpen-cap-dungeon: 5
+  soul-damage-threshold: 3.5
+  soul-damage-multiplier: 0.5
+  soul-halving-requires-full-set: true
+  # Civ stats (StatService) folded into the formula: Технология будущего (+1 weapon damage, not in the
+  # valley, not with soul armor) and flat player damage from talents / ultra buffs / trade goods (the
+  # talent module also puts it on the attack attribute, which the formula replaces for weapons).
+  weapon-damage-stat: weapon_damage
+  player-damage-stat: player_damage
+
+armor:
+  dungeon-heavy-speed-factor: 0.5
+  soul:
+    full-set-health: 2.0
+    regeneration: true
+  # «Turtle shell» ruin recipe (applied by the PvE module, PDC civcraft:recipe = turtle_shell): +armor per piece.
+  turtle-armor: 0.15
+  # Civ stat: extra armor points on every CivCraft armor piece (Технология будущего +0.25, lighthouse...);
+  # not in the valley and not on soul armor.
+  armor-per-piece-stat: armor_per_piece
+
+# Sharpening / catalysts (spec 04 §6).
+sharpening:
+  max-attack-level: 8
+  max-defense-level: 5
+  attack-per-level: 1.0
+  defense-health-per-level: 1.0
+  defense-health-cap-per-piece: 5.0
+  base-chance:
+    attack: 40
+    defense: 50
+  step-size: 3
+  step-penalty: 21.428
+  # "1 in a million" when the formula goes to zero or below.
+  min-chance: 0.000001
+  personal:
+    per-tier: 0.1875
+    max: 10
+  # Price of one attempt in coins; charged by the building (Blacksmith / War Lab).
+  cost: 50000
+  # Levels above +2 work only if the civ researched the tech that unlocks the War Lab.
+  high-level-tech: future
+  unlocked-cap: 2
+  stations:
+    blacksmith:
+      tiers: [1, 2, 3]
+      t4-attack-max-level: 2
+    war_lab:
+      tiers: [4]
+  # «Укреплённая амуниция» (Титаниум, Шёлк): uniform random bonus in percentage points, when the
+  # goods module reports the resource for the player (ItemModule.sharpening().setTitaniumCheck).
+  titanium:
+    min: 1
+    max: 5
+
+durability:
+  # [допущение] CivCraft gear does not drop; each death takes this share of max durability.
+  death-loss: 0.25
+  default-max: {1: 400, 2: 600, 3: 800, 4: 1000}
+  # Chance that equipment keeps durability on death when the artifact is carried. Used only without the
+  # artifact module (it answers ArtifactApi.deathDurabilitySaveChance); the tool-wear chance of the same
+  # artifact is applied by the artifact module.
+  artifact-save-chance:
+    reinforced_tools: 0.15
+
+# Repair price (spec 04 §8.1): 2500^(tier^0.2) for armor and weapons.
+repair:
+  base: 2500
+  exponent: 0.2
+  tools:
+    STONE_PICKAXE: 125
+    GOLDEN_PICKAXE: 750
+    IRON_PICKAXE: 1500
+    DIAMOND_PICKAXE: 4000
+    GOLDEN_AXE: 300
+    IRON_AXE: 600
+    DIAMOND_AXE: 1000
+    GOLDEN_SHOVEL: 150
+    IRON_SHOVEL: 300
+    DIAMOND_SHOVEL: 1000
+    GOLDEN_HOE: 300
+    IRON_HOE: 600
+    DIAMOND_HOE: 1000
+
+soulbound:
+  # SoulBound keeps items on death. These switches additionally forbid dropping / storing them.
+  block-drop: false
+  block-containers: false
+
+vanilla:
+  # Vanilla weapon/armor crafting is disabled except the stone sword, leather armor and tools (spec 04 §4.1).
+  removed-recipes:
+    - iron_sword
+    - golden_sword
+    - diamond_sword
+    - copper_sword
+    - netherite_sword_smithing
+    - iron_helmet
+    - iron_chestplate
+    - iron_leggings
+    - iron_boots
+    - golden_helmet
+    - golden_chestplate
+    - golden_leggings
+    - golden_boots
+    - diamond_helmet
+    - diamond_chestplate
+    - diamond_leggings
+    - diamond_boots
+    - copper_helmet
+    - copper_chestplate
+    - copper_leggings
+    - copper_boots
+    - netherite_helmet_smithing
+    - netherite_chestplate_smithing
+    - netherite_leggings_smithing
+    - netherite_boots_smithing
+    - bow
+    - crossbow
+    - shield
+    - mace
+    - copper_spear
+    - iron_spear
+    - golden_spear
+    - diamond_spear
+    - netherite_spear_smithing
+    # Replaced by CivCraft recipes / donation items.
+    - hopper
+    - tnt
+    - ender_chest
+    - enchanting_table
+    - golden_apple
+    - saddle
+  # Containers in which custom items would be consumed as vanilla ones.
+  blocked-stations: [ANVIL, GRINDSTONE, SMITHING, STONECUTTER, LOOM, CARTOGRAPHY, ENCHANTING, BREWING,
+                     FURNACE, BLAST_FURNACE, SMOKER, BEACON, MERCHANT, CRAFTER]
+  # Blocks that eat the held item on right-click.
+  blocked-blocks: [COMPOSTER, JUKEBOX, LECTERN, CHISELED_BOOKSHELF, DECORATED_POT, FLOWER_POT, CAULDRON,
+                   WATER_CAULDRON, CAMPFIRE, SOUL_CAMPFIRE, BEEHIVE, BEE_NEST, RESPAWN_ANCHOR, VAULT, TRIAL_SPAWNER,
+                   SPAWNER, END_PORTAL_FRAME, CRAFTER]
+
+# Enchantments (spec 04 §7). source: library | wonder | scroll | loot.
+# targets: sword, bow, pickaxe, shovel, axe, hoe, tool, fishing_rod, helmet, chestplate, leggings, boots,
+#          armor, heavy_boots, weapon, any.
+enchantments:
+  # --- Library (§7.1): library level, price to list / hammers to list, price to apply.
+  looting_1: {vanilla: 'minecraft:looting', level: 1, targets: [sword], source: library, library: {level: 1, set-price: 125, set-hammers: 12, apply-price: 50}}
+  efficiency_1: {vanilla: 'minecraft:efficiency', level: 1, targets: [tool], source: library, library: {level: 1, set-price: 75, set-hammers: 75, apply-price: 15}}
+  looting_2: {vanilla: 'minecraft:looting', level: 2, targets: [sword], source: library, library: {level: 2, set-price: 375, set-hammers: 37, apply-price: 250}}
+  efficiency_2: {vanilla: 'minecraft:efficiency', level: 2, targets: [tool], source: library, library: {level: 2, set-price: 500, set-hammers: 50, apply-price: 74}}
+  soulbound: {custom: soulbound, level: 1, targets: [tool], source: library, library: {level: 2, set-price: 25000, set-hammers: 250, apply-price: 60000}}
+  fortune_1: {vanilla: 'minecraft:fortune', level: 1, targets: [pickaxe, shovel, axe, hoe], source: library, library: {level: 2, set-price: 1500, set-hammers: 150, apply-price: 750}}
+  silk_touch_1: {vanilla: 'minecraft:silk_touch', level: 1, targets: [tool], source: library, library: {level: 2, set-price: 2500, set-hammers: 250, apply-price: 1000}}
+  efficiency_3: {vanilla: 'minecraft:efficiency', level: 3, targets: [tool], source: library, library: {level: 3, set-price: 870, set-hammers: 87, apply-price: 200}}
+  efficiency_4: {vanilla: 'minecraft:efficiency', level: 4, targets: [tool], source: library, library: {level: 3, set-price: 2500, set-hammers: 250, apply-price: 750}}
+  lure_1: {vanilla: 'minecraft:lure', level: 1, targets: [fishing_rod], source: library, library: {level: 3, set-price: 4500, set-hammers: 450, apply-price: 900}}
+  efficiency_5: {vanilla: 'minecraft:efficiency', level: 5, targets: [tool], source: library, library: {level: 4, set-price: 3750, set-hammers: 375, apply-price: 1500}}
+  feather_falling_1: {vanilla: 'minecraft:feather_falling', level: 1, targets: [boots], source: library, library: {level: 4, set-price: 2500, set-hammers: 250, apply-price: 5000}}
+  # --- Wonders (§7.2): wonder id and price.
+  fire_aspect_2: {vanilla: 'minecraft:fire_aspect', level: 2, targets: [sword], source: wonder, wonder: {id: the_great_library, price: 25000}}
+  fire_protection_3: {vanilla: 'minecraft:fire_protection', level: 3, targets: [armor], source: wonder, wonder: {id: the_great_library, price: 25000}}
+  flame_1: {vanilla: 'minecraft:flame', level: 1, targets: [bow], source: wonder, wonder: {id: the_great_library, price: 25000}}
+  lightning: {custom: lightning, level: 1, targets: [sword, bow], source: wonder, wonder: {id: world_university, price: 150000}}
+  feather_falling_4: {vanilla: 'minecraft:feather_falling', level: 4, targets: [boots], source: wonder, over-others: true, wonder: {id: world_university, price: 35000}}
+  respiration_3: {vanilla: 'minecraft:respiration', level: 3, targets: [helmet], source: wonder, wonder: {id: world_university, price: 25000}}
+  infinity_1: {vanilla: 'minecraft:infinity', level: 1, targets: [bow], source: wonder, wonder: {id: neuschwanstein, price: 100000}}
+  punchout: {custom: punchout, level: 1, targets: [tool, weapon], source: wonder, incompatible: [soulbound], wonder: {id: neuschwanstein, price: 35000}}
+  roots: {custom: roots, level: 1, targets: [sword], source: wonder, wonder: {id: tree_of_life, price: 100000}}
+  water_walking: {custom: water_walking, level: 1, targets: [boots], source: wonder, wonder: {id: angkor_wat, price: 250000}}
+  critical: {custom: critical, level: 1, targets: [sword, bow], source: wonder, wonder: {id: angkor_wat, price: 125000}}
+  feather_falling_2: {vanilla: 'minecraft:feather_falling', level: 2, targets: [boots], source: wonder, wonder: {id: national_college, price: 20000}}
+  sky_punishment_1: {custom: sky_punishment, level: 1, targets: [sword, bow], source: wonder, wonder: {id: national_college, price: 8000}}
+  knockback_1: {vanilla: 'minecraft:knockback', level: 1, targets: [sword], source: loot}
+
+# Soulbound may not go on ordinary (non-T4, non-donation) pickaxes and shovels ([CL V1.7]).
+soulbound-forbidden-materials: [WOODEN_PICKAXE, STONE_PICKAXE, COPPER_PICKAXE, IRON_PICKAXE, GOLDEN_PICKAXE,
+                                DIAMOND_PICKAXE, WOODEN_SHOVEL, STONE_SHOVEL, COPPER_SHOVEL, IRON_SHOVEL,
+                                GOLDEN_SHOVEL, DIAMOND_SHOVEL]
+
+# Custom enchantment effects.
+effects:
+  lightning: {chance: 0.07, damage: 5}
+  critical: {chance: 0.15, damage: 3}
+  roots: {chance: 0.15, amplifier: 4, seconds: 3.0, target-cooldown: 5.5, notify-cooldown: 15}
+  punchout: {chance: 0.5}
+  water-walking: {seconds: 3.0, radius: 1}
+  # Resident setting that mutes root/tower notifications (/res toggle fire).
+  mute-setting: 'mute-fire'
