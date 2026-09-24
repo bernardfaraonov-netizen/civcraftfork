@@ -1,0 +1,56 @@
+randomevents:
+  started: '<gold>Событие в городе: <white><name></white>!'
+  ended: '<gray>Событие «<white><name></white>» в городе закончилось.'
+  current: '<gold>Событие в городе <white><town></white>: <white><name></white> <gray>(осталось <left>)'
+  none: '<gray>В городе <white><town></white> сейчас нет события.'
+  civ-line: '<gray> - <white><town></white>: <yellow><name></yellow> (осталось <left>)'
+  civ-none: '<gray>В городах цивилизации сейчас нет событий.'
+  plague:
+    spawned: '<dark_green>В городе появились заражённые слизни: <white><count></white>! Убейте хотя бы <white><need></white> за <white><time></white>, иначе город получит несчастье.'
+    progress: '<green>Убито слизней: <white><killed></white>/<need>.'
+    status: '<gray>Убито слизней: <white><killed></white>/<need>, осталось времени: <white><time></white>.'
+    waiting: '<gray>Слизни появятся, когда кто-нибудь будет рядом с городом.'
+    success: '<green>Чума побеждена!'
+    failed: '<red>Чуму не остановили: город получает несчастье на <white><time></white>.'
+    passed: '<gray>Чума обошла город стороной.'
+    penalty: '<red>Последствия чумы: несчастье ещё <white><time></white>.'
+  treasure:
+    hint: '<gold>Клад спрятан в блоках X <white><x1></white>…<white><x2></white>, Z <white><z1></white>…<white><z2></white>, на высоте от <white><y1></white> до <white><y2></white>. Время на поиск: <white><time></white>. Сломать клад должен житель города.'
+    found: '<gold><white><player></white> нашёл клад! В казну города поступило <white><coins></white> монет.'
+    failed: '<gray>Клад так и не нашли — золотая лихорадка закончилась.'
+    not-yours: '<red>Это клад другого города.'
+  admin:
+    unknown: '<red>Неизвестное событие <white><id></white>.'
+    none: '<red>В этом городе нет события.'
+    failed: '<red>Не удалось запустить событие (нет места для клада или центра города).'
+  event:
+    plague:
+      name: 'Чума'
+      description: '<gray>В городе завелись заражённые слизни. Их нужно перебить, пока зараза не распространилась.'
+    truffles:
+      name: 'Трюфели'
+      description: '<gray>Жители нашли трюфели: +2 счастья на 3 дня.'
+    diligence_spirit:
+      name: 'Дух трудолюбия'
+      description: '<gray>Жители трудятся с огоньком: +10% молоточков на 3 дня.'
+    herbs:
+      name: 'Травы'
+      description: '<gray>Целебные травы: +5 счастья на 5 дней.'
+    gold_rush:
+      name: 'Золотая лихорадка'
+      description: '<gray>Ходят слухи о кладе неподалёку. Найдите его за сутки — и казна получит 75 000 монет.'
+    black_soil:
+      name: 'Чернозём'
+      description: '<gray>Плодородные земли: рост +40% на 3 дня.'
+    science_breakthrough:
+      name: 'Научный прорыв'
+      description: '<gray>Учёные совершили прорыв: наука +15% на 3 дня.'
+    cultural_heritage:
+      name: 'Культурное наследие'
+      description: '<gray>Найдено культурное наследие предков: культура +10% на 3 дня.'
+    fair:
+      name: 'Ярмарка'
+      description: '<gray>В городе ярмарка: +3 счастья и +100 молоточков в час на 3 дня.'
+    interesting_rumor:
+      name: 'Интересный слух'
+      description: '<gray>По городу ходит интересный слух: молоточки +25% на 3 дня.'

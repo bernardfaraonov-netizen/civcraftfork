@@ -1,0 +1,141 @@
+# World events (spec 04 §13) and random town events (§14).
+#
+# Effects use the StatService format: {stat: <id>, add|percent|multiply|min|max: <value>}.
+# Stat ids shared with other modules: hammers, beakers, culture, growth, happiness, unhappiness, faith,
+# upkeep, bank_rate, cottage, build_cost, upgrade_cost, research_cost. Ids introduced here for other
+# modules to read: market_income, trade_income, research_coin_cost, anarchy_duration, war_tax,
+# military_build_cost, military_build_hammers, military_research_cost, unit_cost.
+
+world-events:
+  enabled: true
+  day: TUESDAY
+  time: '12:00'           # Moscow time (config.yml timezone)
+  duration-hours: 72      # Tuesday–Thursday
+  avoid-repeat: true      # never the same event two weeks in a row
+  events:
+    great_depression:
+      weight: 1
+      effects:
+        - {stat: bank_rate, percent: -0.10}
+        - {stat: cottage, percent: -0.10}
+        - {stat: market_income, percent: -0.10}
+        - {stat: trade_income, percent: -0.10}
+        - {stat: upkeep, percent: 0.05}          # "tax +5 %" = structure upkeep tax [assumption]
+    fat_rats:
+      weight: 1
+      global:
+        mob.rat.health_percent: 0.25
+        mob.rat.mercury_multiplier: 1.5
+        mob.rat.damage_add: 4                     # 8 → 12 (CL V1.7.5)
+    cultural_bloom:
+      weight: 1
+      effects:
+        - {stat: culture, percent: 0.20}
+        - {stat: hammers, percent: -0.10}
+    science_bloom:
+      weight: 1
+      effects:
+        - {stat: beakers, percent: 0.15}
+        - {stat: research_coin_cost, percent: 0.15}
+    perestroika:
+      weight: 1
+      effects:
+        - {stat: hammers, percent: 0.15}
+        - {stat: build_cost, percent: 0.15}       # coin cost of buildings and wonders
+    changes:
+      weight: 1
+      effects:
+        - {stat: anarchy_duration, multiply: 0.5}
+    pacifism:
+      weight: 1
+      pacifism:
+        aggressor-unhappiness: 1                  # every town of a civ that declared a running war
+        peaceful-unhappiness: -1                  # every town of a civ that is at no war
+    world_wars:
+      weight: 1
+      effects:
+        - {stat: war_tax, add: -0.5}              # 2.5 → 2 points
+        - {stat: military_build_cost, percent: -0.25}
+        - {stat: military_build_hammers, percent: -0.25}
+        - {stat: military_research_cost, percent: -0.05}
+    religious_fast:
+      weight: 1
+      effects:
+        - {stat: faith, percent: 0.25}
+        - {stat: culture, percent: -0.10}
+    circus:
+      weight: 1
+      effects:
+        - {stat: happiness, add: 3}
+        - {stat: beakers, percent: -0.05}
+        - {stat: hammers, percent: -0.05}
+    diligence_shine:
+      weight: 1
+      effects:
+        - {stat: upgrade_cost, percent: -0.15}
+        - {stat: unit_cost, percent: -0.10}
+        - {stat: research_cost, percent: -0.05}
+        - {stat: happiness, add: -3}
+        - {stat: faith, percent: -0.25}
+
+random-events:
+  enabled: true
+  chance: 50                  # percent per town, checked once a day after the tax tick [assumption]
+  first-after-days: 3         # no events in the first days of the phase
+  phase-start: ''             # yyyy-MM-dd; empty = the day the plugin first ran
+  events:
+    plague:
+      kind: plague
+      weight: 1
+      slimes: 20              # [assumption]
+      slime-size: 2
+      kill-percent: 80        # [assumption] share of slimes to kill
+      kill-hours: 1           # [assumption] time to kill them after they appear
+      spawn-window-hours: 24  # slimes appear as soon as a town chunk is loaded
+      penalty: [{stat: unhappiness, add: 5}]  # [assumption]
+      penalty-hours: 48
+    truffles:
+      weight: 1
+      hours: 72
+      effects: [{stat: happiness, add: 2}]    # [assumption]
+    diligence_spirit:
+      weight: 1
+      hours: 72
+      effects: [{stat: hammers, percent: 0.10}]   # CL V1.10.5: 25 → 10 %
+    herbs:
+      weight: 1
+      hours: 120
+      effects: [{stat: happiness, add: 5}]
+    gold_rush:
+      kind: treasure
+      weight: 1
+      reward: 75000           # coins to the town treasury
+      search-hours: 24
+      min-distance-chunks: 8
+      max-distance-chunks: 40
+      y-min: -40
+      y-max: 40
+      hint-y-spread: 8
+      block: RAW_GOLD_BLOCK
+    black_soil:
+      weight: 1
+      hours: 72
+      effects: [{stat: growth, percent: 0.40}]
+    science_breakthrough:
+      weight: 1
+      hours: 72
+      effects: [{stat: beakers, percent: 0.15}]
+    cultural_heritage:
+      weight: 1
+      hours: 72
+      effects: [{stat: culture, percent: 0.10}]
+    fair:
+      weight: 1
+      hours: 72
+      effects:
+        - {stat: happiness, add: 3}
+        - {stat: hammers, add: 100}
+    interesting_rumor:
+      weight: 0               # not on the current wiki page (spec 04 §22.19); set > 0 to enable
+      hours: 72
+      effects: [{stat: hammers, percent: 0.25}]

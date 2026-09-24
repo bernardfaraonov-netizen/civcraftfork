@@ -29,7 +29,9 @@ public final class CivCraftPlugin extends JavaPlugin {
                 new com.civcraft.pve.PveModule(),
                 new com.civcraft.mob.MobModule(),
                 new com.civcraft.dungeon.DungeonModule(),
-                new com.civcraft.boss.ValleyModule()
+                new com.civcraft.boss.ValleyModule(),
+                new com.civcraft.worldevent.WorldEventModule(),
+                new com.civcraft.randomevent.RandomEventModule()
         );
     }
 
