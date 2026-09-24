@@ -21,11 +21,6 @@ dependencies {
         exclude(group = "org.slf4j")
     }
 
-    testImplementation("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
-    testImplementation(platform("org.junit:junit-bom:6.1.3"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    testRuntimeOnly("org.xerial:sqlite-jdbc:3.49.1.0")
 }
 
 tasks {
@@ -50,8 +45,5 @@ tasks {
     }
     jar {
         enabled = false
-    }
-    test {
-        useJUnitPlatform()
     }
 }
