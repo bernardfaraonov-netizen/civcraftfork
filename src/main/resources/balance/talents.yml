@@ -1,0 +1,220 @@
+# Таланты цивилизации (docs/spec/01_core.md §15, финальная таблица после V1.10.7).
+# На уровне культуры столицы N можно выбрать один из трёх талантов уровня N. Если столица
+# перешла на следующий уровень, а талант не выбран, он потерян навсегда. Выбор нельзя отменить
+# (сброс — только администратор: /civ talent admin reset <цив>).
+#
+# effects — модификаторы статов. Дополнительные поля:
+#   per: science_buildings | culture_buildings — умножить на число таких построек в каждом городе;
+#   per: world_wonders — на число Чудес света в мире; per: towns — на число городов цивилизации;
+#   divisor: N — брать floor(число / N);
+#   unless-government: [..] — не действует при этом строе;
+#   min-talents: N — действует, только если у цивилизации выбрано не меньше N талантов.
+# Общие статы (effect/Stats.java) и статы, которые читают другие модули, перечислены в отчёте.
+
+max-level: 10
+levels:
+  1:
+    theme: Столица
+    icon: GOLDEN_HELMET
+    choices:
+      1:
+        name: Мастерские столицы
+        description: ['Молоточки столицы +10 %']
+        effects:
+          - {stat: hammers, percent: 0.10, scope: capital}
+      2:
+        name: Учёные столицы
+        description: ['Наука столицы +15 %']
+        effects:
+          - {stat: beakers, percent: 0.15, scope: capital}
+      3:
+        name: Культурная столица
+        description: ['Культура столицы +10 %', 'Культура цивилизации +5 %']
+        effects:
+          - {stat: culture, percent: 0.10, scope: capital}
+          - {stat: culture, percent: 0.05}
+  2:
+    theme: Счастье
+    icon: CAKE
+    choices:
+      1:
+        name: Праздник в столице
+        description: ['Счастье столицы +4']
+        effects:
+          - {stat: happiness, add: 4, scope: capital}
+      2:
+        name: Всеобщее благополучие
+        description: ['Счастье всех городов +2']
+        effects:
+          - {stat: happiness, add: 2}
+      3:
+        name: Гордость за чудеса
+        description: ['Счастье всех городов +1', 'и ещё +1 за каждые 3 Чуда света в мире (без национальных)']
+        effects:
+          - {stat: happiness, add: 1}
+          - {stat: happiness, add: 1, per: world_wonders, divisor: 3}
+  3:
+    theme: Показатели
+    icon: EXPERIENCE_BOTTLE
+    choices:
+      1:
+        name: Благочестие
+        description: ['Религия от религиозных зданий +20 %']
+        effects:
+          - {stat: faith, percent: 0.20}
+      2:
+        name: Научные школы
+        description: ['+20 науки каждому научному зданию']
+        effects:
+          - {stat: beakers, add: 20, scope: town, per: science_buildings}
+      3:
+        name: Покровительство искусствам
+        description: ['+20 культуры каждому культурному зданию', '+0.5 счастья за каждое культурное здание']
+        effects:
+          - {stat: culture, add: 20, scope: town, per: culture_buildings}
+          - {stat: happiness, add: 0.5, scope: town, per: culture_buildings}
+  4:
+    theme: Доход
+    icon: GOLD_INGOT
+    choices:
+      1:
+        name: Доходные дома
+        description: ['Монеты коттеджей +12.5 %']
+        effects:
+          - {stat: cottage, percent: 0.125}
+      2:
+        name: Биржевые сделки
+        description: ['Продажа ресурсов в банке +12.5 %']
+        effects:
+          - {stat: bank_rate, percent: 0.125}
+      3:
+        name: Торговые пути
+        description: ['Монеты торговых ресурсов +25 %', 'Монеты торговых кораблей +12.5 %']
+        effects:
+          - {stat: trade_good_income, percent: 0.25}
+          - {stat: trade_ship, percent: 0.125}
+  5:
+    theme: Наука
+    icon: BREWING_STAND
+    choices:
+      1:
+        name: Дешёвые пробирки
+        description: ['Цена пробирки при конвертации −2 монеты', 'Не работает в Меркантилизме']
+        effects:
+          - {stat: beaker_price, add: -2, unless-government: [mercantilism]}
+      2:
+        name: Космическая программа
+        description: ['Требования космических миссий −15 %']
+        effects:
+          - {stat: space_requirements, percent: -0.15}
+      3:
+        name: Академия наук
+        description: ['Наука цивилизации +5 %']
+        effects:
+          - {stat: civ_beakers, percent: 0.05}
+  6:
+    theme: Культура
+    icon: PAINTING
+    choices:
+      1:
+        name: Столица искусств
+        description: ['Культура столицы +30 %']
+        effects:
+          - {stat: culture, percent: 0.30, scope: capital}
+      2:
+        name: Просвещение
+        description: ['Культура всех городов +10 %']
+        effects:
+          - {stat: culture, percent: 0.10}
+      3:
+        name: Культурный обмен
+        description: ['+100 культуры в час за каждый торговый ресурс цивилизации']
+        effects:
+          # Модуль торговли умножает на число торговых ресурсов цивилизации.
+          - {stat: culture_per_trade_good, add: 100}
+  7:
+    theme: Защита
+    icon: SHIELD
+    choices:
+      1:
+        name: Фортификация
+        description: ['Прочность защитных сооружений +17.5 %']
+        effects:
+          - {stat: defense_hp, percent: 0.175}
+      2:
+        name: Стражи чудес
+        description: ['Прочность Чудес света +30 %']
+        effects:
+          - {stat: wonder_hp, percent: 0.30}
+      3:
+        name: Крепкие стены
+        description: ['Прочность контрольных блоков +15 %', 'кроме Военного лагеря и Военного корабля']
+        effects:
+          - {stat: control_hp, percent: 0.15}
+  8:
+    theme: Анти-кризис
+    icon: MILK_BUCKET
+    choices:
+      1:
+        name: Мирная оккупация
+        description: ['Захваченные города не дают несчастья']
+        effects:
+          - {stat: captured_unhappiness, multiply: 0}
+      2:
+        name: Имперское единство
+        description: ['−2 несчастья за каждые 6 городов цивилизации']
+        effects:
+          - {stat: unhappiness, add: -2, per: towns, divisor: 6}
+      3:
+        name: Военный бюджет
+        description: ['Военный налог −65 %']
+        effects:
+          - {stat: war_upkeep_reduction, add: 0.65}
+  9:
+    theme: Атака
+    icon: IRON_SWORD
+    choices:
+      1:
+        name: Штурм
+        description: ['С шансом 75 % +1 урон по контрольным блокам', 'Не действует против Совета Восьми']
+        effects:
+          - {stat: control_block_damage_chance, add: 0.75}
+          - {stat: control_block_damage, add: 1}
+      2:
+        name: Разрушители
+        description: ['Урон по строениям и чудесам +1', 'Не действует против Совета Восьми']
+        effects:
+          - {stat: structure_damage, add: 1}
+      3:
+        name: Блицкриг
+        description: ['Интервал постановки Военных лагерей, Военных кораблей и Пушек = 0']
+        effects:
+          - {stat: war_camp_cooldown, multiply: 0}
+          - {stat: cannon_cooldown, multiply: 0}
+  10:
+    theme: Финал
+    icon: NETHER_STAR
+    choices:
+      1:
+        name: Несокрушимость
+        description: ['Прочность строений и контрольных блоков +40 %', 'Прочность Чудес +10 %']
+        effects:
+          - {stat: structure_hp, percent: 0.40}
+          - {stat: control_hp, percent: 0.40}
+          - {stat: wonder_hp, percent: 0.10}
+      2:
+        name: Герои
+        description: ['Здоровье и урон игроков цивилизации +1', 'Только если выбрано не меньше 5 талантов']
+        effects:
+          # +1 сердце = 2 единицы здоровья.
+          - {stat: player_max_health, add: 2, min-talents: 5}
+          - {stat: player_damage, add: 1, min-talents: 5}
+      3:
+        name: Железная хватка
+        description: ['Захваченные этой цивилизацией цивилизации не могут поднять революцию']
+        effects:
+          - {stat: prevent_revolution, add: 1}
+
+# Применение статов player_max_health / player_damage к игрокам (атрибуты MAX_HEALTH / ATTACK_DAMAGE).
+player-stats:
+  refresh-seconds: 5

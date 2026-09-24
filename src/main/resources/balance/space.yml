@@ -1,0 +1,99 @@
+# Космические миссии (docs/spec/03_wonders_science.md §9, меркурий по [CL 1.10.6]).
+# Нужен построенный Космический шаттл в столице (ключ чуда из science.yml → wonders).
+# Компоненты кладутся в сундуки (любые контейнеры) внутри шаттла, запуск — /civ space launch
+# или кнопка в /civ space. Миссии идут строго по порядку. Пока миссия идёт, молоточки родных
+# незахваченных городов и вся наука цивилизации копятся в миссии (раз в минуту, 1/60 часовой ставки);
+# исследования в это время не получают пробирок [допущение]. Требования уменьшает стат
+# space_requirements (талант 5.2: −15 %). Если шаттл сломан, миссия стоит на паузе.
+
+shuttle-wonder: space_shuttle
+# При захвате цивилизации теряется столько завершённых миссий, прогресс текущей сбрасывается.
+missions-lost-on-capture: 1
+
+missions:
+  1:
+    name: Запуск орбитального спутника
+    rocket: V-2
+    hammers: 75000
+    beakers: 75000
+    components: {space_satellite: 1, space_fuel_tanks: 1, space_engines: 1}
+    rewards: {mercury_t1: 16}
+  2:
+    name: Полёт на Луну
+    rocket: Сатурн-5
+    hammers: 150000
+    beakers: 150000
+    components: {space_fuel_tanks: 1, space_engines: 1, space_lander: 1, space_orbital_station: 1}
+    rewards: {mercury_t1: 32}
+  3:
+    name: Полёт на Марс
+    rocket: Polaris A-1
+    hammers: 225000
+    beakers: 225000
+    components: {space_fuel_tanks: 1, space_engines: 1, space_lander: 1, space_orbital_station: 1, space_habitat_module: 1}
+    rewards: {mercury_t2: 16}
+  4:
+    name: Запуск спутника к Солнцу
+    rocket: Р-7
+    hammers: 300000
+    beakers: 300000
+    components: {space_satellite: 1, space_fuel_tanks: 2, space_engines: 1, space_solar_reflector: 1, space_instruments: 1}
+    rewards: {mercury_t2: 24, mercury_t1: 8}
+  5:
+    name: Полёт к границам Солнечной системы
+    rocket: MX Peacekeeper
+    hammers: 375000
+    beakers: 375000
+    components: {space_satellite: 1, space_fuel_tanks: 2, space_engines: 1, space_instruments: 2, space_solar_sail: 1}
+    rewards: {mercury_t2: 32}
+  6:
+    name: Warp-прыжок к звезде Betelgeuse
+    rocket: Minuteman LGM-3G
+    hammers: 750000
+    beakers: 750000
+    components: {space_orbital_station: 1, space_habitat_module: 1, space_solar_reflector: 1, space_instruments: 1, space_provisions: 1, space_warp_core: 1, space_warp_drive: 1, space_gondolas: 1}
+    rewards: {mercury_t3: 10}
+  7:
+    name: Warp-прыжок к планете Trestellar
+    rocket: Trident II D5
+    hammers: 1125000
+    beakers: 1125000
+    components: {space_lander: 1, space_orbital_station: 1, space_habitat_module: 2, space_instruments: 1, space_provisions: 1, space_warp_core: 1, space_warp_drive: 1, space_gondolas: 1}
+    rewards: {mercury_t3: 18, mercury_t2: 4}
+
+# Предметы-компоненты и награды. Если модуль предметов регистрирует эти id, используется он.
+items:
+  space_satellite: {name: Спутник, material: DAYLIGHT_DETECTOR}
+  space_fuel_tanks: {name: Топливные баки, material: CAULDRON}
+  space_engines: {name: Двигатели, material: BLAST_FURNACE}
+  space_lander: {name: Посадочный модуль, material: MINECART}
+  space_orbital_station: {name: Орбитальная станция, material: BEACON}
+  space_habitat_module: {name: Жилой модуль, material: BARREL}
+  space_solar_reflector: {name: Солнечный отражатель, material: TINTED_GLASS}
+  space_instruments: {name: Аппаратура, material: COMPARATOR}
+  space_solar_sail: {name: Солнечный парус, material: WHITE_BANNER}
+  space_provisions: {name: Провизия, material: BUNDLE}
+  space_warp_core: {name: Warp-ядро, material: END_CRYSTAL}
+  space_warp_drive: {name: Warp-двигатель, material: RESPAWN_ANCHOR}
+  space_gondolas: {name: Гондолы, material: CHEST_MINECART}
+  mercury_t1: {name: T1 Меркурий, material: GHAST_TEAR}
+  mercury_t2: {name: T2 Меркурий, material: PRISMARINE_CRYSTALS}
+  mercury_t3: {name: T3 Меркурий, material: AMETHYST_SHARD}
+
+# Рецепты компонентов для Завода (§9.3); крафт — поведение постройки, данные доступны через
+# SpaceApi.componentRecipes(). Ванильные предметы — ключи minecraft:<id>.
+recipes:
+  space_satellite: {electronics: 20, t2_steel_plate: 4}
+  space_fuel_tanks: {t2_steel_plate: 10, 'minecraft:magma_cream': 250}
+  space_engines: {electronics: 10, t4_tungsten_plate: 4}
+  space_lander: {t3_leather_straps: 8, t3_reinforced_fiber: 5, t3_hard_rubber: 8, t3_compacted_stone: 8, electronics: 16}
+  space_orbital_station: {electronics: 50, t4_tungsten_plate: 4, t3_construction_mix: 20, t3_hard_rubber: 16, t3_reinforced_fiber: 8, 'minecraft:cooked_porkchop': 256, 'minecraft:carrot': 512}
+  space_habitat_module: {electronics: 24, t4_tungsten_plate: 8, t3_construction_mix: 10, t3_hard_rubber: 16, t3_reinforced_fiber: 8, 'minecraft:cooked_porkchop': 256, 'minecraft:glass_bottle': 512, 'minecraft:water_bucket': 3, 'minecraft:carrot': 320, 'minecraft:brown_mushroom': 64, 'minecraft:potato': 256, 'minecraft:red_mushroom': 128, 'minecraft:baked_potato': 64, 'minecraft:bowl': 128, 'minecraft:cooked_rabbit': 64}
+  space_solar_reflector: {electronics: 32, t4_tungsten_plate: 8, 'minecraft:gold_ingot': 1024}
+  # Датчик дневного света: на вики «646», вероятная опечатка вместо 64 [допущение].
+  space_instruments: {electronics: 50, 'minecraft:repeater': 32, 'minecraft:comparator': 32, 'minecraft:daylight_detector': 64}
+  space_solar_sail: {t3_reinforced_fiber: 16, t2_steel_plate: 16}
+  space_provisions: {'minecraft:cooked_porkchop': 1024, 'minecraft:glass_bottle': 2048, 'minecraft:water_bucket': 15, 'minecraft:carrot': 2048, 'minecraft:brown_mushroom': 512, 'minecraft:potato': 2048, 'minecraft:red_mushroom': 1536, 'minecraft:baked_potato': 512, 'minecraft:bowl': 1024, 'minecraft:cooked_rabbit': 512}
+  space_warp_core: {t4_legendary_metal_crystal: 4, t4_legendary_ion_crystal: 4, mercury_t2: 4}
+  space_warp_drive: {t3_tungsten_ingot: 10, t3_carbide_ingot: 16, t4_tungsten_plate: 8}
+  space_gondolas: {t3_steel_casting_mold: 32, t3_tungsten_ingot: 18, t3_reinforced_fiber: 8, t3_hard_rubber: 16}
