@@ -13,10 +13,16 @@ java {
 repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://repo.extendedclip.com/releases/")
+    maven("https://repo.bluecolored.de/releases/")
+    maven("https://repo.mikeprimm.com/")
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
+    compileOnly("me.clip:placeholderapi:2.12.3")
+    compileOnly("de.bluecolored:bluemap-api:2.7.8")
+    compileOnly("us.dynmap:DynmapCoreAPI:3.8")
     implementation("com.zaxxer:HikariCP:7.1.0") {
         exclude(group = "org.slf4j")
     }

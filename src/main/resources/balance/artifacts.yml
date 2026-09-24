@@ -1,0 +1,199 @@
+# Артефакты (docs/spec/03_wonders_science.md §8).
+# Производятся в Бараках (модуль построек обучает их за монеты и молоточки и создаёт предмет через
+# ArtifactApi.create). Нужна Таверна в городе и технология артефакта или построенное чудо (requires).
+# Лидеры могут купить артефакт мгновенно за очки религии: /civ artifact buy <id>.
+
+# Сколько артефактов может носить житель (в инвентаре; эндер-сундук не считается) и со Статуей Свободы.
+max-carried: 3
+max-carried-statue-of-liberty: 4
+# Постройка, нужная для производства, и скидка Торгового центра на монеты [CL 0.8].
+required-structure: tavern
+mall-discount: 0.25
+# Покупка за очки религии требует Бараки и Таверну в городе игрока.
+religion-purchase-structures: [barracks, tavern]
+# Миры «Адская долина» (там не работают Лучник, Чешуя дракона, Уловка ведьмы). Пусто — все миры
+# с окружением NETHER.
+hell-valley-worlds: []
+# Префикс id брони души (Уловка ведьмы с ней не работает).
+soul-armor-prefix: soul_armor
+# Тайник обжоры: раз в N секунд +1 голод и насыщение, если игрок сдвинулся хотя бы на min-distance блоков.
+glutton:
+  interval-seconds: 5
+  min-distance: 2.0
+  food: 1
+  saturation: 1.0
+
+# uses: infinite | single (одноразовый — предмет расходуется при использовании).
+# duration/cooldown в секундах. passive: true — действует, пока артефакт в инвентаре.
+# potions: эффекты зелий при активации (type, amplifier с нуля).
+# requires: tech (технология) или wonder (построенное чудо цивилизации, ключ из science.yml).
+artifacts:
+  nanoplasts:
+    name: Нанопласты
+    material: NETHERITE_SCRAP
+    coins: 500000
+    hammers: 25000
+    duration: 120
+    cooldown: 600
+    uses: single
+    requires: {wonder: statue_of_liberty}
+    religion-purchase: false
+    description: ['Урон от любых башен ×0.5 на 2 минуты']
+  invisibility_cap:
+    name: Шапка-невидимка
+    material: LEATHER_HELMET
+    coins: 250000
+    hammers: 2500
+    duration: 120
+    cooldown: 600
+    uses: single
+    requires: {wonder: council_of_eight}
+    description: ['Башни и корабли разведчиков врага вас не видят 2 минуты', 'Эффект пропадает при смерти']
+  assassin_brand:
+    name: Клеймо убийцы
+    material: NETHER_STAR
+    coins: 400000
+    hammers: 10000
+    passive: true
+    uses: infinite
+    requires: {wonder: himeji_castle}
+    # Лечение после убийства (4 HP = 2 сердца), только в обычном мире, против «Войны» и «Вражды».
+    heal: 4
+    description: ['После убийства +2 сердца', 'Только в обычном мире против цивилизаций в «Войне» или «Вражде»']
+  rabbit_feet:
+    name: Кроличьи лапки
+    material: RABBIT_FOOT
+    coins: 120000
+    hammers: 1200
+    duration: 300
+    cooldown: 900
+    uses: infinite
+    requires: {tech: scientific_method}
+    potions:
+      - {type: jump_boost, amplifier: 1}
+    description: ['Прыгучесть II на 5 минут']
+  travel_boots:
+    name: Сапоги путешествий
+    material: LEATHER_BOOTS
+    coins: 150000
+    hammers: 1500
+    duration: 300
+    cooldown: 900
+    uses: infinite
+    requires: {tech: scientific_method}
+    potions:
+      - {type: speed, amplifier: 1}
+    description: ['Скорость II на 5 минут']
+  miner_talisman:
+    name: Талисман шахтёра
+    material: GOLDEN_PICKAXE
+    coins: 270000
+    hammers: 3000
+    duration: 900
+    cooldown: 1200
+    uses: infinite
+    requires: {tech: innovation}
+    potions:
+      - {type: haste, amplifier: 1}
+    description: ['Ускоренное копание II на 15 минут']
+  witch_trick:
+    name: Уловка ведьмы
+    material: BREWING_STAND
+    coins: 20000
+    hammers: 1100
+    duration: 22
+    cooldown: 240
+    uses: single
+    requires: {tech: brewing}
+    no-hell-valley: true
+    no-soul-armor: true
+    potions:
+      - {type: regeneration, amplifier: 1}
+    description: ['Регенерация II на 22 секунды', 'Не работает в Броне души и в Адской долине']
+  diver:
+    name: Водолаз
+    material: TURTLE_HELMET
+    coins: 80000
+    hammers: 2000
+    duration: 600
+    cooldown: 900
+    uses: infinite
+    requires: {tech: engineering}
+    potions:
+      - {type: water_breathing, amplifier: 0}
+      - {type: night_vision, amplifier: 0}
+    description: ['Подводное дыхание и ночное зрение на 10 минут']
+  glutton_stash:
+    name: Тайник обжоры
+    material: CAKE
+    coins: 150000
+    hammers: 3000
+    passive: true
+    uses: infinite
+    requires: {tech: assembly_line}
+    description: ['Восстанавливает голод, пока вы двигаетесь']
+  engineer:
+    name: Инженер
+    material: IRON_SHOVEL
+    coins: 100000
+    hammers: 2500
+    passive: true
+    uses: infinite
+    requires: {tech: mechanical_engineering}
+    # Бонус урона по постройкам и чудесам (не по контрольным блокам); с «Захватчиком» — шанс.
+    damage: 1
+    combined-chance: 0.5
+    description: ['Урон по постройкам и чудесам +1 (не по контрольным блокам)', 'С «Захватчиком» в инвентаре — с шансом 50 %', 'Не действует против Совета Восьми']
+  conqueror:
+    name: Захватчик
+    material: IRON_AXE
+    coins: 175000
+    hammers: 3500
+    passive: true
+    uses: infinite
+    requires: {tech: innovation}
+    damage: 1
+    combined-chance: 0.5
+    description: ['Урон по контрольным блокам +1', 'С «Инженером» в инвентаре — с шансом 50 %']
+  reinforced_tools:
+    name: Укреплённые инструменты
+    material: DIAMOND_PICKAXE
+    coins: 75000
+    hammers: 3000
+    passive: true
+    uses: infinite
+    requires: {tech: engineering}
+    # Шанс не тратить прочность инструмента (с Талисманом шахтёра — ниже) и шанс сохранить прочность при смерти.
+    chance: 0.40
+    chance-with-talisman: 0.20
+    death-chance: 0.15
+    description: ['Шанс 40 % не тратить прочность инструмента (20 % с Талисманом шахтёра)', 'При смерти шанс 15 % не потерять прочность брони и оружия']
+  archer:
+    name: Лучник
+    material: SPECTRAL_ARROW
+    coins: 150000
+    hammers: 3500
+    duration: 60
+    cooldown: 150
+    uses: infinite
+    requires: {tech: composite_bow}
+    no-hell-valley: true
+    # Огонь на цели (тики) и замедление (тики, сила с нуля).
+    fire-ticks: 100
+    slowness-ticks: 60
+    slowness-amplifier: 0
+    description: ['1 минуту: урон в ближнем бою 0, стрелы поджигают и замедляют', 'Не работает в Адской долине']
+  dragon_scale:
+    name: Чешуя дракона
+    material: PRISMARINE_SHARD
+    coins: 50000
+    hammers: 2000
+    duration: 300
+    cooldown: 600
+    uses: single
+    requires: {tech: archaeology}
+    no-hell-valley: true
+    potions:
+      # Прилив здоровья II = +4 сердца.
+      - {type: health_boost, amplifier: 1}
+    description: ['+4 красных сердца на 5 минут', 'Не работает в Адской долине']

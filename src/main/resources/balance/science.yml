@@ -1,0 +1,157 @@
+# Наука: исследования, эры, научные эффекты чудес, ультра-баффы, свитки технологий.
+# docs/spec/03_wonders_science.md §1, §2, §5, §7, §10.2; docs/spec/01_core.md §5.3, §8.2.
+
+research:
+  # Наука цивилизации задаётся «в час», в исследование каждую минуту добавляется 1/60 (§1.1).
+  # Если за город ещё не пришло BeakersProducedEvent, используется TownApi.beakersPerHour.
+  # Сообщение в чат цивилизации каждые N % прогресса.
+  progress-step-percent: 5
+  # Прогресс технологии, изучение которой сменили через /civ research change, сохраняется
+  # и продолжается при возврате к ней (монеты не возвращаются). [допущение]
+  keep-progress-on-change: true
+  # Если очередь не может стартовать из-за нехватки монет, напоминать раз в N минут. [допущение]
+  queue-warning-minutes: 60
+  # Максимальная длина очереди. [допущение]
+  max-queue: 10
+  # Главное здание столицы, без которого нельзя начать исследование [CL 1.7.5]:
+  # у цивилизации — Капитолий, у провинции — Ратуша столицы (или уже построенный Капитолий).
+  main-structures-civ: [capitol]
+  main-structures-province: [town_hall, capitol]
+  # Провинции не могут изучать технологии этой эры и выше, кроме помеченных province: true (§5.3).
+  province-max-era: 1
+  # Избыточные пробирки не теряются (баг легаси) и переходят в следующее исследование.
+  # Пробирки без активного исследования копятся в запасе до этого числа часов науки. [допущение]
+  stored-beakers-hours-cap: 24
+
+# Прочность контрольных блоков Капитолия по эре (§2): min(max, base + per-era × max(0, era − from + 1)).
+capitol-control-hp:
+  base: 50
+  per-era: 10
+  from-era: 2
+  max: 100
+
+# Скидки на изучения (§1.2). Проценты отрицательные; итог ограничен techs.yml → cost.max-discount.
+discounts:
+  world-university: -0.20
+  laboratory-per-building: -0.05
+  laboratory-max: -0.25
+
+# Научные эффекты чудес. Остальные эффекты чудес применяет модуль построек.
+# civ_beakers — процент к сумме науки цивилизации (применяется к сумме городов, §1.3).
+wonder-effects:
+  great_library:
+    - {stat: civ_beakers, percent: 0.15}
+    - {stat: beaker_price, add: -3}
+  angkor_wat:
+    - {stat: civ_beakers, percent: 0.10}
+  world_university:
+    - {stat: civ_beakers, percent: 0.20}
+  # scope town — только город, где стоит чудо.
+  space_shuttle:
+    - {stat: beakers, percent: 0.25, scope: town}
+# Парфенон: +N науки за каждый уровень Храма в каждом городе с Храмом (§5.15).
+parthenon-beakers-per-temple-level: 50
+# Минимальная цена пробирки при конвертации налогов (§1.4). [допущение]
+min-beaker-price: 5
+
+# Ультра-баффы (§7): оба чуда в одном городе → эффект на всю цивилизацию (значения V1.10.6).
+ultra-buffs:
+  library_university:
+    wonders: [great_library, world_university]
+    name: Александрийская библиотека + Всемирный университет
+    effects:
+      - {stat: civ_beakers, percent: 0.10}
+  library_chichen:
+    wonders: [great_library, chichen_itza]
+    name: Александрийская библиотека + Чичен-Ица
+    effects:
+      - {stat: control_hp, percent: 0.30}
+  library_notre_dame:
+    wonders: [great_library, notre_dame]
+    name: Александрийская библиотека + Нотр-Дам-де-Пари
+    effects:
+      - {stat: hammers, percent: 0.15}
+  tree_gardens:
+    wonders: [tree_of_life, hanging_gardens]
+    name: Древо Жизни + Висячие сады
+    effects:
+      - {stat: growth, percent: 0.35}
+  colossus_chichen:
+    wonders: [colossus, chichen_itza]
+    name: Колосс Родосский + Чичен-Ица
+    effects:
+      # +1 сердце = 2 единицы здоровья.
+      - {stat: player_max_health, add: 2}
+  tree_burj:
+    wonders: [tree_of_life, burj_al_arab]
+    name: Древо Жизни + Бурдж Аль Араб
+    effects:
+      - {stat: culture_requirement, percent: -0.10}
+  bank_pyramid:
+    wonders: [world_bank, great_pyramid]
+    name: Всемирный банк + Пирамида Хеопса
+    effects:
+      - {stat: cottage_consumption, percent: -0.25}
+
+# Свитки технологий из руин (§10.2): +min..max % прогресса текущего исследования,
+# если его эра входит в eras. Игрок должен состоять в городе.
+scrolls:
+  scroll_technology_1:
+    name: Свиток технологии I
+    material: PAPER
+    eras: [0]
+    min-percent: 1
+    max-percent: 25
+  scroll_technology_2:
+    name: Свиток технологии II
+    material: PAPER
+    eras: [1]
+    min-percent: 1
+    max-percent: 25
+
+# Id типов построек модуля построек, от которых зависят наука, религия, таланты, космос и победы.
+structure-types:
+  capitol: capitol
+  town_hall: town_hall
+  laboratory: laboratory
+  temple: temple
+  tavern: tavern
+  barracks: barracks
+  mall: mall
+  trommel: trommel
+  cottage: cottage
+  science-buildings: [library, university, school, laboratory, academy]
+  culture-buildings: [monument, temple, church, cathedral, altar, arena, amphitheatre, theatre, museum, cinema, pagoda, mosque, tomb, hotel]
+
+# Ключи чудес → id типов построек в модуле построек.
+wonders:
+  world:
+    great_library: the_great_library
+    great_lighthouse: great_lighthouse
+    angkor_wat: angkor_wat
+    burj_al_arab: burj_al_arab
+    hanging_gardens: the_hanging_gardens
+    world_bank: world_bank
+    world_university: world_university
+    globe_theatre: globe_theatre
+    tree_of_life: tree_of_life
+    neuschwanstein: neuschwanstein
+    himeji_castle: himeji_castle
+    colossus: the_colossus
+    space_shuttle: space_shuttle
+    notre_dame: notre_dame
+    parthenon: parthenon
+    great_pyramid: the_great_pyramid
+    council_of_eight: council_of_eight
+    statue_of_zeus: statue_of_zeus
+    statue_of_liberty: statue_of_liberty
+    ingermanland: ingermanland
+    chichen_itza: chichen_itza
+    eiffel_tower: eiffel_tower
+  national:
+    colosseum: colosseum
+    national_college: national_college
+    foundry: foundry
+    hermitage: hermitage
+    east_india_company: east_india_company
+    international_port: international_port
