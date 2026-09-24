@@ -1,0 +1,126 @@
+# Бонусы биомов на культурный чанк (docs/spec/01_core.md §9.2): молоточки, урожайность, счастье, наука.
+# Строки — биомы 1.8 из вики; mapping сопоставляет биомы 1.21 со строками [допущение из спецификации].
+rows:
+  beach: {hammers: 0.25, growth: 0.5, happiness: 0.06, beakers: 1.5}
+  birch_forest: {hammers: 1.5, growth: 0.75, happiness: 0.025, beakers: 0.5}
+  birch_forest_hills: {hammers: 1.5, growth: 1, happiness: 0.02, beakers: 1}
+  birch_forest_hills_mountains: {hammers: 2, growth: 0.15, happiness: 0.02, beakers: 0.5}
+  birch_forest_mountains: {hammers: 2.5, growth: 0.5, happiness: 0.01, beakers: 1}
+  cold_beach: {hammers: 2, growth: 0, happiness: 0.01, beakers: 1}
+  cold_taiga: {hammers: 1, growth: 0.25, happiness: 0.02, beakers: 1.5}
+  cold_taiga_hills: {hammers: 2.5, growth: 0.15, happiness: 0.02, beakers: 0.25}
+  cold_taiga_mountains: {hammers: 3, growth: 0, happiness: 0, beakers: 1}
+  deep_ocean: {hammers: 0.5, growth: 0.25, happiness: 0, beakers: 1.1}
+  desert: {hammers: 0.25, growth: 1, happiness: 0.03, beakers: 1}
+  desert_hills: {hammers: 2, growth: 0.25, happiness: 0.03, beakers: 1}
+  desert_mountains: {hammers: 3, growth: 0, happiness: 0.01, beakers: 1}
+  extreme_hills: {hammers: 4, growth: 0, happiness: 0, beakers: 0.15}
+  extreme_hills_mountains: {hammers: 4, growth: 0, happiness: 0, beakers: 0.5}
+  extreme_hills_plus: {hammers: 4.5, growth: 0, happiness: 0, beakers: 0}
+  extreme_hills_plus_mountains: {hammers: 4.5, growth: 0, happiness: 0, beakers: 0.5}
+  flower_forest: {hammers: 1, growth: 1.25, happiness: 0.05, beakers: 0.75}
+  forest: {hammers: 1, growth: 1.25, happiness: 0.025, beakers: 0.5}
+  forest_hills: {hammers: 2, growth: 0.25, happiness: 0.03, beakers: 1}
+  frozen_ocean: {hammers: 0.25, growth: 0, happiness: 0, beakers: 3}
+  frozen_river: {hammers: 2, growth: 2.5, happiness: 0.015, beakers: 1}
+  ice_mountains: {hammers: 2, growth: 0.25, happiness: 0.02, beakers: 1}
+  ice_plains: {hammers: 1, growth: 0.5, happiness: 0.02, beakers: 0.5}
+  ice_plains_spikes: {hammers: 0.5, growth: 0, happiness: 0.03, beakers: 3}
+  jungle: {hammers: 0.5, growth: 1, happiness: 0.02, beakers: 1}
+  jungle_edge: {hammers: 1, growth: 0.5, happiness: 0.03, beakers: 1}
+  jungle_edge_mountains: {hammers: 2, growth: 0.25, happiness: 0.01, beakers: 0.5}
+  jungle_hills: {hammers: 2, growth: 0.25, happiness: 0.03, beakers: 1}
+  jungle_mountains: {hammers: 3, growth: 0.05, happiness: 0, beakers: 0.25}
+  mesa_plateau_forest_mountains: {hammers: 3, growth: 0.25, happiness: 0, beakers: 1}
+  mega_spruce_taiga: {hammers: 2.5, growth: 0.25, happiness: 0.1, beakers: 0.25}
+  mega_spruce_taiga_hills: {hammers: 3, growth: 0, happiness: 0.03, beakers: 0.5}
+  mega_taiga: {hammers: 1.5, growth: 0.25, happiness: 0.02, beakers: 1.5}
+  mega_taiga_hills: {hammers: 3, growth: 0.1, happiness: 0, beakers: 0.1}
+  mesa: {hammers: 2, growth: 0, happiness: 0.03, beakers: 1.5}
+  mesa_bryce: {hammers: 2, growth: 0.5, happiness: 0.01, beakers: 0.25}
+  mesa_plateau: {hammers: 3, growth: 0, happiness: 0.01, beakers: 0.25}
+  mesa_plateau_forest: {hammers: 1.5, growth: 1, happiness: 0.02, beakers: 0.5}
+  mesa_plateau_mountains: {hammers: 4, growth: 0.25, happiness: 0, beakers: 0.25}
+  mushroom_island: {hammers: 1, growth: 0.5, happiness: 0.03, beakers: 0.5}
+  mushroom_shore: {hammers: 0.5, growth: 0.25, happiness: 0.05, beakers: 0.5}
+  ocean: {hammers: 0.5, growth: 0.25, happiness: 0.02, beakers: 1}
+  plains: {hammers: 0.25, growth: 2, happiness: 0.025, beakers: 0.5}
+  roofed_forest: {hammers: 1, growth: 0.5, happiness: 0.025, beakers: 0.75}
+  roofed_forest_mountains: {hammers: 2, growth: 2, happiness: 0, beakers: 0.5}
+  savanna: {hammers: 1, growth: 1.5, happiness: 0.03, beakers: 1}
+  savanna_mountains: {hammers: 4, growth: 0.25, happiness: 0, beakers: 0.25}
+  savanna_plateau: {hammers: 1.25, growth: 1.25, happiness: 0.025, beakers: 1}
+  savanna_plateau_mountains: {hammers: 3.25, growth: 0.5, happiness: 0, beakers: 0}
+  small_mountains: {hammers: 2.5, growth: 0.5, happiness: 0.015, beakers: 0.5}
+  stone_beach: {hammers: 3, growth: 0, happiness: 0.015, beakers: 0.15}
+  sunflower_plains: {hammers: 1, growth: 1.5, happiness: 0.04, beakers: 1}
+  swampland: {hammers: 0.25, growth: 1, happiness: 0.02, beakers: 1.5}
+  swampland_mountains: {hammers: 2.5, growth: 0.1, happiness: 0.02, beakers: 0.5}
+  taiga: {hammers: 2, growth: 0.5, happiness: 0.02, beakers: 0.5}
+  taiga_hills: {hammers: 2.5, growth: 0.25, happiness: 0.02, beakers: 0.15}
+  taiga_mountains: {hammers: 1.5, growth: 0.5, happiness: 0.03, beakers: 1}
+
+# Биом 1.21 → строка таблицы. Биомы без строки (Незер, Энд) ничего не дают.
+mapping:
+  plains: plains
+  sunflower_plains: sunflower_plains
+  snowy_plains: ice_plains
+  ice_spikes: ice_plains_spikes
+  desert: desert
+  swamp: swampland
+  mangrove_swamp: swampland_mountains
+  forest: forest
+  flower_forest: flower_forest
+  birch_forest: birch_forest
+  old_growth_birch_forest: birch_forest_mountains
+  dark_forest: roofed_forest
+  pale_garden: roofed_forest_mountains
+  taiga: taiga
+  snowy_taiga: cold_taiga
+  old_growth_pine_taiga: mega_taiga
+  old_growth_spruce_taiga: mega_spruce_taiga
+  savanna: savanna
+  savanna_plateau: savanna_plateau
+  windswept_savanna: savanna_mountains
+  windswept_hills: extreme_hills
+  windswept_gravelly_hills: extreme_hills_mountains
+  windswept_forest: extreme_hills_plus
+  jungle: jungle
+  sparse_jungle: jungle_edge
+  bamboo_jungle: jungle_hills
+  badlands: mesa
+  eroded_badlands: mesa_bryce
+  wooded_badlands: mesa_plateau_forest
+  meadow: small_mountains
+  cherry_grove: flower_forest
+  grove: cold_taiga_hills
+  snowy_slopes: ice_mountains
+  frozen_peaks: cold_taiga_mountains
+  jagged_peaks: extreme_hills_plus_mountains
+  stony_peaks: mesa_plateau_mountains
+  river: ocean
+  frozen_river: frozen_river
+  beach: beach
+  snowy_beach: cold_beach
+  stony_shore: stone_beach
+  ocean: ocean
+  warm_ocean: ocean
+  lukewarm_ocean: ocean
+  cold_ocean: ocean
+  deep_ocean: deep_ocean
+  deep_lukewarm_ocean: deep_ocean
+  deep_cold_ocean: deep_ocean
+  frozen_ocean: frozen_ocean
+  deep_frozen_ocean: frozen_ocean
+  mushroom_fields: mushroom_island
+  # Пещерные биомы берутся по поверхности; если поверхность — пещера (редкость), приравниваем:
+  lush_caves: jungle
+  dripstone_caves: extreme_hills
+  deep_dark: extreme_hills
+
+# Классы чанков для наций и чудес (§9.2).
+classes:
+  desert: [desert]
+  jungle: [jungle, sparse_jungle, bamboo_jungle]
+  ocean: [ocean, warm_ocean, lukewarm_ocean, cold_ocean, deep_ocean, deep_lukewarm_ocean, deep_cold_ocean, frozen_ocean, deep_frozen_ocean]
+  river: [river, frozen_river]

@@ -1,0 +1,245 @@
+# Государственный строй и нации (docs/spec/01_core.md §13, §14).
+# Множители — в процентах от базы (100 = без изменений). Эффекты — формат EffectParser:
+#   {stat: <id>, add|percent|multiply|min|max: <число>, scope: town|civ|capital|global}
+
+start: tribalism
+anarchy: anarchy
+
+# Бонус к максимальному налогу от баффов «Жадность» (стат max_tax), не более 5 %.
+max-tax-bonus-cap: 0.05
+min-beaker-price: 1
+
+# Показывать в /civ gov list ещё не изученные строи.
+list-unavailable: false
+
+# §13.4: длительность перехода = число жителей незахваченных городов, в часах.
+transition:
+  min-hours: 1
+  max-hours: 24
+  national-government-multiplier: 0.75
+
+governments:
+  anarchy:
+    name: Анархия
+    selectable: false
+    trade: 0
+    strategic: 0
+    cottage: 0
+    upkeep: 500
+    growth: 60
+    max-tax: 0
+    culture: 0
+    hammers: 50
+    science: 50
+    trade-ship: 100
+    # Анархия: нет прибыли от ресурсов и зданий.
+    income: 0
+    beaker-price: 17.5
+    description: ['<red>Нет прибыли от ресурсов и зданий. Разрешён только /town deposit. Налог ×5.']
+  tribalism:
+    name: Трибализм
+    trade: 95
+    strategic: 0
+    cottage: 100
+    upkeep: 100
+    growth: 85
+    max-tax: 5
+    culture: 100
+    hammers: 100
+    science: 95
+    trade-ship: 100
+    beaker-price: 17.5
+    effects:
+      - {stat: monster_farm, percent: 1.5}
+    description: ['<gray>Стартовый строй. Эффективность Монстр-фермы +150 %.']
+  despotism:
+    name: Деспотизм
+    tech: productivity
+    trade: 75
+    strategic: 40
+    cottage: 90
+    upkeep: 100
+    growth: 75
+    max-tax: 10
+    culture: 95
+    hammers: 120
+    science: 95
+    trade-ship: 95
+    beaker-price: 17.5
+    effects:
+      - {stat: trommel, multiply: 1.65}
+      - {stat: quarry, multiply: 1.65}
+      - {stat: quarry_pickaxe_durability, multiply: 2.0}
+    description: ['<gray>Дробилка и Карьер ×1.65, прочность кирок в Карьере ×2.']
+  monarchy:
+    name: Монархия
+    tech: monarchy
+    trade: 80
+    strategic: 50
+    cottage: 250
+    upkeep: 130
+    growth: 115
+    max-tax: 20
+    culture: 115
+    hammers: 105
+    science: 95
+    trade-ship: 100
+    beaker-price: 17.5
+    effects:
+      - {stat: trommel, multiply: 0.8}
+    description: ['<gray>Эффективность Дробилки −20 %.']
+  theocracy:
+    name: Теократия
+    tech: global_trade
+    trade: 115
+    strategic: 70
+    cottage: 80
+    upkeep: 110
+    growth: 75
+    max-tax: 25
+    culture: 140
+    hammers: 90
+    science: 95
+    trade-ship: 140
+    beaker-price: 17.5
+    effects:
+      - {stat: trommel, multiply: 0.8}
+      - {stat: upgrade_cost, percent: -0.10}
+    description: ['<gray>Эффективность Дробилки −20 %. Улучшения города на 10 % дешевле.']
+  communism:
+    name: Коммунизм
+    tech: mechanical_engineering
+    trade: 70
+    strategic: 150
+    cottage: 75
+    upkeep: 90
+    growth: 80
+    max-tax: 20
+    culture: 90
+    hammers: 165
+    science: 105
+    trade-ship: 80
+    beaker-price: 17.5
+    effects:
+      - {stat: trommel, multiply: 2.0}
+    description: ['<gray>Эффективность Дробилки +100 %.']
+  republic:
+    name: Республика
+    tech: republic
+    trade: 135
+    strategic: 115
+    cottage: 150
+    upkeep: 130
+    growth: 120
+    max-tax: 15
+    culture: 115
+    hammers: 105
+    science: 115
+    trade-ship: 125
+    beaker-price: 17.5
+    description: ['<gray>Без особых эффектов.']
+  mercantilism:
+    name: Меркантилизм
+    tech: monopoly
+    trade: 190
+    strategic: 115
+    cottage: 100
+    upkeep: 115
+    growth: 70
+    max-tax: 25
+    culture: 100
+    hammers: 95
+    science: 105
+    trade-ship: 145
+    beaker-price: 20
+    talent-beaker-discount: false
+    description: ['<gray>Цена пробирки 20 вместо 17.5. Талант «Наука 1» не работает.']
+  technocracy:
+    name: Технократия
+    tech: assembly_line
+    trade: 90
+    strategic: 80
+    cottage: 75
+    upkeep: 150
+    growth: 100
+    max-tax: 10
+    culture: 90
+    hammers: 100
+    science: 130
+    trade-ship: 95
+    beaker-price: 17.5
+    description: ['<gray>Без особых эффектов (только множители).']
+
+# Нации (§14). Статы модуля построек: build_cost.<тег>, build_hammers.<тег>, upkeep.<тег>, structure_hp.<тег>
+# (теги tower, naval...). Прочие статы: beehive_frame_uses (Ацтеки), learning_buff (Греки), warship_damage (Турки).
+nations:
+  aztecs:
+    name: Ацтеки
+    government: monarchy
+    effects:
+      - {stat: build_cost.tower, percent: -0.10}
+      - {stat: upkeep.tower, percent: -0.25}
+      - {stat: beehive_frame_uses, add: 1}
+    town-with-chunk-class:
+      - {class: jungle, stat: happiness, add: 0.25}
+    description:
+      - '<gray>Религия «Язычество». Рамка в ульях используется дважды.'
+      - '<gray>Башни лучников, пушкарей и Теслы: −10 % цены, −25 % содержания.'
+      - '<gray>+0.25 счастья цивилизации за каждый город с чанком джунглей.'
+  americans:
+    name: Американцы
+    government: technocracy
+    native-town-effects:
+      - {stat: slots, add: 3}
+    description:
+      - '<gray>Каждый родной город +3 слота построек.'
+  greeks:
+    name: Греки
+    government: mercantilism
+    effects:
+      - {stat: learning_buff, multiply: 2.0}
+    description:
+      - '<gray>Удваивает бафф «Обучения» от научных построек.'
+  egyptians:
+    name: Египтяне
+    government: republic
+    per-chunk:
+      - {class: desert, stat: hammers, add: 1}
+    town-with-chunk-class:
+      - {class: desert, stat: happiness, add: 0.25}
+    description:
+      - '<gray>+1 молоточек за каждый чанк пустыни.'
+      - '<gray>+0.25 счастья цивилизации за каждый город с чанком пустыни.'
+  turks:
+    name: Турки
+    government: communism
+    effects:
+      - {stat: structure_hp.naval, percent: 0.25}
+      - {stat: warship_damage, add: 1}
+      - {stat: build_cost.naval, percent: -0.25}
+      - {stat: build_hammers.naval, percent: -0.25}
+      - {stat: upkeep.naval, percent: -0.25}
+    per-structure:
+      - {types: [fishing_boat, fishingboats], stat: hammers, add: 100}
+    description:
+      - '<gray>Военные корабли: прочность +25 %, урон +1. Каждое Рыболовное судно +100 молоточков.'
+      - '<gray>Морские постройки: −25 % монет, −25 % молоточков, −25 % содержания.'
+  french:
+    name: Французы
+    government: theocracy
+    government-change-multiplier: 0.75
+    capital-effects:
+      - {stat: culture_requirement, percent: -0.05}
+    description:
+      - '<gray>Требования уровней культуры в столице −5 %. Смена строя на 25 % быстрее.'
+  japanese:
+    name: Японцы
+    government: despotism
+    per-chunk:
+      - {class: river, stat: hammers, add: 0.35}
+      - {class: ocean, stat: hammers, add: 0.35}
+    per-structure-era:
+      - {types: [monument, temple, museum, theatre, arena, amphitheatre, colosseum, pagoda, cinema], stat: culture, add: 7.5}
+    description:
+      - '<gray>+0.35 молоточка за каждый чанк реки и океана.'
+      - '<gray>Каждая культурная постройка +7.5 культуры за каждую эру.'

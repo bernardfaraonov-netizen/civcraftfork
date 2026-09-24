@@ -1,0 +1,59 @@
+# Участки: /plot (/p).
+plot:
+  help:
+    - '<gold><b>Команды участка</b> <gray>(/plot, /p)'
+    - '<yellow>/p info</yellow> <gray>— сведения; <yellow>/p perm</yellow> — права'
+    - '<yellow>/p perm set \<build|destroy|interact|itemuse|*> \<owner|group|others|civ|*> \<on|off></yellow>'
+    - '<yellow>/p setowner \<ник|none></yellow>, <yellow>/p addgroup|removegroup \<группа></yellow>, <yellow>/p cleargroups</yellow>'
+    - '<yellow>/p toggle \<mobs|fire></yellow>, <yellow>/p fs \<цена></yellow>, <yellow>/p nfs</yellow>, <yellow>/p buy</yellow>, <yellow>/p farminfo</yellow>'
+  'on': 'вкл'
+  'off': 'выкл'
+  'yes': 'да'
+  'no': 'нет'
+  none: '<red>Этот чанк не запривачен.'
+  no-rights: '<red>Вы не можете менять этот участок.'
+  info:
+    header: '<gold>━━━ Участок <white><x>, <z></white> ━━━'
+    town: '<gray>Город: <white><town></white>, владелец: <white><owner></white>'
+    town-owned: 'город'
+    groups: '<gray>Группы: <white><groups></white>'
+    flags: '<gray>Мобы: <white><mobs></white>, огонь: <white><fire></white>, закреплён: <white><locked></white>'
+    value: '<gray>Стоимость (для налога): <gold><value></gold>'
+    for-sale: '<green>Продаётся за <gold><price></gold> монет (/p buy).'
+  perm:
+    header: '<gold>Права: <gray>build destroy interact itemuse'
+    subject: '<white><subject></white>:'
+    cell-on: '<green><perm>'
+    cell-off: '<dark_gray><perm>'
+    bad-perm: '<red>Право: build, destroy, interact, itemuse или *.'
+    bad-subject: '<red>Субъект: owner, group, others, civ или *.'
+    bad-value: '<red>Значение: on/off (yes/no).'
+    set: '<green>Право <white><perm></white> для <white><subject></white>: <white><value></white>.'
+  owner:
+    cleared: '<yellow>Участок снова принадлежит городу.'
+    not-resident: '<red><white><name></white> не житель этого города.'
+    set: '<green>Владелец участка: <white><name></white>.'
+    you: '<green>Вам передан участок <white><x>, <z></white>.'
+  group:
+    cleared: '<yellow>Группы участка очищены.'
+    already: '<red>Группа <white><group></white> уже на участке.'
+    absent: '<red>Группы <white><group></white> нет на участке.'
+    added: '<green>Группа <white><group></white> добавлена.'
+    removed: '<yellow>Группа <white><group></white> убрана.'
+  toggle:
+    unknown: '<red>Можно переключить: mobs, fire.'
+    done: '<green><white><flag></white>: <white><value></white>.'
+  sale:
+    locked: '<red>Этот участок нельзя продать.'
+    max: '<red>Цена не может превышать <white><max></white>.'
+    listed: '<green>Участок выставлен на продажу за <gold><price></gold> монет.'
+    not-listed: '<red>Участок не продаётся.'
+    unlisted: '<yellow>Участок снят с продажи.'
+  buy:
+    not-resident: '<red>Купить участок может только житель города <white><town></white>.'
+    own: '<red>Это уже ваш участок.'
+    done: '<green>Вы купили участок за <gold><price></gold> монет.'
+    sold: '<green><white><name></white> купил ваш участок за <gold><price></gold> монет.'
+  farm:
+    unavailable: '<red>Информация о фермах недоступна.'
+    none: '<red>На этом участке нет фермы.'

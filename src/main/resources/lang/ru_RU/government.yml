@@ -1,0 +1,46 @@
+# Государственный строй и нации: /civ gov, /civ nation.
+government:
+  unknown: '<red>Строй <white><name></white> не найден.'
+  info:
+    header: '<gold>Государственный строй: <white><gov></white>'
+    table:
+      - '<gray>Торговля <white><trade></white>, стратегические здания <white><strategic></white>, коттеджи <white><cottage></white>'
+      - '<gray>Содержание <white><upkeep></white>, урожайность <white><growth></white>, макс. налог <white><maxtax></white>'
+      - '<gray>Культура <white><culture></white>, молоточки <white><hammers></white>, наука <white><science></white>, торговый корабль <white><tradeship></white>'
+      - '<gray>Цена пробирки: <white><beaker></white> монет'
+  list:
+    header: '<gold>Доступные строи:'
+    current: '<green>● <white><gov></white> <gray>(<id>) — текущий'
+    available: '<gray>● <white><gov></white> <gray>(<id>)'
+    locked: '<dark_gray>● <gov> (<id>) — не изучено'
+  remain:
+    none: '<gray>Смены строя не происходит.'
+    info: '<gold>Переход в <white><gov></white>: осталось <white><time></white> (до <end>).'
+  change:
+    in-progress: '<red>Смена строя уже идёт.'
+    same: '<red>Этот строй уже установлен.'
+    locked: '<red>Строй <white><gov></white> ещё не изучен.'
+    stale: '<red>Ситуация изменилась, смена строя отменена.'
+    confirm-title: '<gold>Сменить строй на <gov>?'
+    confirm-anarchy:
+      - 'Цивилизация сразу впадёт в анархию на <time>.'
+      - 'Анархия: нет доходов, снятие денег запрещено, содержание ×5.'
+      - 'Отменить смену нельзя.'
+    confirm-no-anarchy:
+      - 'Переход займёт <time>; до конца действует прежний строй.'
+      - 'Отменить смену нельзя.'
+    anarchy: '<red>Цивилизация впала в анархию! Через <white><time></white> установится строй <white><gov></white>.'
+    no-anarchy: '<gold>Начат переход в строй <white><gov></white>: <white><time></white>. Анархии нет.'
+    done: '<green>Установлен строй <white><gov></white>.'
+  nation:
+    header: '<gold>Нации (выбор однократный, /civ nation <нация>):'
+    entry: '<gold>● <white><nation></white> <gray>(<id>), национальный строй: <white><gov></white>'
+    current: '<green>Ваша нация: <white><nation></white>.'
+    province: '<red>Провинция не может выбрать нацию. Постройте Капитолий.'
+    already: '<red>Нация уже выбрана и не может быть изменена.'
+    unknown: '<red>Нация <white><name></white> не найдена.'
+    confirm-title: '<gold>Выбрать нацию <nation>?'
+    confirm-body:
+      - 'Выбор нации однократный — сменить её будет нельзя.'
+      - 'Все города цивилизации получат эффекты нации <nation>.'
+    chosen: '<gold>Цивилизация <white><civ></white> выбрала нацию <white><nation></white>!'

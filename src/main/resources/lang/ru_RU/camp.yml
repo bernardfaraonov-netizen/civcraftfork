@@ -1,0 +1,119 @@
+# Лагерь: /camp.
+camp:
+  help:
+    - '<gold><b>Команды лагеря</b> <gray>(/camp)'
+    - '<yellow>/camp info</yellow>, <yellow>/camp members</yellow>, <yellow>/camp location</yellow>, <yellow>/camp list</yellow>'
+    - '<yellow>/camp add \<ник></yellow>, <yellow>/camp remove \<ник></yellow>, <yellow>/camp leave</yellow>, <yellow>/camp setowner \<ник></yellow>'
+    - '<yellow>/camp upgrade list|buy \<название>|purchased</yellow> <gray>— Сад, Дробилка, Большой дом'
+    - '<yellow>/camp teleport</yellow> <gray>(кулдаун 30 мин), <yellow>/camp refresh</yellow>, <yellow>/camp undo</yellow>, <yellow>/camp disband</yellow>'
+    - '<yellow>/camp chat [сообщение]</yellow>, <yellow>/camp motd [текст]</yellow>'
+  unknown: '<red>Лагерь <white><name></white> не найден.'
+  not-member: '<red>Вы не состоите в лагере.'
+  owner-only: '<red>Это может сделать только владелец лагеря.'
+  protected: '<red>Блоки лагеря защищены.'
+  protected-use: '<red>Этим пользуются только члены лагеря.'
+  hologram: '<gold><camp></gold><newline><red>❤ <white><hp></white>/<max>'
+  left: '<yellow><white><name></white> покинул лагерь.'
+  sign:
+    garden: ['Сад', 'отключён', '/camp upgrade', 'buy garden']
+    crusher: ['Дробилка', 'отключена', '/camp upgrade', 'buy crusher']
+    longhouse: ['Большой дом', 'отключён', '/camp upgrade', 'buy longhouse']
+  place:
+    no-template: '<red>Шаблон лагеря не найден.'
+    world: '<red>Здесь нельзя ставить лагерь.'
+    height: '<red>Лагерь не помещается по высоте.'
+    ground: '<red>Под лагерем должно быть не меньше <white><percent></white>% твёрдых блоков.'
+    claimed: '<red>Место занято приватом города.'
+    culture: '<red>Нельзя ставить лагерь в культуре цивилизации.'
+    overlap: '<red>Слишком близко к лагерю <white><camp></white>.'
+    spawn: '<red>Слишком близко к спавну.'
+    container: '<red>В месте постройки есть сундуки или другие контейнеры — уберите их.'
+    in-town: '<red>Житель города не может основать лагерь.'
+    in-camp: '<red>Вы уже состоите в лагере.'
+    no-door: '<red>Нужна дверь лагеря.'
+    name-title: '<gold>Название лагеря'
+    name-body:
+      - 'Введите название лагеря латиницей (3–20 символов).'
+    name-label: 'Название'
+    name-taken: '<red>Лагерь <white><name></white> уже существует.'
+    done: '<green>Лагерь <white><camp></white> построен! Держите уголь в печах у костра: 4 угля в час.'
+    announce: '<gray><white><name></white> основал лагерь <white><camp></white>.'
+  destroyed:
+    coal: '<red>Костёр лагеря <white><camp></white> погас — лагерь уничтожен.'
+    coal-global: '<gray>Лагерь <white><camp></white> погиб без угля.'
+    raid: '<red>Лагерь <white><camp></white> разграблен!'
+    raid-global: '<gray>Лагерь <white><camp></white> разрушен в рейде.'
+    culture: '<red>Лагерь <white><camp></white> поглощён культурой города и разрушен.'
+    culture-global: '<gray>Лагерь <white><camp></white> поглощён культурой города.'
+    disbanded: '<yellow>Лагерь <white><camp></white> распущен.'
+    disbanded-global: '<gray>Лагерь <white><camp></white> распущен.'
+    abandoned: '<yellow>Лагерь <white><camp></white> покинут.'
+    abandoned-global: '<gray>Лагерь <white><camp></white> покинут.'
+  coal:
+    low: '<yellow>Угля в печах осталось на <white><hours></white> ч. Без угля лагерь погибнет!'
+  raid:
+    closed: '<red>Сейчас не время рейда на этот лагерь.'
+    tool: '<red>Контрольный блок ломается только алмазной киркой или лучше.'
+    attacked: '<red><b>Лагерь атакован!</b> <white><name></white> ломает контрольный блок.'
+  longhouse:
+    starved: '<red>Большой дом голодает: нет хлеба. Уровень <white><level></white>.'
+    fed: '<green>Большой дом съел хлеб: +<gold><coins></gold> монет владельцу, +<white><tokens></white> жетонов лидерства.'
+    level-up: '<gold>Большой дом вырос до уровня <white><level></white>! +<coins> монет, +<tokens> жетонов.'
+  add:
+    in-town: '<red><white><name></white> состоит в городе.'
+    in-camp: '<red><white><name></white> уже в лагере.'
+    full: '<red>В лагере не больше <white><max></white> человек.'
+    question: '<gold><white><name></white> приглашает вас в лагерь <white><camp></white>.'
+    joined: '<green><white><name></white> вступил в лагерь.'
+  remove:
+    self: '<red>Нельзя исключить себя.'
+    not-member: '<red><white><name></white> не состоит в лагере.'
+    done: '<yellow><white><name></white> исключён из лагеря.'
+    you: '<red>Вас исключили из лагеря <white><camp></white>.'
+  leave:
+    owner: '<red>Владелец не может уйти: передайте лагерь (/camp setowner) или распустите его.'
+    done: '<yellow>Вы покинули лагерь <white><camp></white>.'
+  setowner:
+    self: '<red>Вы уже владелец.'
+    done: '<gold>Новый владелец лагеря: <white><name></white>.'
+  upgrade:
+    header: '<gold>Улучшения лагеря (платит владелец):'
+    entry: '<gray>● <white><name></white> (<id>) — <gold><cost></gold> монет'
+    owned: '<green>● <white><name></white> — куплено'
+    purchased: '<gold>Куплено: <white><list></white>'
+    unknown: '<red>Улучшение <white><name></white> не найдено.'
+    already: '<red>Это улучшение уже куплено.'
+    bought: '<green>Куплено улучшение <white><name></white> за <gold><cost></gold> монет.'
+    name:
+      garden: 'Сад'
+      crusher: 'Дробилка'
+      longhouse: 'Большой дом'
+  teleport:
+    done: '<green>Вы телепортировались в лагерь <white><camp></white>.'
+  refresh:
+    done: '<green>Лагерь восстановлен.'
+  undo:
+    expired: '<red>Отменить постройку можно только в первые <white><minutes></white> мин.'
+    done: '<green>Лагерь снесён, дверь лагеря возвращена.'
+  disband:
+    confirm-title: '<red>Распустить лагерь?'
+    confirm-body:
+      - 'Лагерь <camp> будет снесён, вещи из сундуков выпадут на землю.'
+  info:
+    header: '<gold>━━━ Лагерь <white><camp></white> [<tag>] ━━━'
+    owner: '<gray>Владелец: <white><owner></white>, членов: <white><members></white>'
+    hp: '<gray>Контрольный блок: <white><hp></white>/<max>'
+    raid-open: '<red>Рейд возможен прямо сейчас!'
+    raid-next: '<gray>Ближайшее окно рейда: <white><time></white>'
+    coal: '<gray>Уголь в печах: <white><coal></white> (~<hours> ч)'
+    upgrades: '<gray>Улучшения: <white><list></white>'
+    longhouse: '<gray>Большой дом: ур. <white><level></white>, прогресс <white><progress></white>, жетонов выдано <white><tokens></white>'
+    founded: '<gray>Основан: <white><date></white>'
+    motd: '<gold>Объявление: <white><text></white>'
+  members: '<gold>Члены лагеря <white><camp></white> (<count>):'
+  location: '<gold>Лагерь <white><camp></white>: <x>, <y>, <z>'
+  list: '<gold>Лагеря (<count>): <white><list></white>'
+  list-entry: '<camp> (<owner>, <members>)'
+  motd:
+    none: '<gray>Объявления нет.'
+    set: '<gold>Объявление лагеря: <white><text></white>'
