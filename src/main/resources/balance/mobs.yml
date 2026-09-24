@@ -1,0 +1,304 @@
+# Custom mobs (spec 04 §10, dungeon rats §12). Mobs are vanilla entities tagged in their PDC; stats are
+# applied with attributes. All values marked [assumption] are not in the sources and can be tuned.
+
+# Vanilla entity used for every mob type [assumption, spec 04 §10.1].
+entity-types:
+  yobo: zombie
+  angry_yobo: zombie        # spawned as a baby zombie
+  savage: husk              # "cannibal", melee
+  ruffian: witch            # throws potions
+  behemoth: iron_golem      # passive until hit
+  rat: silverfish           # dungeon rat (cannot hide in blocks)
+
+# hp / damage in HP units (2 HP = 1 heart); speed = multiplier of the vanilla movement speed;
+# armor = armour points; defence = flat reduction of every incoming hit; coins = [min, max] whole coins.
+# Coins are the final V1.10.5 values (spec 04 §10.5); Savage/Ruffian/Behemoth coins are [assumption].
+mobs:
+  yobo:
+    defaults: {follow-range: 32, xp: 5}
+    lesser:  {hp: 40,  damage: 4,  speed: 1.0,  coins: [10, 50]}
+    greater: {hp: 80,  damage: 6,  speed: 1.05, coins: [75, 150]}
+    elite:   {hp: 140, damage: 9,  speed: 1.1,  coins: [150, 262]}
+    brutal:  {hp: 220, damage: 12, speed: 1.15, coins: [225, 300]}
+  angry_yobo:
+    # [assumption] half the HP and ~60 % of the damage of the big Yobo of the same tier.
+    defaults: {follow-range: 32, xp: 2}
+    lesser:  {hp: 20,  damage: 3, speed: 1.0,  coins: [5, 20]}
+    greater: {hp: 40,  damage: 4, speed: 1.05, coins: [45, 60]}
+    elite:   {hp: 70,  damage: 6, speed: 1.1,  coins: [75, 90]}
+    brutal:  {hp: 110, damage: 8, speed: 1.15, coins: [105, 120]}
+  savage:
+    defaults: {follow-range: 32, xp: 5}
+    lesser:  {hp: 40,  damage: 4,  speed: 1.0,  coins: [10, 40]}
+    greater: {hp: 80,  damage: 6,  speed: 1.05, coins: [30, 60]}
+    elite:   {hp: 140, damage: 9,  speed: 1.1,  coins: [60, 120]}
+    brutal:  {hp: 220, damage: 12, speed: 1.15, coins: [90, 150]}
+  ruffian:
+    # Witches drop their potions, which can be drunk (CL V1.9.2).
+    defaults: {follow-range: 24, xp: 5, keep-vanilla-drops: [POTION, SPLASH_POTION]}
+    lesser:  {hp: 40,  damage: 4,  speed: 1.0,  coins: [10, 40]}
+    greater: {hp: 80,  damage: 6,  speed: 1.05, coins: [30, 60]}
+    elite:   {hp: 140, damage: 9,  speed: 1.1,  coins: [60, 120]}
+    brutal:  {hp: 220, damage: 12, speed: 1.15, coins: [90, 150]}
+  behemoth:
+    defaults: {follow-range: 24, xp: 8, knockback-resistance: 0.6}
+    lesser:  {hp: 40,  damage: 4,  speed: 1.0,  coins: [10, 40]}
+    greater: {hp: 80,  damage: 6,  speed: 1.05, coins: [30, 60]}
+    elite:   {hp: 140, damage: 9,  speed: 1.1,  coins: [60, 120]}
+    brutal:  {hp: 220, damage: 12, speed: 1.15, coins: [90, 150]}
+  rat:
+    # Spec 04 §12 (CL V1.4.1): 45 HP, 8 damage ignoring armour, every hit reduced by 20.
+    lesser: {hp: 45, damage: 8, speed: 1.1, defence: 20, ignore-armor: true, scale: 1.6, follow-range: 20,
+             coins: [150, 250], xp: 5}
+
+# Vanilla drop of every mob (spec 04 §10.4). Looting adds to these amounts only.
+common-drops:
+  - {item: bone, chance: 10}
+  - {item: sugar, chance: 10}
+  - {item: gunpowder, chance: 25}
+  - {item: potato, chance: 10}
+  - {item: carrot, chance: 10}
+  - {item: coal, chance: 10}
+  - {item: string, chance: 10}
+  - {item: slime_ball, chance: 2}
+
+# Extra drop of every Lesser mob (CL V1.6.5).
+lesser-drops:
+  - {item: wheat, chance: 2.5}
+
+# Custom drops (spec 04 §10.4). Ids are item-module ids. "no-angry: true" = not dropped by Angry Yobo.
+# "mercury: true" entries are scaled by the "Fat rats" world event. Mercury values already include V1.10.6.
+drops:
+  yobo:
+    lesser:
+      - {item: mat_forged_clay, chance: 10}
+      - {item: mat_crafted_reeds, chance: 10}
+      - {item: mat_crafted_sticks, chance: 10}
+    greater:
+      - {item: mat_clay_steel_cast, chance: 5}
+      - {item: mat_steel_ingot, chance: 5}
+      - {item: mat_varnish, chance: 1}
+      - {item: mat_sticky_resin, chance: 1}
+      - {item: mat_leather_straps, chance: 5, no-angry: true}
+    elite:
+      - {item: mat_clay_steel_cast, chance: 5}
+      - {item: mat_carbide_steel_ingot, chance: 5}
+      - {item: mat_sticky_resin, chance: 10}
+      - {item: mat_smithy_resin, chance: 1}
+      - {item: mat_reinforced_braid, chance: 5, no-angry: true}
+    brutal:
+      - {item: mat_metallic_crystal_fragment_4, chance: 5}
+      - {item: mat_tungsten_ingot, chance: 5}
+      - {item: mat_clay_tungsten_casting, chance: 5}
+      - {item: mat_sticky_resin, chance: 10}
+      - {item: mat_smithy_resin, chance: 1}
+      - {item: mat_artisan_leather, chance: 5, no-angry: true}
+      - {item: mat_mercury, chance: 2}
+      - {item: mat_mercury_bath, chance: 0.8}
+  savage:
+    lesser:
+      - {item: mat_forged_clay, chance: 10}
+      - {item: mat_crafted_reeds, chance: 10}
+      - {item: mat_crafted_sticks, chance: 10}
+    greater:
+      - {item: mat_aged_wood_stave, chance: 10}
+      - {item: mat_crafted_string, chance: 5}
+      - {item: mat_varnish, chance: 1}
+      - {item: mat_sticky_resin, chance: 1}
+    elite:
+      - {item: mat_aged_wood_stave, chance: 10}
+      - {item: mat_varnish, chance: 5}
+      - {item: mat_woven_threading, chance: 10}
+      - {item: mat_sticky_resin, chance: 10}
+      - {item: mat_smithy_resin, chance: 1}
+    brutal:
+      - {item: mat_metallic_crystal_fragment_4, chance: 5}
+      - {item: mat_longbow_stave, chance: 10}
+      - {item: mat_reinforced_braid, chance: 15}
+      - {item: mat_leather_straps, chance: 10}
+      - {item: mat_sticky_resin, chance: 10}
+      - {item: mat_smithy_resin, chance: 1}
+      - {item: mat_mercury, chance: 2}
+      - {item: mat_mercury_bath, chance: 0.8}
+  ruffian:
+    lesser:
+      - {item: mat_ionic_crystal_fragment_1, chance: 5}
+      - {item: mat_forged_clay, chance: 10}
+      - {item: mat_crafted_reeds, chance: 10}
+      - {item: mat_crafted_sticks, chance: 10}
+      - {item: leather, chance: 40}
+      - {item: mat_refined_sulphur, chance: 15}
+    greater:
+      - {item: mat_ionic_crystal_fragment_2, chance: 5}
+      - {item: mat_carved_leather, chance: 10}
+      - {item: mat_crafted_string, chance: 3}
+      - {item: mat_refined_slime, chance: 5}
+      - {item: mat_varnish, chance: 1}
+      - {item: mat_sticky_resin, chance: 1}
+      - {item: mat_refined_sulphur, chance: 25}
+    elite:
+      - {item: mat_ionic_crystal_fragment_3, chance: 5}
+      - {item: mat_leather_straps, chance: 10}
+      - {item: mat_crafted_string, chance: 5}
+      - {item: mat_refined_slime, chance: 5}
+      - {item: mat_varnish, chance: 1}
+      - {item: mat_sticky_resin, chance: 1}
+      - {item: mat_refined_sulphur, chance: 35}
+    brutal:
+      - {item: mat_ionic_crystal_fragment_4, chance: 5}
+      - {item: mat_artisan_leather, chance: 10}
+      - {item: mat_crafted_string, chance: 10}
+      - {item: mat_refined_slime, chance: 5}
+      - {item: mat_varnish, chance: 1}
+      - {item: mat_sticky_resin, chance: 1}
+      - {item: mat_refined_sulphur, chance: 50}
+      - {item: mat_mercury, chance: 2}
+      - {item: mat_mercury_bath, chance: 0.8}
+  behemoth:
+    lesser:
+      - {item: mat_metallic_crystal_fragment_1, chance: 5}
+      - {item: mat_forged_clay, chance: 10}
+      - {item: mat_crafted_reeds, chance: 10}
+      - {item: mat_crafted_sticks, chance: 10}
+    greater:
+      - {item: mat_metallic_crystal_fragment_2, chance: 5}
+      - {item: mat_steel_plate, chance: 10}
+      - {item: mat_steel_ingot, chance: 5}
+      - {item: mat_clay_molding, chance: 5}
+      - {item: mat_varnish, chance: 1}
+      - {item: mat_sticky_resin, chance: 5}
+    elite:
+      - {item: mat_metallic_crystal_fragment_3, chance: 5}
+      - {item: mat_carbide_steel_plate, chance: 10}
+      - {item: mat_carbide_steel_ingot, chance: 5}
+      - {item: mat_clay_molding, chance: 5}
+      - {item: mat_sticky_resin, chance: 10}
+      - {item: mat_smithy_resin, chance: 5}
+    brutal:
+      - {item: mat_ionic_crystal_fragment_4, chance: 5}
+      - {item: mat_tungsten_plate, chance: 10}
+      - {item: mat_tungsten_ingot, chance: 5}
+      - {item: mat_clay_tungsten_casting, chance: 5}
+      - {item: mat_sticky_resin, chance: 10}
+      - {item: mat_smithy_resin, chance: 5}
+      - {item: mat_mercury, chance: 2}
+      - {item: mat_mercury_bath, chance: 0.8}
+  rat:
+    # Spec 04 §12: page values T1 4.5 %, T2 2 %, ×1.25 (CL V1.10.7) [assumption]. No T3 since CL V1.5.
+    lesser:
+      - {item: mat_mercury, chance: 5.625, mercury: true}
+      - {item: mat_mercury_bath, chance: 2.5, mercury: true}
+
+# 1.8 wiki biomes mapped to 1.21 (spec 04 §10.3). A biome may list several mobs: all of them spawn there
+# (merged old biomes). Format: "<type>:<tier>".
+biomes:
+  plains: [yobo:lesser]
+  forest: [yobo:lesser]
+  birch_forest: [yobo:lesser]
+  sunflower_plains: [yobo:greater]
+  flower_forest: [yobo:greater]
+  old_growth_birch_forest: [yobo:greater, ruffian:elite]
+  windswept_hills: [yobo:elite]
+  windswept_forest: [yobo:elite]
+  dark_forest: [yobo:elite, ruffian:elite]
+  old_growth_spruce_taiga: [yobo:brutal, ruffian:greater]
+  windswept_gravelly_hills: [yobo:brutal]
+  desert: [savage:lesser]
+  savanna: [savage:greater]
+  savanna_plateau: [savage:greater]
+  windswept_savanna: [savage:greater]
+  badlands: [savage:elite]
+  wooded_badlands: [savage:elite]
+  old_growth_pine_taiga: [savage:elite, ruffian:lesser]
+  eroded_badlands: [savage:brutal]
+  jungle: [ruffian:lesser]
+  sparse_jungle: [ruffian:lesser]
+  swamp: [ruffian:lesser]
+  bamboo_jungle: [ruffian:greater]
+  mangrove_swamp: [ruffian:brutal]
+  frozen_river: [behemoth:lesser]
+  snowy_taiga: [behemoth:greater]
+  snowy_slopes: [behemoth:greater]
+  snowy_plains: [behemoth:elite]
+  ice_spikes: [behemoth:brutal]
+
+# A weapon may only hurt mobs whose tier is at most weapon tier + 1 (spec 04 §5.1). The item module
+# writes the tier in the item PDC (civcraft:tier); plain vanilla items use this table.
+weapon-tiers:
+  enabled: true
+  default: 0
+  materials:
+    wooden_sword: 0
+    stone_sword: 0
+    golden_sword: 0
+    iron_sword: 1
+    diamond_sword: 2
+    netherite_sword: 3
+    wooden_axe: 0
+    stone_axe: 0
+    golden_axe: 0
+    iron_axe: 1
+    diamond_axe: 2
+    netherite_axe: 3
+    bow: 1
+    crossbow: 1
+    trident: 2
+    mace: 2
+
+rules:
+  # Custom drops, coins and XP only when a player landed the kill (anti-farm).
+  require-player-kill: true
+  # A hit reduced by "defence" (rats) still deals at least this much [assumption].
+  min-damage-after-defence: 1.0
+  # Damage causes custom mobs ignore (legacy behaviour; explosions would bypass the weapon tier rule).
+  immune-damage: [SUFFOCATION, CONTACT, FALL, FIRE, FIRE_TICK, LAVA, DROWNING, HOT_FLOOR, CRAMMING,
+                  FREEZE, BLOCK_EXPLOSION, ENTITY_EXPLOSION, LIGHTNING, CAMPFIRE]
+  no-sun-burn: true
+
+abilities:
+  yobo:
+    angry-count: 6               # Angry Yobo per wave
+    wave-cooldown-seconds: 30
+    max-waves: 2                 # CL V0.9
+    angry-idle-despawn-seconds: 10
+  savage:
+    slow-chance: 25              # percent per hit
+    slow-level: 2                # Slowness II
+    slow-seconds: [3, 3.5, 4, 5] # T1..T4
+  ruffian:
+    potion-bonus-per-tier: 0.125 # +12.5 % potion strength per tier
+    splash-radius: 9
+  behemoth:
+    interval-seconds: [6, 5.5, 5, 4.5]
+    radius: 5.75
+    strong-chance: 30
+    strong-multiplier: 1.5       # [assumption] damage and knockback of a strong slam
+    knockback: 1.315
+    aggro-seconds: 30            # [assumption] how long it stays angry after being hit
+
+spawn:
+  enabled: true
+  worlds: []                     # empty = the main world from config.yml
+  interval-ticks: 40
+  players-per-run: 4             # round-robin: players handled per run
+  radius-min: 24
+  radius-max: 64
+  player-radius: 64              # custom mobs counted around a player
+  player-cap: 6                  # no spawns around a player that already has this many
+  local-radius: 16
+  local-cap: 4                   # no spawns next to this many custom mobs
+  group-min: 2                   # "minimum mobs per spawn ×2" (CL V0.9)
+  group-max: 3
+  attempts: 5
+  safe-radius-from-world-spawn: 150
+  camp-radius: 24                # no mobs this close to a camp
+  natural:
+    replace-chance: 0.5          # share of natural monster spawns in mapped biomes replaced by custom mobs
+    cancel-unreplaced: false     # also cancel the other natural monster spawns there
+
+clearlag:
+  enabled: true
+  interval-minutes: 20           # CL V0.9.5
+  warnings-seconds: [60, 30, 10, 5]
+  remove-items: true
+  remove-vanilla-monsters: true

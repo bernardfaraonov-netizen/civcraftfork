@@ -25,6 +25,7 @@ public final class CivCraftPlugin extends JavaPlugin {
     private static List<Module> createModules() {
         return List.of(
                 new com.civcraft.coremod.CoreModule(),
+                new com.civcraft.structure.StructureModule(),
                 new com.civcraft.resident.ResidentModule(),
                 new com.civcraft.chat.ChatModule(),
                 new com.civcraft.town.TownModule(),
@@ -39,6 +40,16 @@ public final class CivCraftPlugin extends JavaPlugin {
                 new com.civcraft.religion.artifact.ArtifactModule(),
                 new com.civcraft.space.SpaceModule(),
                 new com.civcraft.victory.VictoryModule(),
+                // PvE (mobs, valley & world boss, dungeon, world/town events, ruins, fishing, kits)
+                new com.civcraft.pve.PveModule(),
+                new com.civcraft.mob.MobModule(),
+                new com.civcraft.dungeon.DungeonModule(),
+                new com.civcraft.boss.ValleyModule(),
+                new com.civcraft.worldevent.WorldEventModule(),
+                new com.civcraft.randomevent.RandomEventModule(),
+                new com.civcraft.ruins.RuinsModule(),
+                new com.civcraft.fishing.FishingModule(),
+                new com.civcraft.kit.KitModule(),
                 // Integrations last: they read everything the gameplay modules set up.
                 new com.civcraft.integration.IntegrationModule()
         );

@@ -20,6 +20,7 @@ public final class CivData implements Stored {
     private Set<String> mutedTowns = new HashSet<>();
     private int scoutSeconds = 60;
     private int scoutRate = 60;
+    private boolean formed;
 
     private CivData() {
     }
@@ -59,6 +60,15 @@ public final class CivData implements Stored {
 
     public void scoutSeconds(int s) {
         this.scoutSeconds = s;
+    }
+
+    /** Whether the province → civilization conversion was announced. */
+    public boolean formed() {
+        return formed;
+    }
+
+    public void formed(boolean formed) {
+        this.formed = formed;
     }
 
     public int scoutRate() {

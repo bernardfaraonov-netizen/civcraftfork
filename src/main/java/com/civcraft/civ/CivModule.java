@@ -100,36 +100,34 @@ public final class CivModule implements Module, Listener, MuteRegistry {
     }
 
     /**
-     * A finished Capitol makes the province a civilization (spec §5.4) and replaces the town hall of that
-     * town; a Capitol completed in another town moves the capital.
+     * A finished Capitol makes the province a civilization (spec §5.4). The structure module flips the
+     * province flag, moves the capital and replaces the town hall; this announces the new civilization
+     * once and fires {@link CivFormedEvent}.
      */
     @EventHandler
     public void onStructureCompleted(StructureCompletedEvent e) {
         TownModule towns = civ.module(TownModule.class);
         if (!towns.service().capitolTypes().contains(e.type().toLowerCase(java.util.Locale.ROOT))) return;
         Town town = civ.state().town(e.townId());
-        if (town == null) return;
-        Civilization c = civ.state().civOf(town);
+        Civilization c = town == null ? null : civ.state().civOf(town);
         if (c == null) return;
-        StructureApi api = civ.apiOrNull(StructureApi.class);
-        if (api != null) {
-            for (String hall : towns.service().townHallTypes()) {
-                for (StructureApi.Placed p : List.copyOf(api.of(town, hall))) {
-                    api.remove(p, false);
-                    new StructureDestroyedEvent(p.id(), p.type(), town.id(), StructureDestroyedEvent.Cause.REPLACED).call();
-                }
-            }
-        }
         if (!town.id().equals(c.capitalId())) {
             c.capitalId(town.id());
+            civ.state().save(c);
             Channels.civ(c, "civ.capital-moved", Messages.arg("town", town.name()));
         }
         if (c.isProvince()) {
+            // Without a structure module that already did it.
             c.province(false);
+            civ.state().save(c);
+        }
+        CivData d = data(c);
+        if (!d.formed()) {
+            d.formed(true);
+            save(d);
             Channels.global("civ.formed", Messages.arg("civ", c.name()));
             new CivFormedEvent(c.id()).call();
         }
-        civ.state().save(c);
         civ.stats().invalidate();
         towns.production().invalidate();
     }

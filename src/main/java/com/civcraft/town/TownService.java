@@ -226,14 +226,18 @@ public final class TownService {
 
     private void deleteTownOnly(Town town, String reasonKey) {
         new TownDisbandedEvent(town.id(), town.civId()).call();
-        StructureApi api = civ.apiOrNull(StructureApi.class);
-        if (api != null) {
-            for (StructureApi.Placed p : List.copyOf(api.of(town))) {
-                try {
-                    api.remove(p, false);
-                    new StructureDestroyedEvent(p.id(), p.type(), town.id(), StructureDestroyedEvent.Cause.DISBANDED).call();
-                } catch (RuntimeException e) {
-                    civ.logger().log(Level.WARNING, "Cannot remove structure " + p.id() + " of disbanded town " + town.name(), e);
+        com.civcraft.structure.StructureModule structures = civ.apiOrNull(com.civcraft.structure.StructureModule.class);
+        if (structures != null) {
+            structures.removeAll(town, StructureDestroyedEvent.Cause.DISBANDED, false);
+        } else {
+            StructureApi api = civ.apiOrNull(StructureApi.class);
+            if (api != null) {
+                for (StructureApi.Placed p : List.copyOf(api.of(town))) {
+                    try {
+                        api.remove(p, false);
+                    } catch (RuntimeException e) {
+                        civ.logger().log(Level.WARNING, "Cannot remove structure " + p.id() + " of disbanded town " + town.name(), e);
+                    }
                 }
             }
         }

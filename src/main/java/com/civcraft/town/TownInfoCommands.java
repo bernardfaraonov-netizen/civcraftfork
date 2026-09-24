@@ -313,16 +313,8 @@ final class TownInfoCommands {
         civ.messages().send(sender, "town.list", Messages.arg("count", towns.size()), Messages.arg("list", String.join(", ", names)));
     }
 
-    /** Town score (spec §5.3 tops): structures (via TownValuation) + residents, claims, culture chunks, treasury. */
     double score(Town town) {
-        double score = 0;
-        for (com.civcraft.Module m : civ.modules()) if (m instanceof TownValuation v) score += v.structuresScore(town);
-        var s = civ.balance().section("town", "score");
-        score += s.getDouble("per-resident", 5000) * town.residents().size();
-        score += s.getDouble("per-claim", 200) * civ.state().claimCount(town);
-        score += s.getDouble("per-culture-chunk", 100) * civ.culture().chunks(town).size();
-        score += town.treasury() / 100.0 / Math.max(1, s.getDouble("coins-per-point", 5));
-        return score;
+        return module.score(town);
     }
 
     void top(CommandSender sender, int n) {

@@ -41,6 +41,8 @@ town:
   mayor-only: '<red>Это может сделать только мэр.'
   name-taken: '<red>Город <white><name></white> уже существует.'
   debt-blocked: '<red>Город в долгу: улучшения недоступны, пока долг не погашен.'
+  event:
+    unavailable: '<red>Случайные события недоступны.'
   lava-denied: '<red>Лаву можно разливать только в культуре своего города.'
   burned-down: '<gray>Город <white><town></white> сгорел дотла.'
   capitulated: '<gold>Город <white><town></white> капитулировал и навсегда присоединён к завоевателю.'

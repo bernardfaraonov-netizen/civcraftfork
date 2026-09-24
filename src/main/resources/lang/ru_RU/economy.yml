@@ -17,5 +17,6 @@ economy:
     evicted: '<red>Вы изгнаны из города <white><town></white> за неуплату налогов.'
     evictor: 'налоговая служба'
   upkeep:
+    structures: 'Постройки'
     paid: '<gray>Содержание города оплачено: <gold><amount></gold> монет.'
     debt: '<red>На содержание не хватило денег: оплачено <white><amount></white>, долг <white><debt></white>. Город в долгу не растит культуру и не покупает улучшения.'

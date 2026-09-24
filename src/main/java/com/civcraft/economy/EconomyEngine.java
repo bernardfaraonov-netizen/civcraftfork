@@ -241,7 +241,12 @@ public final class EconomyEngine {
     public UpkeepBreakdown upkeep(Town town) {
         long level = civ.balance().coins("core", "town.levels." + town.level() + ".upkeep", 0);
         Map<String, Long> structures = new LinkedHashMap<>();
-        boolean any = false;
+        com.civcraft.structure.StructureModule sm = civ.apiOrNull(com.civcraft.structure.StructureModule.class);
+        boolean any = sm != null;
+        if (sm != null) {
+            long s = sm.structuresUpkeep(town);
+            if (s > 0) structures.put(civ.messages().plain("economy.upkeep.structures"), s);
+        }
         for (com.civcraft.Module m : civ.modules()) {
             if (m instanceof StructureUpkeepSource source) {
                 any = true;

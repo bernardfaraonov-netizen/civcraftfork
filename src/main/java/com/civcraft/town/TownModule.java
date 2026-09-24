@@ -325,6 +325,27 @@ public final class TownModule implements Module, TownApi, Listener {
         }
     }
 
+    // --- score ----------------------------------------------------------------------------------
+
+    /**
+     * Town score for /t top5, /c top5 and the market: structure points (structure module and any
+     * {@link com.civcraft.economy.TownValuation}) plus residents, claims, culture chunks and treasury.
+     */
+    public double score(Town town) {
+        double score = 0;
+        com.civcraft.structure.StructureModule sm = civ.apiOrNull(com.civcraft.structure.StructureModule.class);
+        if (sm != null) score += sm.score(town);
+        for (Module m : civ.modules()) {
+            if (m instanceof com.civcraft.economy.TownValuation v) score += v.structuresScore(town);
+        }
+        var s = civ.balance().section("town", "score");
+        score += s.getDouble("per-resident", 5000) * town.residents().size();
+        score += s.getDouble("per-claim", 200) * civ.state().claimCount(town);
+        score += s.getDouble("per-culture-chunk", 100) * civ.culture().chunks(town).size();
+        score += town.treasury() / 100.0 / Math.max(1, s.getDouble("coins-per-point", 5));
+        return score;
+    }
+
     // --- taxes record (for /civ info taxes) -----------------------------------------------------
 
     public void recordTaxes(Civilization c, long total, long science) {
@@ -378,13 +399,17 @@ public final class TownModule implements Module, TownApi, Listener {
 
     /** Destroys all wonders of a town (gift, market). */
     public void destroyWonders(Town town) {
+        com.civcraft.structure.StructureModule structures = civ.apiOrNull(com.civcraft.structure.StructureModule.class);
+        if (structures != null) {
+            structures.destroyWonders(town, StructureDestroyedEvent.Cause.DEMOLISHED);
+            return;
+        }
         StructureApi api = civ.apiOrNull(StructureApi.class);
         if (api == null) return;
         List<String> wonders = civ.balance().file("civ").getStringList("wonder-types");
         for (StructureApi.Placed p : List.copyOf(api.of(town))) {
             if (!wonders.contains(p.type().toLowerCase(Locale.ROOT))) continue;
             api.remove(p, false);
-            new StructureDestroyedEvent(p.id(), p.type(), town.id(), StructureDestroyedEvent.Cause.DEMOLISHED).call();
         }
     }
 
@@ -401,19 +426,9 @@ public final class TownModule implements Module, TownApi, Listener {
         production.invalidate();
     }
 
-    /** The town centre follows the finished town hall/capitol (culture anchor, distances). */
+    /** Finished structures change effects, culture and upkeep (the structure module moves the town centre). */
     @EventHandler
     public void onStructureCompleted(StructureCompletedEvent e) {
-        if (!service.isMainBuilding(e.type())) return;
-        Town town = civ.state().town(e.townId());
-        StructureApi api = civ.apiOrNull(StructureApi.class);
-        if (town == null || api == null) return;
-        StructureApi.Placed p = api.byId(e.structureId());
-        if (p != null && !Objects.equals(town.center(), p.center())) {
-            town.center(p.center());
-            civ.state().save(town);
-            civ.culture().recompute(true);
-        }
         civ.stats().invalidate();
         production.invalidate();
     }

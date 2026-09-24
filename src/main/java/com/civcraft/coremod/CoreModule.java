@@ -30,6 +30,7 @@ public final class CoreModule implements Module {
         civ.listen(residents);
         civ.clock().everySecond("pvp-protection", residents::tick);
         civ.culture().recompute(false);
+        com.civcraft.command.AdminRegistry.register(civ.plugin());
     }
 
     @Override

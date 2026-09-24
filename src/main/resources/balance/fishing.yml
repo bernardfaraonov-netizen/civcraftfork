@@ -1,0 +1,13 @@
+# Fishing loot (spec 04 §10.4). Every drop is rolled independently (percent); several may come at once.
+enabled: true
+worlds: []            # empty = every world
+drops:
+  - {item: mat_crafted_reeds, chance: 6}     # T1 crafted reeds
+  - {item: slime_ball, chance: 3}
+  - {item: lead, chance: 7}
+  - {item: mat_crafted_sticks, chance: 3}    # T1 crafted sticks
+  - {item: leather, chance: 4}
+  - {item: pufferfish, chance: 1}
+# Caught when none of the drops hit (legacy: raw fish).
+fallback:
+  - {item: cod}

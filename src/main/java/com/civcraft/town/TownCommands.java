@@ -108,6 +108,7 @@ public final class TownCommands {
                 .then(teleport("teleport"))
                 .then(teleport("tp"))
                 .then(lit("chammers").executes(Cmd.player((p, ctx) -> chammers(p))))
+                .then(lit("event").executes(Cmd.player((p, ctx) -> townEvent(p))))
                 .then(lit("warning")
                         .then(lit("show").executes(Cmd.player((p, ctx) -> info.warnings(p))))
                         .then(lit("add").requires(Cmd.perm("civcraft.admin")).then(word("town").suggests(CmdKit.towns())
@@ -757,6 +758,14 @@ public final class TownCommands {
         Location c = town.center().center();
         int y = c.getWorld().getHighestBlockYAt(c.getBlockX(), c.getBlockZ()) + 1;
         return new Location(c.getWorld(), c.getX(), y, c.getZ());
+    }
+
+    /** /t event: the town's random event (PvE module, optional). */
+    private void townEvent(Player p) throws CivException {
+        Town town = module.selectedTown(p);
+        com.civcraft.randomevent.TownEventApi events = civ.apiOrNull(com.civcraft.randomevent.TownEventApi.class);
+        if (events == null) throw new CivException("town.event.unavailable");
+        events.describe(p, town);
     }
 
     // --- chammers & warnings --------------------------------------------------------------------

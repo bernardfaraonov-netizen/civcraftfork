@@ -1,0 +1,9 @@
+kits:
+  command-description: 'Наборы (киты)'
+  header: '<gold>Ваши наборы: <gray>/kit [имя]'
+  line-ready: '<gray> - <white><kit></white> <green>доступен'
+  line-wait: '<gray> - <white><kit></white> <red>через <time>'
+  unknown: '<red>Набор <white><kit></white> не найден.'
+  no-permission: '<red>Этот набор доступен только с привилегией.'
+  cooldown: '<red>Этот набор можно получить через <white><time></white>.'
+  received: '<green>Вы получили набор <white><kit></white>.'

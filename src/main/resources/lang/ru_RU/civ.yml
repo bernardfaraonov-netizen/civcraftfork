@@ -156,6 +156,8 @@ civ:
     trade: '<gray>Обновление торговых ресурсов через: <white><time></white>'
     revolution: '<gray>Окно революции через: <white><time></white>'
     open: 'открыто'
+    clearlag: '<gray>Очистка мобов и предметов через: <white><time></white>'
+    world-event: '<gray>Следующее мировое событие через: <white><time></white>'
   deposit:
     done: '<green>Вы внесли <gold><amount></gold> монет в казну цивилизации.'
   withdraw:

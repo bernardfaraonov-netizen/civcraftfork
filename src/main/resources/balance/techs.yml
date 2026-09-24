@@ -802,7 +802,7 @@ techs:
     requires: [architecture, machinery, sailing]
     icon: SANDSTONE
     unlocks:
-      wonders: [great_pyramid]
+      wonders: [the_great_pyramid]
   wonder_statue_of_zeus:
     name: Статуя Зевса
     branch: wonders
@@ -829,7 +829,7 @@ techs:
     requires: [commerce, machinery]
     icon: FLOWERING_AZALEA
     unlocks:
-      wonders: [hanging_gardens]
+      wonders: [the_hanging_gardens]
   wonder_angkor_wat:
     name: Ангкор-Ват
     branch: wonders
@@ -865,7 +865,7 @@ techs:
     requires: [engineering, alchemy]
     icon: ENCHANTED_BOOK
     unlocks:
-      wonders: [great_library]
+      wonders: [the_great_library]
   wonder_globe_theatre:
     name: Глобус (Театр)
     branch: wonders
@@ -883,7 +883,7 @@ techs:
     requires: [nationalism, ballistics]
     icon: COPPER_BLOCK
     unlocks:
-      wonders: [colossus]
+      wonders: [the_colossus]
   wonder_himeji_castle:
     name: Замок Химедзи
     branch: wonders

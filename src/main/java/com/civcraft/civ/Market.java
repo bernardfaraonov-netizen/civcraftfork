@@ -58,6 +58,12 @@ public final class Market {
 
     private long structuresValue(Town town) {
         long value = 0;
+        com.civcraft.structure.StructureModule sm = civ.apiOrNull(com.civcraft.structure.StructureModule.class);
+        if (sm != null) {
+            for (com.civcraft.structure.Structure s : sm.structures(town)) {
+                if (s.complete()) value = Math.addExact(value, Math.max(0, sm.price(town, s.typeDef())));
+            }
+        }
         for (com.civcraft.Module m : civ.modules()) if (m instanceof TownValuation v) value += Math.max(0, v.structuresValue(town));
         return value;
     }

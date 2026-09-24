@@ -141,7 +141,9 @@ final class CivCommands {
                 .then(lit("sort").executes(Cmd.player((p, ctx) -> sort(p, "score")))
                         .then(word("field").suggests(CmdKit.values(List.of("score", "money", "hammers", "beakers", "growth", "culturerate",
                                 "happiness", "tax", "culture"))).executes(Cmd.player((p, ctx) -> sort(p, arg(ctx, "field"))))))
-                .then(lit("scouts").executes(Cmd.player((p, ctx) -> scouts(p))));
+                .then(lit("scouts").executes(Cmd.player((p, ctx) -> scouts(p))))
+                .then(lit("events").executes(Cmd.player((p, ctx) -> events(p))))
+                .then(lit("event").executes(Cmd.player((p, ctx) -> events(p))));
         for (com.civcraft.Module m : civ.modules()) {
             if (m instanceof CivCommandExtension ext) ext.extendCiv(root);
         }
@@ -322,16 +324,7 @@ final class CivCommands {
     }
 
     private double townScore(TownModule t, Town town) {
-        double score = 0;
-        for (com.civcraft.Module m : civ.modules()) {
-            if (m instanceof com.civcraft.economy.TownValuation v) score += v.structuresScore(town);
-        }
-        var s = civ.balance().section("town", "score");
-        score += s.getDouble("per-resident", 5000) * town.residents().size();
-        score += s.getDouble("per-claim", 200) * civ.state().claimCount(town);
-        score += s.getDouble("per-culture-chunk", 100) * civ.culture().chunks(town).size();
-        score += town.treasury() / 100.0 / Math.max(1, s.getDouble("coins-per-point", 5));
-        return score;
+        return t.score(town);
     }
 
     /** Separate tops for civilizations and provinces (spec §5.3). */
@@ -395,6 +388,13 @@ final class CivCommands {
         m.send(sender, "civ.time.revolution", Messages.arg("time", revolutionOpen() ? m.plain("civ.time.open") : revo));
         Duration nextHour = Duration.between(now, now.plusHours(1).withMinute(0).withSecond(0).withNano(0));
         m.send(sender, "civ.time.hourly", Messages.arg("time", Durations.format(nextHour)));
+        com.civcraft.mob.MobApi mobs = civ.apiOrNull(com.civcraft.mob.MobApi.class);
+        Instant clear = mobs == null ? null : mobs.nextClearLag();
+        if (clear != null) m.send(sender, "civ.time.clearlag", Messages.arg("time", Durations.format(Duration.between(Instant.now(), clear))));
+        com.civcraft.worldevent.WorldEventApi world = civ.apiOrNull(com.civcraft.worldevent.WorldEventApi.class);
+        if (world != null && world.nextDraw() != null) {
+            m.send(sender, "civ.time.world-event", Messages.arg("time", Durations.format(Duration.between(Instant.now(), world.nextDraw()))));
+        }
     }
 
     private static String until(ZonedDateTime now, String day, String time) {
@@ -1017,6 +1017,16 @@ final class CivCommands {
             civ.messages().sendRaw(p, "civ.sort.entry", Messages.arg("place", i++), Messages.arg("town", town.name()),
                     Messages.number("value", key.applyAsDouble(town) / (field.equalsIgnoreCase("money") || field.equalsIgnoreCase("tax") ? 100.0 : 1)));
         }
+    }
+
+    /** /civ events: town events of the civilization plus the running world event (PvE module, optional). */
+    private void events(Player p) throws CivException {
+        Civilization c = myCiv(p);
+        com.civcraft.worldevent.WorldEventApi world = civ.apiOrNull(com.civcraft.worldevent.WorldEventApi.class);
+        com.civcraft.randomevent.TownEventApi towns = civ.apiOrNull(com.civcraft.randomevent.TownEventApi.class);
+        if (world == null && towns == null) throw new CivException("town.event.unavailable");
+        if (world != null) world.describe(p);
+        if (towns != null) towns.describe(p, c);
     }
 
     private void scouts(Player p) throws CivException {

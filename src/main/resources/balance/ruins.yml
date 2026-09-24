@@ -1,0 +1,123 @@
+# Ruins, lucky blocks and scrolls (spec 04 §15; V1.10.6 values).
+
+generation:
+  enabled: true
+  worlds: []                      # empty = the main world. Only newly generated chunks get ruins.
+  cell-chunks: 64                 # [assumption] one ruin per 64×64 chunks
+  chance-per-cell: 1.0
+  min-distance-from-spawn: 300
+  festive-chance: 0.1             # share of "New Year" style ruins outside snowy biomes
+
+lucky-block:
+  # Block used as the lucky block (a block that does not generate in the overworld). Only registered
+  # positions are lucky; the same block placed by a player is ordinary.
+  material: GILDED_BLACKSTONE
+  # Every category is rolled independently; a hit gives one random entry. "rare" categories give at
+  # most one item per block. Entries with "choices" pick one of the listed items.
+  categories:
+    - chance: 90
+      entries:
+        - {item: bone, min: 0, max: 16}
+        - {item: bread, min: 0, max: 16}
+        - {item: potato, min: 0, max: 16}
+        - {item: carrot, min: 0, max: 16}
+        - {item: paper, min: 0, max: 16}
+        - {item: sugar_cane, min: 0, max: 16}
+        - {item: slime_ball, min: 0, max: 16}
+        - {choices: [oak_log, birch_log, spruce_log], min: 0, max: 16}
+        - {item: feather, min: 0, max: 16}
+        - {item: leather, min: 0, max: 16}
+    - chance: 70
+      entries:
+        - {choices: [mat_refined_wood, mat_refined_stone, mat_refined_feathers, mat_carved_leather, mat_refined_sugar,
+                     mat_crafted_reeds, mat_forged_clay, mat_crafted_sticks, mat_refined_slime, mat_crafted_string,
+                     mat_refined_sulphur], min: 0, max: 5}
+        - {choices: [coal, iron_ingot], min: 0, max: 32}
+        - {item: stone_sword}
+        - {item: arrow, min: 0, max: 32}
+        - {choices: [iron_pickaxe, iron_shovel, iron_axe], enchants: {efficiency: 2}}
+    - chance: 50
+      entries:
+        - {item: gold_ingot, min: 0, max: 16}
+        - {item: redstone_block, min: 0, max: 16}
+        - {item: mat_mercury, min: 0, max: 2}
+        - {choices: [diamond_pickaxe, diamond_shovel, diamond_axe], enchants: {efficiency: 3}}
+    - chance: 30
+      entries:
+        - {choices: [mat_milled_lumber, mat_crushed_stone, mat_sticky_resin, mat_clay_molding, mat_steel_ingot,
+                     mat_crafted_leather, mat_woven_threading, mat_varnish], min: 0, max: 3}
+        - {item: diamond, min: 0, max: 8}
+        - {item: emerald, min: 0, max: 4}
+    - chance: 3.82
+      rare: true
+      entries:
+        - {item: 'pve:ruin_rat_stamen'}
+        - {item: 'pve:ruin_no_library'}
+        - {item: 'pve:ruin_cleaver'}
+        - {item: mat_feathered_lining}            # T3 feather
+        - {item: mat_leather_straps, min: 1, max: 2}
+        - {item: mat_masonry_mortar}
+        - {item: mat_compacted_stone, min: 1, max: 3}
+        - {item: 'pve:ruin_rempty_crusher'}
+    - chance: 2.15
+      rare: true
+      entries:
+        - {item: mat_mercury_t3}
+        - {item: mat_jewelry_grade_gold, min: 1, max: 2}
+        - {item: mat_decorative_jewels}
+        - {item: 'pve:ruin_dragonglass_crusher'}
+        - {choices: [sky_helmet, sky_chestplate, sky_leggings, sky_boots, sky_sword, sky_bow]}
+        - {item: 'pve:ruin_zarngifm_scratcher'}
+        - {item: 'pve:ruin_ternshni_blade'}
+        - {item: 'pve:ruin_fortune_pick'}
+    - chance: 0.66
+      rare: true
+      entries:
+        - {item: artifact_gluttons_cache}
+        - {choices: ['pve:recipe_ballista', 'pve:recipe_mind_breaker', 'pve:recipe_princes_knife',
+                     'pve:recipe_paladin_sword', 'pve:recipe_leveller', 'pve:recipe_hermes_boots',
+                     'pve:recipe_turtle_shell']}
+  # At most one bonus scroll per block (CL V0.6.1), rolled from the rarest.
+  bonus-scrolls:
+    - {item: 'pve:scroll_tech_1', chance: 3}
+    - {item: 'pve:scroll_tech_2', chance: 0.5}
+    - {item: 'pve:scroll_bank_2', chance: 2}
+    - {item: 'pve:scroll_bank_3', chance: 0.3}
+    - {item: 'pve:scroll_settler', chance: 0.2}
+    - {item: 'pve:scroll_town_2', chance: 2}
+    - {item: 'pve:scroll_town_3', chance: 0.3}
+    - {item: 'pve:scroll_art', chance: 5}
+    - {item: 'pve:scroll_construction', chance: 3}
+  # Single-use versions of the artifacts (spec 04 §15.2, 03 §8): item-module ids.
+  single-use-artifacts:
+    chance: 5
+    items: [artifact_rabbit_feet_once, artifact_travel_boots_once, artifact_miner_talisman_once,
+            artifact_witch_trick_once, artifact_diver_once, artifact_archer_once, artifact_dragon_scale_once,
+            artifact_invisibility_cap_once]
+  extras:
+    - {item: 'pve:joke_potato', chance: 1}    # the joke potato [assumption: 1 %]
+
+scrolls:
+  tech-percent: {min: 1, max: 25}             # CL V1.10.6 (was 1–35)
+  tech-era-1: 0                               # era index (ResearchApi.era scale) of "1st era" techs
+  tech-era-2: 1
+  settler-percent: {min: 1, max: 35}
+  art-culture: {min: 20, max: 250}
+  construction-hammers: {min: 50, max: 175}   # CL V1.10.6 (was 50–250)
+  construction-hours: {min: 4, max: 8}        # CL V1.10.6 (was 6–12)
+
+weapons:
+  poison-seconds: 2.5
+  poison-cooldown-seconds: 5
+  cleaver-mob-bonus: 3
+  ternshni-looting: 10
+  dragonglass-depth: 3                        # [assumption] 3×3×3 (CL V1.4.1 reduced it)
+
+recipes:
+  required-tier: 4                            # only T4 items (CL V1.7)
+  # Item PDC keys removed when a recipe is applied ("all enhancements are removed").
+  clear-pdc-keys: ['civcraft:enhancement', 'civcraft:enhancement_level', 'civcraft:catalyst']
+  mind-breaker: {chance: 20, seconds: 1.75, cooldown-seconds: 7.5}
+  leveller: {chance: 10, seconds: 3}
+  princes-knife: {chance: 10, damage: 4}      # [assumption]
+  turtle-shell-armor: 0.15
