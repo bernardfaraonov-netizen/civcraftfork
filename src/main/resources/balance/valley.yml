@@ -12,7 +12,7 @@ required-armor:
   leggings: [sky_leggings]
   boots: [sky_boots]
 # Dropped on death in the PvP zone (CL V1.10.4): all soul shards the player carries [assumption].
-soul-shard-id: mat_soul_shard
+soul-shard-id: soul_shard
 top-size: 10
 
 rules:

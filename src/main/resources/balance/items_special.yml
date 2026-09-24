@@ -1,0 +1,342 @@
+# Special items (spec 01 §4.1/§5.1, spec 04 §3/§4.4/§15, spec 03 §5.13/§8/§9/§10).
+# Right-click behaviour of these items is registered by the owning modules through ItemApi.onUse(id, ...).
+# `data` is a free string map other modules read through ItemModule.def(id).data().
+
+items:
+  # ---------------------------------------------------------------- camp / civilization founding
+  chieftain_headdress:
+    name: 'Шапка вождя'
+    material: RABBIT_HIDE
+    model: 'minecraft:chainmail_helmet'
+    kind: special
+    category: special
+    rarity: special
+    stack: 1
+  camp_door:
+    name: 'Дверь лагеря'
+    material: OAK_DOOR
+    kind: special
+    category: special
+    rarity: special
+    stack: 1
+    lore: ['<gray>ПКМ по ровной земле — основать лагерь']
+  leadership_token:
+    name: 'Жетон лидерства'
+    material: GOLD_NUGGET
+    model-data: 50
+    kind: special
+    category: special
+    rarity: special
+    lore: ['<gray>Выдаётся Большим домом лагеря']
+  leadership_badge:
+    name: 'Знак лидерства'
+    material: GOLD_INGOT
+    model-data: 51
+    glint: true
+    kind: special
+    category: special
+    rarity: special
+  leadership_proof:
+    name: 'Доказательство лидерства'
+    material: PAPER
+    model-data: 52
+    glint: true
+    kind: special
+    category: special
+    rarity: special
+    stack: 1
+  royal_crown:
+    name: 'Корона'
+    material: GOLDEN_HELMET
+    kind: special
+    category: special
+    rarity: legendary
+    stack: 1
+  founding_flag:
+    name: 'Флаг основания'
+    material: BLAZE_ROD
+    model: 'minecraft:red_banner'
+    kind: special
+    category: special
+    rarity: legendary
+    stack: 1
+    flags: [keep-on-death]
+    lore: ['<gray>ПКМ по ровной земле — основать провинцию', '<gray>Нужно 25 000 монет на счёте']
+  guide_book:
+    name: 'Справочник CivCraft'
+    material: BOOK
+    glint: true
+    kind: special
+    category: misc
+    rarity: special
+    stack: 1
+    lore: ['<gray>ПКМ — открыть справочник (/res book)']
+
+  # ---------------------------------------------------------------- war
+  war_camp:
+    name: 'Военный лагерь'
+    material: RED_BANNER
+    kind: special
+    category: special
+    rarity: special
+    stack: 1
+    lore: ['<gray>Ставится только во время войны', '<gray>лидером или советником']
+  warship:
+    name: 'Военный корабль'
+    material: OAK_BOAT
+    kind: special
+    category: special
+    rarity: special
+    stack: 1
+    lore: ['<gray>Ставится на воду только во время войны']
+  cannon:
+    name: 'Пушка'
+    material: DISPENSER
+    kind: special
+    category: special
+    rarity: special
+    stack: 1
+    lore: ['<gray>Ставится только во время войны']
+
+  # ---------------------------------------------------------------- misc crafts
+  rename_tag:
+    name: 'Бирка'
+    material: NAME_TAG
+    kind: special
+    category: special
+    rarity: special
+    lore: ['<gray>Переименование предмета (/rename)', '<gray>До 16 символов']
+  beehive_frame:
+    name: 'Рамка для улья'
+    material: ITEM_FRAME
+    kind: special
+    category: special
+    lore: ['<gray>Кладётся в сундук улья']
+  # ---------------------------------------------------------------- units (spec 04 §3.2)
+  settler:
+    name: 'Поселенец'
+    material: IRON_DOOR
+    kind: unit
+    category: units
+    rarity: special
+    stack: 1
+    flags: [keep-on-death, no-container]
+    lore: ['<gray>ПКМ — основать город', '<gray>Привязан к цивилизации']
+  spy:
+    name: 'Шпион'
+    material: ENDER_EYE
+    kind: unit
+    category: units
+    rarity: special
+    stack: 1
+    flags: [no-container]
+  prophet:
+    name: 'Пророк'
+    material: ENDER_EYE
+    model-data: 2
+    glint: true
+    kind: unit
+    category: units
+    rarity: epic
+    stack: 1
+    lore: ['<gray>+300 очков религии цивилизации']
+  soul_form:
+    name: 'Форма души'
+    material: PHANTOM_MEMBRANE
+    kind: unit
+    category: units
+    rarity: legendary
+    lore: ['<gray>Для слитков брони души']
+
+  # ---------------------------------------------------------------- artifacts (spec 03 §8, spec 04 §3.3)
+  # Prices, durations, cooldowns and requirements live in balance/artifacts.yml (artifact module).
+  # A one-shot copy (ruins) is the same id with the civcraft:single_use flag: ItemModule.createSingleUse(id)
+  # or ItemApi.create("<id>_once", n).
+  nanoplasts:
+    name: 'Нанопласты'
+    material: PAPER
+    model: 'minecraft:netherite_scrap'
+    model-data: 301
+    kind: artifact
+    lore: ['<gray>Урон от башен ×0.5, +0.8 защиты на часть брони', '<gray>2 мин, откат 10 мин, одноразовый']
+  invisibility_cap:
+    name: 'Шапка-невидимка'
+    material: PAPER
+    model: 'minecraft:leather_helmet'
+    model-data: 302
+    kind: artifact
+    lore: ['<gray>Разведчики врага вас не видят', '<gray>2 мин, откат 10 мин, одноразовая']
+  assassin_brand:
+    name: 'Клеймо убийцы'
+    material: PAPER
+    model: 'minecraft:blaze_powder'
+    model-data: 303
+    kind: artifact
+    lore: ['<gray>После убийства +2 сердца', '<gray>Только против Войны и Вражды']
+  rabbit_feet:
+    name: 'Кроличьи лапки'
+    material: PAPER
+    model: 'minecraft:rabbit_foot'
+    model-data: 304
+    kind: artifact
+    lore: ['<gray>Прыгучесть II на 5 мин, откат 15 мин']
+  travel_boots:
+    name: 'Сапоги путешествий'
+    material: PAPER
+    model: 'minecraft:golden_boots'
+    model-data: 305
+    kind: artifact
+    lore: ['<gray>Скорость II на 5 мин, откат 15 мин']
+  miner_talisman:
+    name: 'Талисман шахтёра'
+    material: PAPER
+    model: 'minecraft:golden_pickaxe'
+    model-data: 306
+    kind: artifact
+    lore: ['<gray>Ускоренное копание II на 15 мин, откат 20 мин']
+  witch_trick:
+    name: 'Уловка ведьмы'
+    material: PAPER
+    model: 'minecraft:splash_potion'
+    model-data: 307
+    kind: artifact
+    lore: ['<gray>Регенерация II на 22 с, откат 4 мин', '<gray>Не в броне души и не в долине']
+  diver:
+    name: 'Водолаз'
+    material: PAPER
+    model: 'minecraft:turtle_helmet'
+    model-data: 308
+    kind: artifact
+    lore: ['<gray>Подводное дыхание и ночное зрение на 10 мин', '<gray>Откат 15 мин']
+  glutton_stash:
+    name: 'Тайник обжоры'
+    material: PAPER
+    model: 'minecraft:cake'
+    model-data: 309
+    kind: artifact
+    lore: ['<gray>Восстанавливает голод, пока вы двигаетесь']
+  engineer:
+    name: 'Инженер'
+    material: PAPER
+    model: 'minecraft:piston'
+    model-data: 310
+    kind: artifact
+    lore: ['<gray>+1 урон по постройкам и чудесам']
+  conqueror:
+    name: 'Захватчик'
+    material: PAPER
+    model: 'minecraft:tnt'
+    model-data: 311
+    kind: artifact
+    lore: ['<gray>+1 урон по контрольным блокам']
+  reinforced_tools:
+    name: 'Укреплённые инструменты'
+    material: PAPER
+    model: 'minecraft:anvil'
+    model-data: 312
+    kind: artifact
+    lore: ['<gray>40% шанс не тратить прочность инструмента', '<gray>15% шанс сохранить прочность экипировки при смерти']
+  archer:
+    name: 'Лучник'
+    material: PAPER
+    model: 'minecraft:spectral_arrow'
+    model-data: 313
+    kind: artifact
+    lore: ['<gray>1 мин: урон вблизи 0, огненные замедляющие стрелы', '<gray>Откат 150 с']
+  dragon_scale:
+    name: 'Чешуя дракона'
+    material: PAPER
+    model: 'minecraft:prismarine_shard'
+    model-data: 314
+    kind: artifact
+    lore: ['<gray>+4 сердца на 5 мин, откат 10 мин', '<gray>Не в броне души и не в долине']
+
+  # ---------------------------------------------------------------- technology scrolls (spec 03 §10.2), used by the science module.
+  # The other ruin scrolls, recipe scrolls, ruin weapons and the lucky block are PvE items (pve:*).
+  scroll_technology_1:
+    name: 'Свиток технологии I эры'
+    material: PAPER
+    model: 'minecraft:paper'
+    model-data: 401
+    glint: true
+    kind: scroll
+    category: scrolls
+    rarity: rare
+    lore: ['<gray>+1–25% к изучению технологии 1-й эры']
+    data: {scroll: technology, era: '1', min: '1', max: '25'}
+  scroll_technology_2:
+    name: 'Свиток технологии II эры'
+    material: PAPER
+    model: 'minecraft:paper'
+    model-data: 402
+    glint: true
+    kind: scroll
+    category: scrolls
+    rarity: epic
+    lore: ['<gray>+1–25% к изучению технологии 2-й эры']
+    data: {scroll: technology, era: '2', min: '1', max: '25'}
+  # ---------------------------------------------------------------- space (spec 03 §5.13, §9)
+  space_satellite: {name: 'Спутник', material: IRON_NUGGET, model: 'minecraft:daylight_detector', model-data: 101, kind: component, category: space, rarity: epic, stack: 16}
+  space_fuel_tanks: {name: 'Топливные баки', material: IRON_NUGGET, model: 'minecraft:cauldron', model-data: 102, kind: component, category: space, rarity: epic, stack: 16}
+  space_engines: {name: 'Двигатели', material: IRON_NUGGET, model: 'minecraft:blast_furnace', model-data: 103, kind: component, category: space, rarity: epic, stack: 16}
+  space_lander: {name: 'Посадочный модуль', material: IRON_NUGGET, model: 'minecraft:minecart', model-data: 104, kind: component, category: space, rarity: epic, stack: 16}
+  space_orbital_station: {name: 'Орбитальная станция', material: IRON_NUGGET, model: 'minecraft:beacon', model-data: 105, kind: component, category: space, rarity: epic, stack: 16}
+  space_habitat_module: {name: 'Жилой модуль', material: IRON_NUGGET, model: 'minecraft:chest_minecart', model-data: 106, kind: component, category: space, rarity: epic, stack: 16}
+  space_solar_reflector: {name: 'Солнечный отражатель', material: IRON_NUGGET, model: 'minecraft:glass_pane', model-data: 107, kind: component, category: space, rarity: epic, stack: 16}
+  space_instruments: {name: 'Аппаратура', material: IRON_NUGGET, model: 'minecraft:comparator', model-data: 108, kind: component, category: space, rarity: epic, stack: 16}
+  space_solar_sail: {name: 'Солнечный парус', material: IRON_NUGGET, model: 'minecraft:white_banner', model-data: 109, kind: component, category: space, rarity: epic, stack: 16}
+  space_provisions: {name: 'Провизия', material: IRON_NUGGET, model: 'minecraft:barrel', model-data: 110, kind: component, category: space, rarity: epic, stack: 16}
+  space_warp_core: {name: 'Warp-ядро', material: IRON_NUGGET, model: 'minecraft:end_crystal', model-data: 111, kind: component, category: space, rarity: legendary, stack: 16}
+  space_warp_drive: {name: 'Warp-двигатель', material: IRON_NUGGET, model: 'minecraft:respawn_anchor', model-data: 112, kind: component, category: space, rarity: legendary, stack: 16}
+  space_gondolas: {name: 'Гондолы', material: IRON_NUGGET, model: 'minecraft:oak_boat', model-data: 113, kind: component, category: space, rarity: epic, stack: 16}
+  space_shuttle:
+    name: 'Космический шаттл'
+    material: IRON_NUGGET
+    model: 'minecraft:firework_rocket'
+    model-data: 120
+    glint: true
+    kind: component
+    category: space
+    rarity: legendary
+    stack: 1
+    lore: ['<gray>Нужен для постройки чуда «Космический шаттл»', '<gray>Строится только в столице']
+
+recipes:
+  # ---------------------------------------------------------------- camp / civ (spec 01 §4.1, §5.1)
+  chieftain_headdress: {shapeless: [packed_feathers x2, carved_leather x2]}
+  camp_door: {shape: [' h ', 'lll', 'ccc'], keys: {h: chieftain_headdress, l: milled_lumber, c: 'minecraft:coal_block'}}
+  leadership_badge: {shapeless: [leadership_token x6]}
+  leadership_proof: {shapeless: [leadership_badge x4]}
+  royal_crown: {shapeless: [leadership_proof, jewelry_gold x3, decorative_jewels x2]}
+  founding_flag: {shape: ['srs', 'sss', 'mmm'], keys: {s: compacted_stone, r: royal_crown, m: mortar}}
+  # ---------------------------------------------------------------- war (spec 04 §4.4)
+  warship: {shapeless: [lumber_t4 x3, carbide_mold, '#white_wool x4', feathered_lining]}         # [CL V1.3]
+  war_camp: {shapeless: [lumber_t4 x3, leather_straps x2, '#white_wool x4']}                    # [допущение]
+  cannon: {shapeless: [lumber_t4 x2, steel_ingot x3, steel_cast]}                             # [допущение]
+  # ---------------------------------------------------------------- misc
+  rename_tag: {shapeless: ['minecraft:paper', crafted_string, 'minecraft:gold_ingot']}         # [допущение]
+  beehive_frame: {shape: ['lll', 'lwl', 'lll'], keys: {l: '#leaves', w: refined_wood}}          # [CL V1.8]
+  saddle: {result: 'minecraft:saddle', category: special, shapeless: [carved_leather x2, woven_threading x2]}  # [CL V1.4]
+  hopper: {result: 'minecraft:hopper', category: special, tech: engineering, shape: ['kck', 'kkk'], keys: {k: carbide_ingot, c: 'minecraft:chest'}}  # [CL V1.4]
+  tnt: {result: 'minecraft:tnt', category: special, tech: ballistics, shape: ['gsg', 'sgs', 'gsg'], keys: {g: 'minecraft:gunpowder', s: '#sand'}}
+  # ---------------------------------------------------------------- Factory (spec 03 §9.3): the Factory takes everything from its
+  # chests; these recipes are not crafted on a workbench.
+  space_shuttle: {station: factory, tech: assembly_line, ingredients: [carbide_plate x25, hard_rubber x20, mortar x50, reinforced_fiber x25, industrial_diamond x5, electronics x20]}
+  space_satellite: {station: factory, ingredients: [electronics x20, steel_plate x4]}
+  space_fuel_tanks: {station: factory, ingredients: [steel_plate x10, 'minecraft:magma_cream x250']}
+  space_engines: {station: factory, ingredients: [electronics x10, tungsten_plate x4]}
+  space_lander: {station: factory, ingredients: [leather_straps x8, reinforced_fiber x5, hard_rubber x8, compacted_stone x8, electronics x16]}
+  space_orbital_station: {station: factory, ingredients: [electronics x50, tungsten_plate x4, mortar x20, hard_rubber x16, reinforced_fiber x8, 'minecraft:cooked_porkchop x256', 'minecraft:carrot x512']}
+  space_habitat_module: {station: factory, ingredients: [electronics x24, tungsten_plate x8, mortar x10, hard_rubber x16, reinforced_fiber x8, 'minecraft:cooked_porkchop x256', 'minecraft:glass_bottle x512', 'minecraft:water_bucket x3', 'minecraft:carrot x320', '#mushrooms x64', 'minecraft:potato x256', 'minecraft:red_mushroom x128', 'minecraft:baked_potato x64', 'minecraft:bowl x128', 'minecraft:cooked_rabbit x64']}
+  space_solar_reflector: {station: factory, ingredients: [electronics x32, tungsten_plate x8, 'minecraft:gold_ingot x1024']}
+  # «Датчик дневного света 646» in the wiki is most likely a typo for 64 (spec 03 §9.3).
+  space_instruments: {station: factory, ingredients: [electronics x50, 'minecraft:repeater x32', 'minecraft:comparator x32', 'minecraft:daylight_detector x64']}
+  space_solar_sail: {station: factory, ingredients: [reinforced_fiber x16, steel_plate x16]}
+  space_provisions: {station: factory, ingredients: ['minecraft:cooked_porkchop x1024', 'minecraft:glass_bottle x2048', 'minecraft:water_bucket x15', 'minecraft:carrot x2048', '#mushrooms x512', 'minecraft:potato x2048', 'minecraft:red_mushroom x1536', 'minecraft:baked_potato x512', 'minecraft:bowl x1024', 'minecraft:cooked_rabbit x512']}
+  space_warp_core: {station: factory, ingredients: [metallic_crystal_t4 x4, ionic_crystal_t4 x4, mercury_t2 x4]}
+  space_warp_drive: {station: factory, ingredients: [tungsten_ingot x10, carbide_ingot x16, tungsten_plate x8]}
+  space_gondolas: {station: factory, ingredients: [steel_cast x32, tungsten_ingot x18, reinforced_fiber x8, hard_rubber x16]}
+
+groups:
+  sand: [SAND, RED_SAND]
+  mushrooms: [BROWN_MUSHROOM]

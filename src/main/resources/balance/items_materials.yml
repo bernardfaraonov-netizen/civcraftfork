@@ -1,0 +1,445 @@
+# Tiered materials T1–T4 (spec 04 §4.2–§4.3). Missing recipes follow legacy materials.yml, adapted;
+# [допущение] marks recipes the wiki does not give.
+#
+# Item keys: name (MiniMessage), material (base vanilla item), model (item_model key, default = base),
+# model-data (custom_model_data float), tier, kind, category, rarity, glint, stack, lore, flags.
+# Ingredient syntax: <custom id> | minecraft:<item> | #<group>, optionally followed by " xN".
+
+groups:
+  oak_logs: [OAK_LOG, OAK_WOOD, STRIPPED_OAK_LOG, STRIPPED_OAK_WOOD]
+  birch_logs: [BIRCH_LOG, BIRCH_WOOD, STRIPPED_BIRCH_LOG, STRIPPED_BIRCH_WOOD]
+  spruce_logs: [SPRUCE_LOG, SPRUCE_WOOD, STRIPPED_SPRUCE_LOG, STRIPPED_SPRUCE_WOOD]
+  jungle_logs: [JUNGLE_LOG, JUNGLE_WOOD, STRIPPED_JUNGLE_LOG, STRIPPED_JUNGLE_WOOD]
+  acacia_logs: [ACACIA_LOG, ACACIA_WOOD, STRIPPED_ACACIA_LOG, STRIPPED_ACACIA_WOOD]
+  dark_oak_logs: [DARK_OAK_LOG, DARK_OAK_WOOD, STRIPPED_DARK_OAK_LOG, STRIPPED_DARK_OAK_WOOD]
+  cherry_logs: [CHERRY_LOG, CHERRY_WOOD, STRIPPED_CHERRY_LOG, STRIPPED_CHERRY_WOOD]
+  mangrove_logs: [MANGROVE_LOG, MANGROVE_WOOD, STRIPPED_MANGROVE_LOG, STRIPPED_MANGROVE_WOOD]
+  pale_oak_logs: [PALE_OAK_LOG, PALE_OAK_WOOD, STRIPPED_PALE_OAK_LOG, STRIPPED_PALE_OAK_WOOD]
+  leaves: [OAK_LEAVES, BIRCH_LEAVES, SPRUCE_LEAVES, JUNGLE_LEAVES, ACACIA_LEAVES, DARK_OAK_LEAVES,
+           CHERRY_LEAVES, MANGROVE_LEAVES, AZALEA_LEAVES, FLOWERING_AZALEA_LEAVES, PALE_OAK_LEAVES]
+  white_wool: [WHITE_WOOL]
+
+items:
+  # ---------------------------------------------------------------- T1
+  refined_wood:
+    name: 'T1 Изысканная древесина'
+    material: OAK_SLAB
+    tier: 1
+    lore: ['<gray>9 брёвен одной породы']
+  refined_stone:
+    name: 'T1 Изысканный камень'
+    material: STONE
+    tier: 1
+    lore: ['<gray>9 булыжника']
+  packed_feathers:
+    name: 'T1 Уплотнённое перо'
+    material: FEATHER
+    glint: true
+    tier: 1
+  carved_leather:
+    name: 'T1 Резная кожа'
+    material: RABBIT_HIDE
+    model: 'minecraft:leather'
+    model-data: 1
+    glint: true
+    tier: 1
+  refined_sugar:
+    name: 'T1 Рафинированный сахар'
+    material: SUGAR
+    glint: true
+    tier: 1
+  crafted_reeds:
+    name: 'T1 Отборный тростник'
+    material: SUGAR_CANE
+    glint: true
+    tier: 1
+  forged_clay:
+    name: 'T1 Кованая глина'
+    material: BRICK
+    tier: 1
+  crafted_sticks:
+    name: 'T1 Обработанные палки'
+    material: STICK
+    glint: true
+    tier: 1
+  refined_slime:
+    name: 'T1 Изысканная слизь'
+    material: SLIME_BALL
+    glint: true
+    tier: 1
+  crafted_string:
+    name: 'T1 Особая нить'
+    material: STRING
+    glint: true
+    tier: 1
+  refined_sulphur:
+    name: 'T1 Очищенная сера'
+    material: GUNPOWDER
+    glint: true
+    tier: 1
+  mercury_t1:
+    name: 'T1 Меркурий'
+    material: GHAST_TEAR
+    model-data: 1
+    tier: 1
+    lore: ['<gray>Подземелье, мобы, космические миссии, руины']
+
+  metallic_fragment_t1: {name: 'T1 Обычный осколок металлокристалла', material: QUARTZ, model-data: 1, tier: 1}
+  ionic_fragment_t1: {name: 'T1 Обычный осколок ионокристалла', material: PRISMARINE_CRYSTALS, model-data: 1, tier: 1}
+  metallic_crystal_t1: {name: 'T1 Обычный металлокристалл', material: AMETHYST_SHARD, model-data: 1, tier: 1}
+  ionic_crystal_t1: {name: 'T1 Обычный ионокристалл', material: PRISMARINE_SHARD, model-data: 1, tier: 1}
+
+  # ---------------------------------------------------------------- T2
+  milled_lumber:
+    name: 'T2 Пиленая древесина'
+    material: STRIPPED_OAK_WOOD
+    tier: 2
+  crushed_stone:
+    name: 'T2 Дроблёный камень'
+    material: SMOOTH_STONE_SLAB
+    tier: 2
+  sticky_resin:
+    name: 'T2 Липкая смола'
+    material: HONEYCOMB
+    tier: 2
+    lore: ['<gray>Она же «жидкая резина»']
+  clay_molding:
+    name: 'T2 Формировочная глина'
+    material: BRICKS
+    tier: 2
+  varnish:
+    name: 'T2 Лак'
+    material: GLOW_INK_SAC
+    model: 'minecraft:honey_bottle'
+    tier: 2
+  steel_ingot:
+    name: 'T2 Стальной слиток'
+    material: IRON_INGOT
+    glint: true
+    tier: 2
+  steel_plate:
+    name: 'T2 Стальная пластина'
+    material: HEAVY_WEIGHTED_PRESSURE_PLATE
+    tier: 2
+  elastic_stick:
+    name: 'T2 Упругая палка'
+    material: BAMBOO
+    tier: 2
+  woven_threading:
+    name: 'T2 Сплетённая нить'
+    material: LEAD
+    tier: 2
+  leather_belts:
+    name: 'T2 Кожаные ремни'
+    material: RABBIT_HIDE
+    model-data: 2
+    tier: 2
+  steel_blade:
+    name: 'T2 Стальной клинок'
+    material: IRON_INGOT
+    model: 'minecraft:iron_sword'
+    model-data: 2
+    tier: 2
+  steel_hilt:
+    name: 'T2 Стальной эфес'
+    material: STICK
+    model-data: 2
+    tier: 2
+  jewelry_gold:
+    name: 'T2 Золотое украшение'
+    material: GOLD_NUGGET
+    glint: true
+    tier: 2
+    lore: ['<gray>9 золотых блоков']
+  decorative_jewels:
+    name: 'T2 Драгоценное украшение'
+    material: EMERALD
+    glint: true
+    tier: 2
+    lore: ['<gray>2 алмазных блока']
+  industrial_diamond:
+    name: 'T2 Промышленный алмаз'
+    material: DIAMOND
+    glint: true
+    tier: 2
+  mercury_t2:
+    name: 'T2 Меркурий'
+    material: NAUTILUS_SHELL
+    model-data: 2
+    tier: 2
+    lore: ['<gray>«Меркуриевая ванна»']
+
+  metallic_fragment_t2: {name: 'T2 Особый осколок металлокристалла', material: QUARTZ, model-data: 2, tier: 2}
+  ionic_fragment_t2: {name: 'T2 Особый осколок ионокристалла', material: PRISMARINE_CRYSTALS, model-data: 2, tier: 2}
+  metallic_crystal_t2: {name: 'T2 Особый металлокристалл', material: AMETHYST_SHARD, model-data: 2, tier: 2}
+  ionic_crystal_t2: {name: 'T2 Особый ионокристалл', material: PRISMARINE_SHARD, model-data: 2, tier: 2}
+
+  # ---------------------------------------------------------------- T3
+  compacted_stone:
+    name: 'T3 Уплотнённый камень'
+    material: STONE_BRICKS
+    tier: 3
+    lore: ['<gray>729 булыжника']
+  mortar:
+    name: 'T3 Строительная смесь'
+    material: MUD_BRICKS
+    tier: 3
+    lore: ['<gray>«Цемент»']
+  steel_cast:
+    name: 'T3 Форма для литья стали'
+    material: FIREWORK_STAR
+    model-data: 1
+    tier: 3
+    lore: ['<gray>Она же «форма для литья металла»']
+  carbide_mold:
+    name: 'T3 Карбидная форма'
+    material: FIREWORK_STAR
+    model-data: 2
+    tier: 3
+  tungsten_cast:
+    name: 'T3 Форма для литья вольфрама'
+    material: FIREWORK_STAR
+    model-data: 3
+    tier: 3
+  carbide_ingot:
+    name: 'T3 Карбидный слиток'
+    material: FLINT
+    glint: true
+    tier: 3
+  carbide_plate:
+    name: 'T3 Карбидная плита'
+    material: NETHERITE_SCRAP
+    tier: 3
+  hard_rubber:
+    name: 'T3 Жёсткая резина'
+    material: MAGMA_CREAM
+    tier: 3
+    lore: ['<gray>«Кузнечная смола»']
+  reinforced_fiber:
+    name: 'T3 Армированное волокно'
+    material: STRING
+    model-data: 3
+    tier: 3
+  leather_straps:
+    name: 'T3 Кожаные ремни'
+    material: RABBIT_HIDE
+    model-data: 3
+    glint: true
+    tier: 3
+  bow_base:
+    name: 'T3 Основа лука'
+    material: BAMBOO
+    model-data: 3
+    glint: true
+    tier: 3
+  tungsten_ingot:
+    name: 'T3 Слиток вольфрама'
+    material: NETHERITE_INGOT
+    tier: 3
+  feathered_lining:
+    name: 'T3 Перо'
+    material: FEATHER
+    model-data: 3
+    tier: 3
+  mystic_diamond:
+    name: 'T3 Мистический алмаз'
+    material: DIAMOND
+    model-data: 3
+    glint: true
+    tier: 3
+  mercury_t3:
+    name: 'T3 Меркурий'
+    material: HEART_OF_THE_SEA
+    model-data: 3
+    tier: 3
+  carbide_blade:
+    name: 'T3 Карбидный клинок'
+    material: IRON_INGOT
+    model: 'minecraft:diamond_sword'
+    model-data: 3
+    tier: 3
+  carbide_hilt:
+    name: 'T3 Карбидный эфес'
+    material: STICK
+    model-data: 3
+    tier: 3
+
+  metallic_fragment_t3: {name: 'T3 Редкий осколок металлокристалла', material: QUARTZ, model-data: 3, tier: 3}
+  ionic_fragment_t3: {name: 'T3 Редкий осколок ионокристалла', material: PRISMARINE_CRYSTALS, model-data: 3, tier: 3}
+  metallic_crystal_t3: {name: 'T3 Редкий металлокристалл', material: AMETHYST_SHARD, model-data: 3, tier: 3}
+  ionic_crystal_t3: {name: 'T3 Редкий ионокристалл', material: PRISMARINE_SHARD, model-data: 3, tier: 3}
+
+  # ---------------------------------------------------------------- T4
+  tungsten_plate:
+    name: 'T4 Вольфрамовая пластина'
+    material: NETHER_BRICK
+    tier: 4
+  composite_leather:
+    name: 'T4 Композитная кожа'
+    material: RABBIT_HIDE
+    model: 'minecraft:leather'
+    model-data: 4
+    tier: 4
+  lumber_t4:
+    name: 'T4 Древесина'
+    material: STRIPPED_DARK_OAK_WOOD
+    tier: 4
+    lore: ['<gray>Бывшее «колесо пушки»']
+  tungsten_blade:
+    name: 'T4 Вольфрамовый клинок'
+    material: NETHERITE_INGOT
+    model: 'minecraft:netherite_sword'
+    model-data: 4
+    tier: 4
+  tungsten_hilt:
+    name: 'T4 Вольфрамовый эфес'
+    material: STICK
+    model-data: 4
+    tier: 4
+  composite_stave:
+    name: 'T4 Композитная основа лука'
+    material: BAMBOO
+    model-data: 4
+    tier: 4
+  composite_string:
+    name: 'T4 Композитная тетива'
+    material: STRING
+    model-data: 4
+    tier: 4
+
+  metallic_fragment_t4: {name: 'T4 Легендарный осколок металлокристалла', material: QUARTZ, model-data: 4, tier: 4}
+  ionic_fragment_t4: {name: 'T4 Легендарный осколок ионокристалла', material: PRISMARINE_CRYSTALS, model-data: 4, tier: 4}
+  metallic_crystal_t4: {name: 'T4 Легендарный металлокристалл', material: AMETHYST_SHARD, model-data: 4, glint: true, tier: 4}
+  ionic_crystal_t4: {name: 'T4 Легендарный ионокристалл', material: PRISMARINE_SHARD, model-data: 4, glint: true, tier: 4}
+
+  # ---------------------------------------------------------------- other materials
+  soul_shard:
+    name: 'Осколок души'
+    material: ECHO_SHARD
+    rarity: legendary
+    lore: ['<gray>Повелитель Воздушной долины', '<gray>Выпадает при смерти в PvP-зоне долины']
+  soul_ingot:
+    name: 'Слиток души'
+    material: NETHERITE_INGOT
+    model-data: 9
+    glint: true
+    rarity: legendary
+  electronics:
+    name: 'Электроника'
+    material: IRON_NUGGET
+    model: 'minecraft:comparator'
+    model-data: 20
+    rarity: rare
+    category: space
+    lore: ['<gray>Компонент космических миссий']
+
+  # ---------------------------------------------------------------- catalysts (§4.3, §6)
+  catalyst_attack_t1: {name: 'T1 Обычная заточка атаки', material: BLAZE_POWDER, model-data: 1, tier: 1, kind: catalyst, category: catalysts, stack: 16, data: {sharpen: attack}}
+  catalyst_attack_t2: {name: 'T2 Особая заточка атаки', material: BLAZE_POWDER, model-data: 2, tier: 2, kind: catalyst, category: catalysts, stack: 16, data: {sharpen: attack}}
+  catalyst_attack_t3: {name: 'T3 Редкая заточка атаки', material: BLAZE_POWDER, model-data: 3, tier: 3, kind: catalyst, category: catalysts, stack: 16, data: {sharpen: attack}}
+  catalyst_attack_t4: {name: 'T4 Легендарная заточка атаки', material: BLAZE_POWDER, model-data: 4, tier: 4, kind: catalyst, category: catalysts, stack: 16, data: {sharpen: attack}}
+  catalyst_defense_t1: {name: 'T1 Обычная заточка защиты', material: SHULKER_SHELL, model-data: 1, tier: 1, kind: catalyst, category: catalysts, stack: 16, data: {sharpen: defense}}
+  catalyst_defense_t2: {name: 'T2 Особая заточка защиты', material: SHULKER_SHELL, model-data: 2, tier: 2, kind: catalyst, category: catalysts, stack: 16, data: {sharpen: defense}}
+  catalyst_defense_t3: {name: 'T3 Редкая заточка защиты', material: SHULKER_SHELL, model-data: 3, tier: 3, kind: catalyst, category: catalysts, stack: 16, data: {sharpen: defense}}
+  catalyst_defense_t4: {name: 'T4 Легендарная заточка защиты', material: SHULKER_SHELL, model-data: 4, tier: 4, kind: catalyst, category: catalysts, stack: 16, data: {sharpen: defense}}
+  mystic_catalyst_attack_t1: {name: 'T1 Мистическая заточка атаки', material: BLAZE_POWDER, model-data: 11, glint: true, tier: 1, kind: catalyst, category: catalysts, stack: 16, data: {sharpen: attack, mystic: 'true'}}
+  mystic_catalyst_attack_t2: {name: 'T2 Мистическая заточка атаки', material: BLAZE_POWDER, model-data: 12, glint: true, tier: 2, kind: catalyst, category: catalysts, stack: 16, data: {sharpen: attack, mystic: 'true'}}
+  mystic_catalyst_attack_t3: {name: 'T3 Мистическая заточка атаки', material: BLAZE_POWDER, model-data: 13, glint: true, tier: 3, kind: catalyst, category: catalysts, stack: 16, data: {sharpen: attack, mystic: 'true'}}
+  mystic_catalyst_attack_t4: {name: 'T4 Мистическая заточка атаки', material: BLAZE_POWDER, model-data: 14, glint: true, tier: 4, kind: catalyst, category: catalysts, stack: 16, data: {sharpen: attack, mystic: 'true'}}
+  mystic_catalyst_defense_t1: {name: 'T1 Мистическая заточка защиты', material: SHULKER_SHELL, model-data: 11, glint: true, tier: 1, kind: catalyst, category: catalysts, stack: 16, data: {sharpen: defense, mystic: 'true'}}
+  mystic_catalyst_defense_t2: {name: 'T2 Мистическая заточка защиты', material: SHULKER_SHELL, model-data: 12, glint: true, tier: 2, kind: catalyst, category: catalysts, stack: 16, data: {sharpen: defense, mystic: 'true'}}
+  mystic_catalyst_defense_t3: {name: 'T3 Мистическая заточка защиты', material: SHULKER_SHELL, model-data: 13, glint: true, tier: 3, kind: catalyst, category: catalysts, stack: 16, data: {sharpen: defense, mystic: 'true'}}
+  mystic_catalyst_defense_t4: {name: 'T4 Мистическая заточка защиты', material: SHULKER_SHELL, model-data: 14, glint: true, tier: 4, kind: catalyst, category: catalysts, stack: 16, data: {sharpen: defense, mystic: 'true'}}
+
+# "9 of tier N → 1 of tier N+1" chains (spec 04 §4.1). Each `inputs` entry becomes its own recipe, so
+# different log species are never mixed in one craft. ratio 2 for slime (24 slime = 12 T1 slime).
+compression:
+  wood:
+    ratio: 9
+    inputs: ['#oak_logs', '#birch_logs', '#spruce_logs', '#jungle_logs', '#acacia_logs', '#dark_oak_logs',
+             '#cherry_logs', '#mangrove_logs', '#pale_oak_logs']
+    chain: [refined_wood, milled_lumber]
+  stone:
+    ratio: 9
+    inputs: ['minecraft:cobblestone']
+    chain: [refined_stone, crushed_stone, compacted_stone]
+  feathers: {ratio: 9, inputs: ['minecraft:feather'], chain: [packed_feathers]}
+  leather: {ratio: 9, inputs: ['minecraft:leather'], chain: [carved_leather]}
+  sugar: {ratio: 9, inputs: ['minecraft:sugar'], chain: [refined_sugar]}
+  reeds: {ratio: 9, inputs: ['minecraft:sugar_cane'], chain: [crafted_reeds]}
+  clay: {ratio: 9, inputs: ['minecraft:clay_ball'], chain: [forged_clay]}
+  sticks: {ratio: 9, inputs: ['minecraft:stick'], chain: [crafted_sticks]}
+  string: {ratio: 9, inputs: ['minecraft:string'], chain: [crafted_string]}
+  sulphur: {ratio: 9, inputs: ['minecraft:gunpowder'], chain: [refined_sulphur]}
+  slime: {ratio: 2, inputs: ['minecraft:slime_ball'], chain: [refined_slime]}
+  # [допущение] the general 9 → 1 rule for mercury (boss: «1 T3» ≈ «9 T2»).
+  mercury: {ratio: 9, chain: [mercury_t1, mercury_t2, mercury_t3]}
+  # [допущение] crystal of tier N = 9 fragments of tier N; fragments come only from mobs.
+  metallic_t1: {ratio: 9, chain: [metallic_fragment_t1, metallic_crystal_t1]}
+  metallic_t2: {ratio: 9, chain: [metallic_fragment_t2, metallic_crystal_t2]}
+  metallic_t3: {ratio: 9, chain: [metallic_fragment_t3, metallic_crystal_t3]}
+  metallic_t4: {ratio: 9, chain: [metallic_fragment_t4, metallic_crystal_t4]}
+  ionic_t1: {ratio: 9, chain: [ionic_fragment_t1, ionic_crystal_t1]}
+  ionic_t2: {ratio: 9, chain: [ionic_fragment_t2, ionic_crystal_t2]}
+  ionic_t3: {ratio: 9, chain: [ionic_fragment_t3, ionic_crystal_t3]}
+  ionic_t4: {ratio: 9, chain: [ionic_fragment_t4, ionic_crystal_t4]}
+
+recipes:
+  # ---------------------------------------------------------------- T2
+  sticky_resin: {shapeless: ['minecraft:bowl', refined_slime x2, refined_sugar]}
+  clay_molding: {shapeless: [forged_clay x3, crafted_sticks x3, crafted_reeds x2]}
+  varnish: {shapeless: [refined_slime, refined_sugar, crafted_reeds x2]}            # [допущение]
+  steel_ingot: {shapeless: ['minecraft:iron_block x3', 'minecraft:coal_block x3', refined_sulphur]}
+  steel_plate: {shapeless: [steel_ingot, varnish, clay_molding]}
+  elastic_stick: {shapeless: [crafted_sticks x3, crafted_reeds x2, crafted_string x2]}
+  woven_threading: {shapeless: [crafted_string x4, refined_slime]}
+  leather_belts: {shapeless: [carved_leather, crafted_string]}
+  steel_blade: {shapeless: [steel_ingot x2, steel_cast]}
+  steel_hilt: {shapeless: [steel_ingot x2, varnish x2, leather_belts x2, sticky_resin]}
+  jewelry_gold: {shapeless: ['minecraft:gold_block x9']}
+  decorative_jewels: {shapeless: ['minecraft:diamond_block x2']}
+  industrial_diamond: {shapeless: ['minecraft:diamond', mercury_t1]}                # [допущение] алмаз + меркурий
+  # ---------------------------------------------------------------- T3
+  mortar: {shapeless: [sticky_resin x2, clay_molding x2]}
+  steel_cast: {shapeless: [clay_molding x2, sticky_resin, crafted_sticks x2, crafted_reeds x2]}
+  carbide_mold: {shapeless: [clay_molding x2, varnish x2, sticky_resin]}
+  tungsten_cast: {shapeless: [clay_molding x2, sticky_resin, crafted_reeds x2]}
+  carbide_ingot: {shapeless: [steel_ingot x3, varnish, refined_sulphur x2]}          # [допущение]
+  carbide_plate: {shapeless: [sticky_resin x2, clay_molding, carbide_ingot]}
+  hard_rubber: {shapeless: [sticky_resin x2, refined_sulphur x2, 'minecraft:coal_block']}
+  reinforced_fiber: {shapeless: [woven_threading x2, sticky_resin x2, varnish]}
+  leather_straps: {shapeless: [leather_belts x3, varnish x2]}
+  bow_base: {shapeless: [elastic_stick, sticky_resin]}
+  tungsten_ingot: {shapeless: [carbide_ingot x2, hard_rubber, mercury_t1]}           # [допущение]
+  feathered_lining: {shapeless: [packed_feathers x4, woven_threading x2, leather_straps x3]}  # [допущение]
+  mystic_diamond: {shapeless: [industrial_diamond x2, mercury_t1]}
+  carbide_blade: {shapeless: [steel_cast, carbide_ingot x4, hard_rubber x2]}
+  carbide_hilt: {shapeless: [steel_cast, hard_rubber, carbide_ingot, reinforced_fiber]}
+  # ---------------------------------------------------------------- T4
+  tungsten_plate: {shapeless: [tungsten_cast, hard_rubber, tungsten_ingot]}          # 1 резина ([CL V1.4])
+  composite_leather: {shapeless: [leather_straps x2, reinforced_fiber x2]}
+  lumber_t4: {shapeless: [milled_lumber x5, crafted_sticks x4]}                     # [CL V0.9.5]
+  tungsten_blade: {shapeless: [tungsten_cast x3, hard_rubber x3, tungsten_ingot x3]}
+  tungsten_hilt: {shapeless: [tungsten_cast x2, hard_rubber x2, tungsten_ingot x2, composite_leather x2]}
+  composite_stave: {shapeless: [bow_base x2, leather_straps x2, reinforced_fiber x2]}
+  composite_string: {shapeless: [hard_rubber x3, reinforced_fiber x3]}
+  # ---------------------------------------------------------------- other
+  soul_ingot: {shapeless: [soul_form, soul_shard]}
+  electronics: {shapeless: ['minecraft:redstone x2', 'minecraft:copper_ingot x2', 'minecraft:gold_ingot', 'minecraft:quartz'], tech: electricity}  # [допущение]
+  # ---------------------------------------------------------------- catalysts [допущение §4.3]
+  catalyst_attack_t1: {shapeless: [metallic_crystal_t1, mercury_t1 x2]}
+  catalyst_attack_t2: {shapeless: [metallic_crystal_t2, mercury_t1 x2]}
+  catalyst_attack_t3: {shapeless: [metallic_crystal_t3, mercury_t2 x2]}
+  catalyst_attack_t4: {shapeless: [metallic_crystal_t4, mercury_t2 x2]}
+  catalyst_defense_t1: {shapeless: [ionic_crystal_t1, mercury_t1 x2]}
+  catalyst_defense_t2: {shapeless: [ionic_crystal_t2, mercury_t1 x2]}
+  catalyst_defense_t3: {shapeless: [ionic_crystal_t3, mercury_t2 x2]}
+  catalyst_defense_t4: {shapeless: [ionic_crystal_t4, mercury_t2 x2]}
+  mystic_catalyst_attack_t1: {shapeless: [metallic_crystal_t1, mercury_t1 x2, mystic_diamond x3]}
+  mystic_catalyst_attack_t2: {shapeless: [metallic_crystal_t2, mercury_t1 x2, mystic_diamond x3]}
+  mystic_catalyst_attack_t3: {shapeless: [metallic_crystal_t3, mercury_t2 x2, mystic_diamond x3]}
+  mystic_catalyst_attack_t4: {shapeless: [metallic_crystal_t4, mercury_t2 x2, mystic_diamond x3]}
+  mystic_catalyst_defense_t1: {shapeless: [ionic_crystal_t1, mercury_t1 x2, mystic_diamond x3]}
+  mystic_catalyst_defense_t2: {shapeless: [ionic_crystal_t2, mercury_t1 x2, mystic_diamond x3]}
+  mystic_catalyst_defense_t3: {shapeless: [ionic_crystal_t3, mercury_t2 x2, mystic_diamond x3]}
+  mystic_catalyst_defense_t4: {shapeless: [ionic_crystal_t4, mercury_t2 x2, mystic_diamond x3]}
