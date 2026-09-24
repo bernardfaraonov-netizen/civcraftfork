@@ -1,0 +1,6 @@
+# Shared PvE settings.
+coins:
+  # Item used for coins dropped by mobs (value is stored in the item's PDC).
+  material: GOLD_NUGGET
+  # CL V0.8 turned coin pickup messages off; set true for an action bar note on pickup.
+  pickup-message: false

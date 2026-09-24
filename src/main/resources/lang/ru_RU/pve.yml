@@ -1,0 +1,35 @@
+# Общие строки PvE: монеты, особые миры (Воздушная долина, Подземелье), админ-настройка областей.
+pve:
+  coins:
+    item-name: '<gold><amount> монет'
+    picked: '<gold>+<amount> монет'
+  area:
+    not-configured: '<red>Этот мир ещё не настроен администрацией.'
+    command-banned: '<red>Эта команда здесь запрещена.'
+    safe-zone: '<red>Здесь нельзя сражаться.'
+    friend: '<red>Нельзя бить друзей.'
+    home-start: '<yellow>Стойте неподвижно <white><seconds></white> сек., чтобы вернуться домой.'
+    home-countdown: '<yellow>Возвращение домой через <white><seconds></white> сек...'
+    home-cancelled: '<red>Возвращение домой отменено: вы сдвинулись или получили урон.'
+    zone:
+      safe: '<green>Мирная зона'
+      pvp: '<red>Зона PvP'
+      boss: '<dark_red>Зона босса'
+  admin:
+    done: '<green>Готово.'
+    'yes': 'да'
+    'no': 'нет'
+    area:
+      unknown: '<red>Неизвестная область <white><area></white>.'
+      spawn-set: '<green>Точка входа области <white><area></white> установлена.'
+      pos-set: '<green>Точка <white><index></white>: <gray><pos>'
+      no-selection: '<red>Сначала отметьте обе точки: <white>pos1</white> и <white>pos2</white>.'
+      wrong-world: '<red>Вы не в мире этой области.'
+      bad-zone-type: '<red>Тип зоны: SAFE, PVP или BOSS.'
+      no-zone: '<red>Зона <white><name></white> не найдена.'
+      no-marker: '<red>Рядом нет маркера этого типа.'
+      look-at-block: '<red>Смотрите на блок (кнопку или сундук).'
+      marker-added: '<green>Маркер <white><kind></white> добавлен (<gray><pos></gray>), всего: <white><count></white>.'
+      info: '<gold>Область <white><area></white>: мир <white><world></white> (загружен: <loaded>), вход: <gray><spawn>'
+      zone-line: '<gray> - зона <white><name></white> [<type>] <bounds>'
+      marker-line: '<gray> - маркеры <white><kind></white>: <count>'

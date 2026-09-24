@@ -1,0 +1,44 @@
+mobs:
+  nameplate: '<name> <red>❤</red> <white><hp></white><gray>/<max>'
+  name:
+    yobo:
+      lesser: '<gray>Lesser Yobo'
+      greater: '<green>Greater Yobo'
+      elite: '<aqua>Elite Yobo'
+      brutal: '<red>Brutal Yobo'
+    angry_yobo:
+      lesser: '<gray>Angry Yobo'
+      greater: '<green>Angry Yobo'
+      elite: '<aqua>Angry Yobo'
+      brutal: '<red>Angry Yobo'
+    savage:
+      lesser: '<gray>Lesser Savage'
+      greater: '<green>Greater Savage'
+      elite: '<aqua>Elite Savage'
+      brutal: '<red>Brutal Savage'
+    ruffian:
+      lesser: '<gray>Lesser Ruffian'
+      greater: '<green>Greater Ruffian'
+      elite: '<aqua>Elite Ruffian'
+      brutal: '<red>Brutal Ruffian'
+    behemoth:
+      lesser: '<gray>Lesser Behemoth'
+      greater: '<green>Greater Behemoth'
+      elite: '<aqua>Elite Behemoth'
+      brutal: '<red>Brutal Behemoth'
+    rat:
+      lesser: '<dark_gray>Крыса'
+      greater: '<dark_gray>Крыса'
+      elite: '<dark_gray>Крыса'
+      brutal: '<dark_gray>Крыса'
+  newbie-no-fight: '<red>Под защитой новичка нельзя сражаться с мобами.'
+  weapon-too-weak: '<red>Ваше оружие слишком слабое: нужно оружие тира <white><tier></white> или выше.'
+  clearlag:
+    warning: '<yellow>Очистка мобов и предметов на земле через <white><seconds></white> сек.'
+    done: '<gray>Очистка завершена: удалено объектов — <white><count></white>.'
+  admin:
+    unknown: '<red>Неизвестный тип или тир моба.'
+    spawned: '<green>Создано мобов: <white><count></white>.'
+    killed: '<green>Удалено мобов: <white><count></white>.'
+    cleared: '<green>Очистка выполнена, удалено: <white><count></white>.'
+    info: '<gold>Загружено кастомных мобов: <white><count></white>, биомов в таблице спавна: <white><biomes></white>.'

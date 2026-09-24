@@ -1,0 +1,6 @@
+dungeon:
+  entered: '<dark_gray>Вы спустились в Подземелье. Берегитесь крыс! <gray>Домой — кнопка «Домой».'
+  cooldown: '<red>Спуститься в Подземелье можно через <white><seconds></white> сек.'
+  already-inside: '<red>Вы уже в Подземелье.'
+  admin:
+    rats: '<green>Крыс в Подземелье: <white><count></white>.'
