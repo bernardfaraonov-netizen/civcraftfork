@@ -83,6 +83,7 @@ final class WorldBoss implements Listener {
     private final Map<UUID, Double> damage = new HashMap<>();
     private UUID lastHitter;
     private final Set<UUID> viewers = new HashSet<>();
+    private final List<org.bukkit.Chunk> heldChunks = new ArrayList<>();
     private BossBar bar;
     private String lastSpawnSlot;
     private int regenCounter;
@@ -155,13 +156,16 @@ final class WorldBoss implements Listener {
         BlockPos pos = area.markers("boss").getFirst();
         World world = area.world();
         Location at = new Location(world, pos.x() + 0.5, pos.y(), pos.z() + 0.5);
-        world.getChunkAt(at).load();
+        holdChunks(world, pos);
         EntityType type = Registry.ENTITY_TYPE.get(NamespacedKey.minecraft(cfg.getString("entity", "wither_skeleton")));
         if (type == null || !type.isAlive()) type = EntityType.WITHER_SKELETON;
         damage.clear();
         lastHitter = null;
         Entity e = world.spawnEntity(at, type, CreatureSpawnEvent.SpawnReason.CUSTOM, en -> configure((LivingEntity) en));
-        if (!(e instanceof LivingEntity living) || !e.isValid()) return false;
+        if (!(e instanceof LivingEntity living) || !e.isValid()) {
+            releaseChunks();
+            return false;
+        }
         boss = living;
         despawnAt = Instant.now().plus(Duration.ofMinutes(Math.max(1, cfg.getInt("lifetime-minutes", 60))));
         bar = BossBar.bossBar(civ.messages().component("valley.boss.bar"), 1f, BossBar.Color.RED, BossBar.Overlay.NOTCHED_10);
@@ -274,7 +278,26 @@ final class WorldBoss implements Listener {
         }
     }
 
+    /** Keeps the arena loaded while the boss lives: it is not saved with chunks and must not unload. */
+    private void holdChunks(World world, BlockPos center) {
+        releaseChunks();
+        int r = Math.max(1, (int) Math.ceil(cfg.getDouble("leash-radius", 40) / 16.0));
+        for (int dx = -r; dx <= r; dx++) {
+            for (int dz = -r; dz <= r; dz++) {
+                org.bukkit.Chunk chunk = world.getChunkAt((center.x() >> 4) + dx, (center.z() >> 4) + dz);
+                chunk.addPluginChunkTicket(civ.plugin());
+                heldChunks.add(chunk);
+            }
+        }
+    }
+
+    private void releaseChunks() {
+        for (org.bukkit.Chunk chunk : heldChunks) chunk.removePluginChunkTicket(civ.plugin());
+        heldChunks.clear();
+    }
+
     private void cleanup() {
+        releaseChunks();
         if (bar != null) {
             for (UUID id : viewers) {
                 Player p = Bukkit.getPlayer(id);
