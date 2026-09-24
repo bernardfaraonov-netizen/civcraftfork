@@ -1,0 +1,169 @@
+# Победа (docs/spec/03_wonders_science.md §11).
+# Условия проверяются каждый день на сборе налогов (config.yml → daily-tick-hour). Запуск любой победы —
+# не раньше start-after-days после начала фазы. Если условие нарушено, отсчёт прерывается и обнуляется.
+# Города «Купленный» в победах не учитываются, чудеса считаются только в незахваченных и некупленных городах.
+
+# Начало фазы (ISO-дата, например 2026-09-01). Пусто — момент первого запуска плагина.
+phase-start: ''
+phase-name: ''
+server-name: Alcor
+start-after-days: 21
+
+# Удержание (дней) по типам победы.
+hold-days:
+  religious: 21
+  economic: 21
+  diplomatic: 21
+  cultural: 21
+  scientific: 21
+  domination: 14
+
+religious:
+  min-points: 45000
+  wonder: notre_dame
+economic:
+  wonder: world_bank
+  min-level: 5
+diplomatic:
+  wonder: council_of_eight
+cultural:
+  wonder: burj_al_arab
+  # Сумма накопленной культуры родных городов.
+  min-culture: 13000000
+scientific:
+  wonder: space_shuttle
+  # Нужна последняя (7-я) миссия; наука в час: родные города 100 %, остальные non-native-weight.
+  min-beakers: 20000
+  non-native-weight: 0.3
+domination:
+  score-ratio: 9
+  min-wonders: 6
+  # Не входят в число чудес (национальные не считаются всегда) [CL 0.8].
+  excluded-wonders: [space_shuttle]
+
+# Награда: префикс [WON] основателю (каждый раз другого цвета), запись в «Зал победителей».
+# Команды консоли для внешних наград (например, 1 500 вимеров): {player} {civ} {type}.
+reward-commands: []
+won-colors: [gold, aqua, light_purple, green, red, yellow, blue, dark_aqua, dark_purple, dark_green]
+
+bossbar:
+  enabled: true
+  color: YELLOW
+  overlay: PROGRESS
+
+# Очки цивилизации для доминационной победы: сумма очков городов + технологий.
+score:
+  town-chunk: 200
+  culture-chunk: 100
+  resident: 5000
+  # Монет казны города за 1 очко.
+  coins-per-point: 5
+  # Очков за пробирку базовой стоимости изученной технологии.
+  tech-per-beaker: 0.25
+  # Очки построек (docs/spec/02_buildings.md §2, чудеса — spec 03 §5–6). Ключи — id типов построек
+  # или ключи чудес из science.yml.
+  structures:
+    capitol: 6000
+    town_hall: 1000
+    bank: 3000
+    barracks: 3000
+    trommel: 1500
+    monument: 1500
+    cathedral: 1000
+    granary: 2000
+    arsenal: 2000
+    grocer: 2500
+    library: 5000
+    shipyard: 7000
+    blacksmith: 10000
+    warehouse: 2000
+    lighthouse: 5000
+    portal: 1000
+    temple: 4700
+    church: 2000
+    arena: 15000
+    sewer: 3670
+    world_market: 3500
+    hotel: 6000
+    market: 1000
+    university: 8000
+    road_station: 2500
+    gunpowder_workshop: 5000
+    ore_washer: 1500
+    tavern: 16000
+    mall: 4000
+    stock_exchange: 7500
+    school: 8000
+    castle: 1500
+    museum: 8000
+    factory: 5000
+    radio_tower: 25000
+    theatre: 16000
+    military_base: 30000
+    laboratory: 10000
+    military_laboratory: 40000
+    farm: 1000
+    quarry: 3000
+    cottage: 1000
+    trade_camp: 1000
+    sawmill: 2000
+    windmill: 5000
+    monster_farm: 3000
+    apiary: 2000
+    pasture: 1000
+    fish_farm: 3000
+    fishing_boat: 3000
+    beehive: 250
+    mine: 6200
+    plantation: 2000
+    ore_mine: 4000
+    trade_ship: 3000
+    plant: 3550
+    silk_farm: 3000
+    stone_quarry: 15000
+    oil_rig: 5000
+    nuclear_plant: 10000
+    wall: 50
+    fortified_wall: 50
+    scout_tower: 3000
+    arrow_tower: 4650
+    cannon_tower: 10000
+    tesla_tower: 20000
+    airship: 17500
+    scout_ship: 3000
+    archer_ship: 4650
+    cannon_ship: 10000
+    tesla_ship: 20000
+    road: 200
+    great_library: 220000
+    great_lighthouse: 250000
+    angkor_wat: 275000
+    burj_al_arab: 220000
+    hanging_gardens: 260000
+    world_bank: 500000
+    world_university: 365000
+    globe_theatre: 250000
+    tree_of_life: 275000
+    neuschwanstein: 350000
+    himeji_castle: 300000
+    colossus: 190000
+    space_shuttle: 255000
+    notre_dame: 275000
+    parthenon: 175000
+    great_pyramid: 190000
+    council_of_eight: 350000
+    statue_of_zeus: 350000
+    statue_of_liberty: 260000
+    ingermanland: 200000
+    chichen_itza: 250000
+    eiffel_tower: 350000
+    colosseum: 225000
+    national_college: 112000
+    foundry: 150000
+    hermitage: 125000
+    east_india_company: 135000
+    international_port: 200000
+
+# Исторический «Зал победителей» (фазы прошлых сезонов) для /civ victory winners:
+# - {phase: 'XL', server: Alcor, civ: Name, type: scientific, leader: Player, date: '2022-01-30'}
+hall-of-winners: []

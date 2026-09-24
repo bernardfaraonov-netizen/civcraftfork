@@ -1,0 +1,109 @@
+# Религия (docs/spec/01_core.md §16, docs/spec/03_wonders_science.md §5.14–5.15, §10.3).
+# Очки религии копятся каждую минуту (1/60 часовой ставки городов TownApi.faithPerHour),
+# в том числе без принятой религии.
+
+founding:
+  # Стоимость = base × (1 + per-town × основанные_города) очков религии [CL 1.10.6].
+  base-cost: 10000
+  per-town: 0.075
+
+change:
+  # Время перехода = число городов × hours-per-town часов, не больше max-hours [CL 1.4.1].
+  hours-per-town: 1
+  max-hours: 24
+  min-hours: 1
+  # Нотр-Дам сокращает время перехода вдвое [CL 1.5].
+  notre-dame-multiplier: 0.5
+
+# После потери или смены религии очки не начисляются столько часов.
+no-points-after-loss-hours: 24
+no-points-after-change-hours: 24
+
+# Сила баффа по месту в рейтинге религии (§16.3): 1-е место — 100 %,
+# k-е — max(0, 100 − (offset + per-place × k)) %, места дальше max-place — 0 %.
+rating:
+  offset: 10
+  per-place: 5
+  max-place: 16
+
+# Модификаторы очков религии (добавляются к стату faith городов).
+modifiers:
+  parthenon-percent: 0.50
+  notre-dame-nation: french
+  notre-dame-nation-percent: 0.10
+
+# Покупка юнитов и артефактов за очки религии в Бараках (§16.6, spec 03 §8.1):
+# цена = молоточки × factor × (1 − discount).
+purchase:
+  factor: 0.75
+  discount: 0.60
+
+prophet:
+  item: prophet
+  material: TOTEM_OF_UNDYING
+  points: 300
+  cooldown-minutes: 60
+  # Пророка можно заказать только в городе с Нотр-Дамом [допущение].
+  require-notre-dame-in-town: true
+
+# Условия потери, завязанные на войну, проверяются после окончания войны (config.yml → war.schedule);
+# structures_below_adoption проверяется ещё и ежедневно на сборе налогов.
+religions:
+  atheism:
+    name: Атеизм
+    icon: BOOK
+    description: ['+160 науки каждому городу']
+    requirement: {type: beakers_per_hour, amount: 1500}
+    loss: {type: beakers_drop}
+    effects:
+      - {stat: beakers, add: 160}
+  buddhism:
+    name: Буддизм
+    icon: LILY_PAD
+    description: ['+30 % культуры каждому городу']
+    requirement: {type: culture_uncaptured, amount: 100000}
+    loss: {type: culture_drop, fraction: 0.25}
+    effects:
+      - {stat: culture, percent: 0.30}
+  islam:
+    name: Ислам
+    icon: LANTERN
+    description: ['+50 % к шансу «Панча»', 'Коттеджи не потребляют сырую свинину']
+    requirement: {type: towns, amount: 6}
+    loss: {type: towns_lost, fraction: 0.5}
+    effects:
+      - {stat: punch_chance, percent: 0.50}
+      - {stat: cottage_no_pork, add: 1, binary: true}
+  catholicism:
+    name: Католицизм
+    icon: GOLDEN_SWORD
+    description: ['+40 % к эффективности Дробилок']
+    requirement: {type: structures, structure: trommel, amount: 5}
+    loss: {type: structures_below_adoption, structure: trommel}
+    effects:
+      - {stat: trommel, percent: 0.40}
+  orthodoxy:
+    name: Православие
+    icon: BELL
+    description: ['−2 несчастья каждому городу']
+    requirement: {type: towns, amount: 5}
+    loss: {type: capital_unhappiness_rise, amount: 6}
+    effects:
+      - {stat: unhappiness, add: -2}
+  protestantism:
+    name: Протестантизм
+    icon: WRITABLE_BOOK
+    description: ['+60 % к доходу коттеджей']
+    requirement: {type: structures, structure: cottage, amount: 5}
+    loss: {type: structures_below_adoption, structure: cottage}
+    effects:
+      - {stat: cottage, percent: 0.60}
+  paganism:
+    name: Язычество
+    icon: JACK_O_LANTERN
+    description: ['Захваченные города не дают несчастья', 'У захваченных городов нет штрафа науки', 'Только нация Ацтеки']
+    requirement: {type: nation, nation: aztecs}
+    loss: {type: capital_captured}
+    effects:
+      - {stat: captured_unhappiness, multiply: 0, binary: true}
+      - {stat: captured_science_penalty, multiply: 0, binary: true}

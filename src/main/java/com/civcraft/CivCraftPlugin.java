@@ -25,6 +25,12 @@ public final class CivCraftPlugin extends JavaPlugin {
     private static List<Module> createModules() {
         return List.of(
                 new com.civcraft.coremod.CoreModule(),
+                new com.civcraft.science.ScienceModule(),
+                new com.civcraft.talent.TalentModule(),
+                new com.civcraft.religion.ReligionModule(),
+                new com.civcraft.religion.artifact.ArtifactModule(),
+                new com.civcraft.space.SpaceModule(),
+                new com.civcraft.victory.VictoryModule(),
                 // Integrations last: they read everything the gameplay modules set up.
                 new com.civcraft.integration.IntegrationModule()
         );

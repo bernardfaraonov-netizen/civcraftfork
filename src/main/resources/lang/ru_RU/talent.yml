@@ -1,0 +1,32 @@
+# Таланты цивилизации (docs/spec/01_core.md §15).
+talent:
+  available: '<gold>Доступен выбор таланта <white><level></white> уровня (<white><theme></white>)! <yellow>/civ talent</yellow> <gray>— выберите, пока столица не перешла на следующий уровень.'
+  lost: '<red>Талант <white><level></white> уровня потерян: столица перешла на следующий уровень культуры без выбора.'
+  chosen: '<green>Выбран талант <white><level></white> уровня: <gold><name></gold>.'
+  confirm-title: '<gold>Выбрать талант?'
+  confirm-body: '<white>Уровень <level>: <gold><name></gold>'
+  confirm-warning: '<red>Выбор нельзя отменить.'
+  'yes': '<green>Выбрать'
+  'no': '<red>Отмена'
+  describe-header: '<gold>Таланты <white><level></white> уровня — <white><theme></white>:'
+  describe-line: ' <yellow><n>.</yellow> <white><name></white> <gray>— <description>'
+  describe-footer: '<gray>Выбор: <white>/civ talent choose <1|2|3></white>'
+  list-header: '<gold>Выбрано талантов: <white><count></white>. Уровень культуры столицы: <white><capital></white>.'
+  list-chosen: ' <green><level>.</green> <white><name></white>'
+  list-lost: ' <red><level>.</red> <gray>потерян'
+  admin-reset: '<yellow>Таланты цивилизации <white><civ></white> сброшены.'
+  error:
+    none-available: '<red>Сейчас нет доступного для выбора таланта.'
+    bad-choice: '<red>Такого таланта нет.'
+  gui:
+    title: '<dark_gray>Таланты цивилизации'
+    level: '<gold>Уровень <level></gold> <gray>— <theme>'
+    status:
+      chosen: '<green>Талант выбран'
+      available: '<yellow>Можно выбрать сейчас'
+      lost: '<red>Потерян'
+      locked: '<gray>Откроется на этом уровне культуры столицы'
+    click: '<yellow>Нажмите, чтобы выбрать'
+    info-title: '<gold>Таланты'
+    info: '<gray>Выбрано: <white><count></white>, уровень столицы: <white><capital></white>'
+    close: '<red>Закрыть'

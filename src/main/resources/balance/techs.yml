@@ -1,0 +1,991 @@
+# Дерево технологий CivCraft V1.10.9 (docs/spec/03_wonders_science.md §1–3).
+# Монеты — в монетах, пробирки — в пробирках. Эры 0..7.
+#
+# unlocks — что открывает технология. Другие модули проверяют доступ через
+# ResearchApi.hasTech(civ, id) или ResearchApi.unlocked(civ, <категория>, <id>).
+# Категории: structures, upgrades, governments, items, units, artifacts, missions, wonders.
+# effects — модификаторы статов (EffectParser-формат), действуют на всю цивилизацию.
+
+# Формула стоимости (§1.2):
+#   монеты   = база × (1 + (эра_тех + эра_цив/10) × era-weight + (города − 1) × city-coins)
+#   пробирки = база × (1 + (эра_тех + эра_цив/10) × era-weight + (города − 1) × city-beakers)
+# Скидки складываются и применяются одним множителем, не больше max-discount.
+cost:
+  era-weight: 0.11
+  civ-era-divisor: 10
+  city-coins: 0.05
+  city-beakers: 0.075
+  max-discount: 0.75
+  # Отставание от лидера по эре: при отставании >= start эр скидка per-era за каждую эру сверх первой.
+  era-lag:
+    start: 2
+    per-era: 0.10
+
+eras:
+  0: {name: Первобытная эра, color: white}
+  1: {name: Каменный век, color: yellow}
+  2: {name: Средневековье, color: light_purple}
+  3: {name: Эра Ренессанса, color: green}
+  4: {name: Паровой век, color: gold}
+  5: {name: Индустриальная эра, color: dark_green}
+  6: {name: Атомная эра, color: aqua}
+  7: {name: Информационная эра, color: dark_purple}
+
+branches:
+  military: {name: Вооружение, icon: IRON_SWORD, military: true}
+  progress: {name: Технический прогресс, icon: PISTON}
+  economy: {name: Экономика, icon: EMERALD}
+  society: {name: Общество, icon: WRITABLE_BOOK}
+  wonders: {name: Чудеса света, icon: NETHER_STAR}
+
+techs:
+  # ---------------------------------------------------------------- C1 Вооружение
+  arsenal:
+    name: Арсенал
+    branch: military
+    era: 0
+    coins: 5000
+    beakers: 500
+    icon: WOODEN_SWORD
+    unlocks:
+      structures: [barracks]
+  archery:
+    name: Стрельба
+    branch: military
+    era: 1
+    coins: 7500
+    beakers: 1000
+    requires: [arsenal]
+    icon: BOW
+    unlocks:
+      items: [t1_bow]
+  blacksmithing:
+    name: Кузница
+    branch: military
+    era: 1
+    coins: 7500
+    beakers: 1000
+    requires: [arsenal]
+    icon: ANVIL
+    unlocks:
+      structures: [blacksmith]
+      items: [t1_steel_armor]
+  metal_casting:
+    name: Литьё металлов
+    branch: military
+    era: 1
+    coins: 7500
+    beakers: 1000
+    requires: [arsenal]
+    icon: IRON_INGOT
+    unlocks:
+      items: [t1_steel_sword]
+  fletching:
+    name: Оперение стрел
+    branch: military
+    era: 2
+    coins: 15000
+    beakers: 5000
+    requires: [archery, machinery, architecture]
+    icon: ARROW
+    unlocks:
+      items: [nether_bow, t2_recurve_bow]
+  leather_refinement:
+    name: Выделка кожи
+    branch: military
+    era: 2
+    coins: 15000
+    beakers: 5000
+    requires: [blacksmithing, archery, machinery, architecture]
+    icon: LEATHER_CHESTPLATE
+    unlocks:
+      items: [nether_armor, t2_refined_leather_armor]
+  metallurgy:
+    name: Металлургия
+    branch: military
+    era: 2
+    coins: 15000
+    beakers: 5000
+    requires: [metal_casting, machinery, architecture]
+    icon: IRON_CHESTPLATE
+    unlocks:
+      items: [t2_steel_armor]
+      upgrades: [quarry_4, trommel_4]
+  sword_smithing:
+    name: Ковка мечей
+    branch: military
+    era: 2
+    coins: 15000
+    beakers: 5000
+    requires: [metal_casting, machinery, architecture]
+    icon: IRON_SWORD
+    unlocks:
+      items: [nether_sword, t2_steel_sword]
+  composite_bow:
+    name: Составной лук
+    branch: military
+    era: 3
+    coins: 75000
+    beakers: 20000
+    requires: [fletching, efficiency, brewing]
+    icon: CROSSBOW
+    unlocks:
+      items: [t3_longbow]
+      artifacts: [archer]
+  tanning:
+    name: Дубление
+    branch: military
+    era: 3
+    coins: 75000
+    beakers: 20000
+    requires: [leather_refinement, efficiency, brewing]
+    icon: LEATHER
+    unlocks:
+      items: [t3_hardened_leather_armor]
+  chemistry:
+    name: Химия
+    branch: military
+    era: 3
+    coins: 75000
+    beakers: 20000
+    requires: [metallurgy, efficiency, brewing]
+    icon: DIAMOND_CHESTPLATE
+    unlocks:
+      items: [t3_carbide_armor]
+  damascus_steel:
+    name: Булатная сталь
+    branch: military
+    era: 3
+    coins: 75000
+    beakers: 20000
+    requires: [sword_smithing, efficiency, brewing]
+    icon: DIAMOND_SWORD
+    unlocks:
+      items: [t3_carbide_sword]
+  lamination:
+    name: Ламинация
+    branch: military
+    era: 6
+    coins: 3000000
+    beakers: 275000
+    requires: [composite_bow, innovation]
+    icon: TARGET
+    unlocks:
+      items: [t4_composite_bow]
+  composite_chemistry:
+    name: Химия композитов
+    branch: military
+    era: 6
+    coins: 3000000
+    beakers: 275000
+    requires: [tanning, innovation, lamination]
+    icon: CHAINMAIL_CHESTPLATE
+    unlocks:
+      items: [t4_composite_armor]
+  alloying:
+    name: Легирование
+    branch: military
+    era: 6
+    coins: 3000000
+    beakers: 275000
+    requires: [damascus_steel, innovation]
+    icon: NETHERITE_SWORD
+    unlocks:
+      items: [t4_tungsten_sword, t4_tungsten_tools]
+  metal_alloys:
+    name: Сплавы металлов
+    branch: military
+    era: 6
+    coins: 3000000
+    beakers: 275000
+    requires: [chemistry, innovation, alloying]
+    icon: NETHERITE_CHESTPLATE
+    unlocks:
+      items: [t4_tungsten_armor]
+  military_science:
+    name: Военная наука
+    branch: military
+    era: 6
+    coins: 3000000
+    beakers: 275000
+    requires: [composite_chemistry, metal_alloys]
+    icon: TNT
+    unlocks:
+      structures: [military_base]
+      items: [soul_armor]
+  future_tech:
+    name: Технология будущего
+    branch: military
+    era: 7
+    coins: 5000000
+    beakers: 500000
+    requires: [military_science, plastics, cryogenics]
+    icon: END_CRYSTAL
+    description:
+      - '+0.25 к защите каждой части брони, +1 к урону оружия'
+      - 'Не действует в Адской долине и с Бронёй души'
+    unlocks:
+      structures: [military_laboratory]
+    effects:
+      - {stat: armor_per_piece, add: 0.25}
+      - {stat: weapon_damage, add: 1}
+
+  # ---------------------------------------------------------------- C2 Технический прогресс
+  mining:
+    name: Шахты
+    branch: progress
+    era: 0
+    coins: 5000
+    beakers: 500
+    icon: STONE_PICKAXE
+    unlocks:
+      structures: [trommel]
+  productivity:
+    name: Производительность
+    branch: progress
+    era: 1
+    coins: 7500
+    beakers: 1000
+    requires: [mining]
+    icon: IRON_PICKAXE
+    unlocks:
+      structures: [mine, library, national_college]
+      governments: [despotism]
+      upgrades: [library_1]
+      wonders: [national_college]
+  construction:
+    name: Строительство
+    branch: progress
+    era: 1
+    coins: 7500
+    beakers: 1000
+    requires: [mining]
+    icon: BRICKS
+    unlocks:
+      structures: [scout_tower, scout_ship, portal]
+      upgrades: [quarry_2, trommel_2]
+  sailing:
+    name: Мореплавание
+    branch: progress
+    era: 1
+    coins: 10000
+    beakers: 2000
+    requires: [productivity]
+    icon: OAK_BOAT
+    unlocks:
+      structures: [scout_ship, shipyard]
+  architecture:
+    name: Архитектура
+    branch: progress
+    era: 1
+    coins: 10000
+    beakers: 2000
+    requires: [construction]
+    icon: STONE_BRICKS
+    unlocks:
+      structures: [wall, arsenal, cottage]
+      upgrades: [trommel_3, quarry_3]
+  taxation:
+    name: Налоги
+    branch: progress
+    era: 2
+    coins: 15000
+    beakers: 5000
+    requires: [sailing]
+    icon: GOLD_NUGGET
+    description:
+      - 'Прибыль коттеджей ×2'
+    unlocks:
+      structures: [arena, amphitheatre, colosseum]
+      upgrades: [sawmill_2]
+      wonders: [colosseum]
+    effects:
+      - {stat: cottage, multiply: 2.0}
+  artillery:
+    name: Артиллерия
+    branch: progress
+    era: 2
+    coins: 15000
+    beakers: 5000
+    requires: [architecture]
+    # Провинциям доступна, несмотря на эру «Средневековье» (spec 01 §5.3).
+    province: true
+    icon: DISPENSER
+    unlocks:
+      structures: [archer_ship, arrow_tower]
+      upgrades: [library_2]
+  navigation:
+    name: Навигация
+    branch: progress
+    era: 2
+    coins: 15000
+    beakers: 5000
+    requires: [sailing, machinery]
+    icon: COMPASS
+    unlocks:
+      structures: [trade_ship, lighthouse, international_port]
+      upgrades: [trade_ship_1]
+      wonders: [international_port]
+  efficiency:
+    name: Эффективность
+    branch: progress
+    era: 3
+    coins: 40000
+    beakers: 10000
+    requires: [taxation]
+    icon: GOLDEN_PICKAXE
+    unlocks:
+      structures: [ore_mine, sewer]
+      upgrades: [library_3, sawmill_3]
+  ballistics:
+    name: Баллистика
+    branch: progress
+    era: 3
+    coins: 40000
+    beakers: 10000
+    requires: [artillery]
+    icon: FIRE_CHARGE
+    unlocks:
+      structures: [cannon_ship, cannon_tower, wall]
+      items: [tnt]
+  engineering:
+    name: Инженерия
+    branch: progress
+    era: 3
+    coins: 75000
+    beakers: 17500
+    requires: [efficiency, brewing]
+    icon: REDSTONE
+    description:
+      - 'Мельницы ×2'
+    unlocks:
+      structures: [hopper, fortified_wall, airship, gunpowder_workshop, chateau]
+      units: [spy]
+      artifacts: [diver, reinforced_tools]
+      upgrades: [sawmill_4, windmill_double]
+      items: [hopper]
+    effects:
+      - {stat: windmill, multiply: 2.0}
+  alchemy:
+    name: Алхимия
+    branch: progress
+    era: 3
+    coins: 75000
+    beakers: 17500
+    requires: [ballistics, brewing]
+    icon: BREWING_STAND
+    unlocks:
+      upgrades: [town_6, arsenal_2]
+      items: [potion_fire_resistance]
+  assembly_line:
+    name: Конвейерная сборка
+    branch: progress
+    era: 4
+    coins: 175000
+    beakers: 50000
+    requires: [engineering]
+    icon: PISTON
+    unlocks:
+      structures: [plant]
+      governments: [technocracy]
+      artifacts: [glutton_stash]
+      upgrades: [library_4, granary_improved]
+      missions: [piracy, poison_quarry]
+  scientific_method:
+    name: Научный метод
+    branch: progress
+    era: 4
+    coins: 175000
+    beakers: 50000
+    requires: [engineering, economics]
+    icon: SPYGLASS
+    unlocks:
+      structures: [school]
+      artifacts: [rabbit_feet, travel_boots]
+      upgrades: [town_8, bank_9, trade_ship_5, arsenal_3]
+      missions: [sabotage, investigate_town]
+  electricity:
+    name: Электричество
+    branch: progress
+    era: 5
+    coins: 1000000
+    beakers: 70000
+    requires: [assembly_line, scientific_method]
+    icon: LIGHTNING_ROD
+    unlocks:
+      structures: [tesla_ship, tesla_tower, oil_rig]
+      upgrades: [arsenal_4]
+  innovation:
+    name: Инновации
+    branch: progress
+    era: 5
+    coins: 1500000
+    beakers: 100000
+    requires: [electricity, republic, nationalism]
+    icon: OBSERVER
+    unlocks:
+      structures: [factory]
+      artifacts: [conqueror, miner_talisman]
+      upgrades: [town_9, bank_10, bank_tax_4, trade_ship_6]
+  fertilizer:
+    name: Удобрение
+    branch: progress
+    era: 5
+    coins: 1500000
+    beakers: 100000
+    requires: [scientific_method]
+    icon: BONE_MEAL
+    description:
+      - 'Растительность ×2'
+    effects:
+      - {stat: growth, multiply: 2.0}
+  radio:
+    name: Радио
+    branch: progress
+    era: 6
+    coins: 2500000
+    beakers: 175000
+    requires: [innovation]
+    icon: NOTE_BLOCK
+    unlocks:
+      structures: [radio_tower]
+      upgrades: [world_bank_2]
+  electrodynamics:
+    name: Электродинамика
+    branch: progress
+    era: 6
+    coins: 2500000
+    beakers: 175000
+    requires: [innovation, radio]
+    icon: REDSTONE_TORCH
+    description:
+      - 'Урон от молний −1.5'
+    unlocks:
+      structures: [power_plant]
+    effects:
+      - {stat: lightning_damage, add: -1.5}
+  biology:
+    name: Биология
+    branch: progress
+    era: 6
+    coins: 2500000
+    beakers: 175000
+    requires: [fertilizer]
+    icon: GLISTERING_MELON_SLICE
+    unlocks:
+      structures: [hospital]
+      upgrades: [arsenal_5, world_bank_3]
+  plastics:
+    name: Пластмассы
+    branch: progress
+    era: 6
+    coins: 3000000
+    beakers: 250000
+    requires: [radio]
+    icon: SLIME_BALL
+    unlocks:
+      structures: [nuclear_plant]
+  cryogenics:
+    name: Криогеника
+    branch: progress
+    era: 6
+    coins: 3000000
+    beakers: 250000
+    requires: [biology]
+    icon: BLUE_ICE
+    unlocks:
+      structures: [laboratory]
+      upgrades: [world_bank_4]
+
+  # ---------------------------------------------------------------- C3 Экономика
+  agriculture:
+    name: Фермерство
+    branch: economy
+    era: 0
+    coins: 5000
+    beakers: 500
+    icon: WHEAT
+    unlocks:
+      structures: [farm, rice_field]
+  pottery:
+    name: Керамика
+    branch: economy
+    era: 1
+    coins: 7500
+    beakers: 1000
+    requires: [agriculture]
+    icon: DECORATED_POT
+    unlocks:
+      structures: [granary, warehouse]
+  hunting:
+    name: Охота
+    branch: economy
+    era: 1
+    coins: 7500
+    beakers: 1000
+    requires: [agriculture]
+    icon: COOKED_BEEF
+    unlocks:
+      structures: [grocer, pasture, trade_camp]
+      upgrades: [grocer_1]
+  machinery:
+    name: Механизмы
+    branch: economy
+    era: 1
+    coins: 10000
+    beakers: 2000
+    requires: [pottery]
+    icon: GRINDSTONE
+    unlocks:
+      structures: [fish_farm, quarry, windmill]
+      upgrades: [fish_farm_1, quarry_1]
+  beekeeping:
+    name: Пчеловодство
+    branch: economy
+    era: 1
+    coins: 10000
+    beakers: 1500
+    requires: [hunting]
+    icon: HONEYCOMB
+    unlocks:
+      structures: [apiary, beehive]
+  trade:
+    name: Торговля
+    branch: economy
+    era: 1
+    coins: 10000
+    beakers: 2000
+    requires: [hunting]
+    icon: EMERALD
+    unlocks:
+      structures: [fishing_boat, trade_outpost]
+      upgrades: [grocer_2, apiary_2]
+  driven_hunt:
+    name: Загонная охота
+    branch: economy
+    era: 1
+    coins: 10000
+    beakers: 2000
+    requires: [beekeeping, metal_casting]
+    icon: LEAD
+    unlocks:
+      structures: [monster_farm, sawmill]
+  commerce:
+    name: Коммерция
+    branch: economy
+    era: 2
+    coins: 15000
+    beakers: 5000
+    requires: [trade]
+    icon: GOLD_INGOT
+    unlocks:
+      structures: [world_market, cafe, hotel]
+      upgrades: [grocer_3, trade_ship_2, fish_farm_2, apiary_3]
+  education:
+    name: Образование
+    branch: economy
+    era: 2
+    coins: 15000
+    beakers: 5000
+    requires: [driven_hunt, legislation]
+    icon: BOOKSHELF
+    unlocks:
+      structures: [university, academy]
+  global_trade:
+    name: Мировой рынок
+    branch: economy
+    era: 3
+    coins: 40000
+    beakers: 10000
+    requires: [commerce, navigation]
+    icon: MAP
+    unlocks:
+      governments: [theocracy]
+      upgrades: [grocer_4, trade_ship_3, apiary_4]
+  monopoly:
+    name: Монополия
+    branch: economy
+    era: 3
+    coins: 100000
+    beakers: 10000
+    requires: [global_trade]
+    icon: GOLD_BLOCK
+    unlocks:
+      structures: [silk_farm, tavern, mall]
+      governments: [mercantilism]
+      upgrades: [fish_farm_3]
+  mechanical_engineering:
+    name: Машиностроение
+    branch: economy
+    era: 4
+    coins: 150000
+    beakers: 35000
+    requires: [education, engineering, economics]
+    icon: CRAFTER
+    unlocks:
+      structures: [ore_washer, road_station, stone_quarry, foundry]
+      governments: [communism]
+      artifacts: [engineer]
+      upgrades: [town_7, bank_8, fish_farm_4]
+      wonders: [foundry]
+  republic:
+    name: Республика
+    branch: economy
+    era: 4
+    coins: 175000
+    beakers: 50000
+    requires: [mechanical_engineering]
+    icon: BELL
+    unlocks:
+      structures: [castle, fortress]
+      governments: [republic]
+
+  # ---------------------------------------------------------------- C4 Общество
+  religion:
+    name: Религия
+    branch: society
+    era: 0
+    coins: 5000
+    beakers: 500
+    icon: CANDLE
+    unlocks:
+      structures: [monument, cathedral, mosque, pagoda, tomb, bank]
+      upgrades: [bank_1]
+  monarchy:
+    name: Монархия
+    branch: society
+    era: 1
+    coins: 7500
+    beakers: 1000
+    requires: [religion]
+    province: true
+    icon: GOLDEN_HELMET
+    unlocks:
+      governments: [monarchy]
+      upgrades: [town_2, bank_2]
+  winemaking:
+    name: Виноделие
+    branch: society
+    era: 1
+    coins: 7500
+    beakers: 1000
+    requires: [religion]
+    icon: SWEET_BERRIES
+    unlocks:
+      items: [potion_healing_1]
+  legislation:
+    name: Законодательство
+    branch: society
+    era: 1
+    coins: 10000
+    beakers: 2000
+    requires: [monarchy]
+    icon: LECTERN
+    unlocks:
+      upgrades: [bank_tax_1, bank_3]
+  church:
+    name: Церковь
+    branch: society
+    era: 1
+    coins: 10000
+    beakers: 2000
+    requires: [winemaking]
+    icon: BELL
+    unlocks:
+      structures: [church, temple, altar]
+      upgrades: [town_3]
+  writing:
+    name: Письменность
+    branch: society
+    era: 2
+    coins: 15000
+    beakers: 5000
+    requires: [legislation]
+    icon: WRITABLE_BOOK
+    unlocks:
+      upgrades: [town_4, bank_4]
+  fermentation:
+    name: Ферментация
+    branch: society
+    era: 2
+    coins: 15000
+    beakers: 5000
+    requires: [church]
+    icon: FERMENTED_SPIDER_EYE
+    unlocks:
+      structures: [plantation, floating_gardens]
+      items: [potion_healing_2]
+  currency:
+    name: Деньги
+    branch: society
+    era: 3
+    coins: 40000
+    beakers: 10000
+    requires: [writing]
+    icon: GOLD_NUGGET
+    unlocks:
+      structures: [market, east_india_company]
+      upgrades: [town_5, bank_5, bank_tax_2]
+      wonders: [east_india_company]
+  brewing:
+    name: Пивоварение
+    branch: society
+    era: 3
+    coins: 40000
+    beakers: 10000
+    requires: [fermentation]
+    icon: POTION
+    unlocks:
+      artifacts: [witch_trick]
+      items: [potion_speed]
+  economics:
+    name: Экономика
+    branch: society
+    era: 3
+    coins: 75000
+    beakers: 17500
+    requires: [currency, global_trade, brewing]
+    icon: EMERALD_BLOCK
+    unlocks:
+      structures: [stock_exchange]
+      upgrades: [bank_6]
+  nationalism:
+    name: Национализм
+    branch: society
+    era: 4
+    coins: 150000
+    beakers: 35000
+    requires: [economics]
+    icon: WHITE_BANNER
+    unlocks:
+      upgrades: [bank_7, trade_ship_4, bank_tax_3]
+      missions: [poison_granary, steal_treasury, inquisition, poison_hive]
+  archaeology:
+    name: Археология
+    branch: society
+    era: 5
+    coins: 1000000
+    beakers: 75000
+    requires: [nationalism, republic, electricity]
+    icon: BRUSH
+    unlocks:
+      structures: [museum, hermitage]
+      artifacts: [dragon_scale]
+      wonders: [hermitage]
+  fine_arts:
+    name: Искусство
+    branch: society
+    era: 5
+    coins: 500000
+    beakers: 75000
+    requires: [archaeology, innovation]
+    icon: PAINTING
+    unlocks:
+      structures: [theatre, cinema]
+
+  # ---------------------------------------------------------------- C5 Технологии Чудес света
+  # Эра не указана: берётся максимальная эра требований (spec 03 §3.5).
+  wonder_parthenon:
+    name: Парфенон
+    branch: wonders
+    coins: 75000
+    beakers: 75000
+    requires: [church, trade]
+    icon: QUARTZ_PILLAR
+    unlocks:
+      wonders: [parthenon]
+  wonder_great_pyramid:
+    name: Пирамида Хеопса
+    branch: wonders
+    coins: 75000
+    beakers: 75000
+    requires: [architecture, machinery, sailing]
+    icon: SANDSTONE
+    unlocks:
+      wonders: [great_pyramid]
+  wonder_statue_of_zeus:
+    name: Статуя Зевса
+    branch: wonders
+    coins: 75000
+    beakers: 75000
+    requires: [architecture, machinery, metal_casting]
+    icon: TRIDENT
+    unlocks:
+      wonders: [statue_of_zeus]
+  wonder_tree_of_life:
+    name: Древо Жизни
+    branch: wonders
+    coins: 75000
+    beakers: 75000
+    requires: [productivity, driven_hunt]
+    icon: OAK_SAPLING
+    unlocks:
+      wonders: [tree_of_life]
+  wonder_hanging_gardens:
+    name: Висячие сады
+    branch: wonders
+    coins: 75000
+    beakers: 75000
+    requires: [commerce, machinery]
+    icon: FLOWERING_AZALEA
+    unlocks:
+      wonders: [hanging_gardens]
+  wonder_angkor_wat:
+    name: Ангкор-Ват
+    branch: wonders
+    coins: 75000
+    beakers: 75000
+    requires: [education, engineering]
+    icon: MOSSY_STONE_BRICKS
+    unlocks:
+      wonders: [angkor_wat]
+  wonder_great_lighthouse:
+    name: Александрийский маяк
+    branch: wonders
+    coins: 75000
+    beakers: 75000
+    requires: [engineering, economics]
+    icon: SEA_LANTERN
+    unlocks:
+      wonders: [great_lighthouse]
+  wonder_chichen_itza:
+    name: Чичен-Ица
+    branch: wonders
+    coins: 75000
+    beakers: 75000
+    requires: [composite_bow, tanning, chemistry, damascus_steel]
+    icon: CHISELED_STONE_BRICKS
+    unlocks:
+      wonders: [chichen_itza]
+  wonder_great_library:
+    name: Александрийская библиотека
+    branch: wonders
+    coins: 50000
+    beakers: 50000
+    requires: [engineering, alchemy]
+    icon: ENCHANTED_BOOK
+    unlocks:
+      wonders: [great_library]
+  wonder_globe_theatre:
+    name: Глобус (Театр)
+    branch: wonders
+    coins: 100000
+    beakers: 100000
+    requires: [nationalism, engineering]
+    icon: JUKEBOX
+    unlocks:
+      wonders: [globe_theatre]
+  wonder_colossus:
+    name: Колосс Родосский
+    branch: wonders
+    coins: 100000
+    beakers: 100000
+    requires: [nationalism, ballistics]
+    icon: COPPER_BLOCK
+    unlocks:
+      wonders: [colossus]
+  wonder_himeji_castle:
+    name: Замок Химедзи
+    branch: wonders
+    coins: 150000
+    beakers: 150000
+    requires: [damascus_steel, engineering]
+    icon: CHERRY_PLANKS
+    unlocks:
+      wonders: [himeji_castle]
+      artifacts: [assassin_brand]
+  wonder_eiffel_tower:
+    name: Эйфелева башня
+    branch: wonders
+    coins: 150000
+    beakers: 150000
+    requires: [radio]
+    icon: IRON_BARS
+    unlocks:
+      wonders: [eiffel_tower]
+  wonder_notre_dame:
+    name: Нотр-Дам-де-Пари
+    branch: wonders
+    coins: 200000
+    beakers: 200000
+    requires: [republic]
+    icon: STAINED_GLASS
+    unlocks:
+      wonders: [notre_dame]
+      units: [prophet]
+  wonder_ingermanland:
+    name: Флагман Ingermanland
+    branch: wonders
+    coins: 100000
+    beakers: 100000
+    requires: [nationalism]
+    icon: DARK_OAK_BOAT
+    unlocks:
+      wonders: [ingermanland]
+  wonder_burj_al_arab:
+    name: Бурдж Аль Араб
+    branch: wonders
+    coins: 125000
+    beakers: 125000
+    requires: [fine_arts]
+    icon: WHITE_STAINED_GLASS
+    unlocks:
+      wonders: [burj_al_arab]
+  wonder_space_shuttle:
+    name: Космический шаттл
+    branch: wonders
+    coins: 125000
+    beakers: 125000
+    requires: [assembly_line]
+    icon: FIREWORK_ROCKET
+    unlocks:
+      wonders: [space_shuttle]
+      items: [space_shuttle_item]
+  wonder_world_bank:
+    name: Всемирный банк
+    branch: wonders
+    coins: 150000
+    beakers: 150000
+    requires: [innovation]
+    icon: EMERALD_BLOCK
+    unlocks:
+      wonders: [world_bank]
+      upgrades: [world_bank_1]
+  wonder_statue_of_liberty:
+    name: Статуя Свободы
+    branch: wonders
+    coins: 250000
+    beakers: 250000
+    requires: [composite_chemistry, metal_alloys]
+    icon: TORCH
+    unlocks:
+      wonders: [statue_of_liberty]
+      artifacts: [nanoplasts]
+  wonder_world_university:
+    name: Всемирный университет
+    branch: wonders
+    coins: 250000
+    beakers: 250000
+    requires: [republic, biology]
+    icon: KNOWLEDGE_BOOK
+    unlocks:
+      wonders: [world_university]
+  wonder_neuschwanstein:
+    name: Замок Нойшванштайн
+    branch: wonders
+    coins: 250000
+    beakers: 250000
+    requires: [archaeology]
+    icon: POLISHED_BLACKSTONE_BRICKS
+    unlocks:
+      wonders: [neuschwanstein]
+  wonder_council_of_eight:
+    name: Совет Восьми
+    branch: wonders
+    coins: 600000
+    beakers: 600000
+    requires: [electricity]
+    icon: BEACON
+    unlocks:
+      wonders: [council_of_eight]
+      artifacts: [invisibility_cap]
