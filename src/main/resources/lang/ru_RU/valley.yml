@@ -1,0 +1,45 @@
+valley:
+  command-description: 'Воздушная долина и мировой босс'
+  help: |-
+    <gold>Воздушная долина:</gold>
+    <yellow>/valley boss</yellow> <gray>— состояние Повелителя долины и время следующего появления</gray>
+    <yellow>/valley top [kills|deaths|kd|damage|civs]</yellow> <gray>— топы долины</gray>
+  entered: '<aqua>Вы в Воздушной долине. <gray>Работает только снаряжение долины. Домой — кнопка «Домой».'
+  cooldown: '<red>Портал перезаряжается: ещё <white><seconds></white> сек.'
+  already-inside: '<red>Вы уже в Воздушной долине.'
+  need-armor: '<red>Чтобы пройти через портал, наденьте полный комплект воздушной брони.'
+  boss:
+    name: '<dark_red><bold>Повелитель Воздушной долины'
+    name-hp: '<dark_red><bold>Повелитель Воздушной долины</bold> <red>❤ <white><hp></white><gray>/<max>'
+    bar: '<dark_red>Повелитель Воздушной долины'
+    bar-hp: '<dark_red>Повелитель Воздушной долины <gray>— <white><hp></white>/<max>'
+    spawned: '<dark_red><bold>Повелитель Воздушной долины</bold> <red>появился! Он пробудет в долине один час.'
+    left: '<gray>Повелитель Воздушной долины исчез вместе со своей наградой.'
+    need-civ: '<red>Бить Повелителя могут только члены цивилизаций.'
+    need-weapon: '<red>Повелителя ранит только оружие Воздушной долины.'
+    died: '<gold>Повелитель Воздушной долины повержен цивилизацией <white><civ></white>! Награда: <white><coins></white> монет.'
+    died-nobody: '<gray>Повелитель Воздушной долины повержен, но награду получить некому.'
+    paid: '<gold>Ваша доля награды за Повелителя: <white><coins></white> монет (<percent>% урона).'
+    paid-rest: '<gold>Остаток награды за Повелителя: <white><coins></white> монет.'
+    loot-given: '<gold>Трофеи Повелителя получает <white><player></white>.'
+    loot-dropped: '<gold><white><player></white> не в сети — трофеи Повелителя выпали на месте его гибели.'
+    loot-lost: '<red>Вы не в зоне боевых действий долины — трофеи Повелителя пропали.'
+    loot-lost-all: '<gray><white><player></white> не в зоне боевых действий — трофеи Повелителя пропали.'
+    status-alive: '<dark_red>Повелитель в долине: <white><hp></white>/<max> HP, исчезнет через <white><left></white>.'
+    status-next: '<gray>Повелитель появится через <white><time></white>.'
+  chest:
+    title: 'Сундук долины'
+    empty: '<gray>Сундук пуст'
+    need-tech: '<red>Чтобы взять этот предмет, нужна технология <white><tech></white>.'
+  top:
+    unknown: '<red>Топы: kills, deaths, kd, damage, civs.'
+    header-kills: '<gold>Топ долины по убийствам:'
+    header-deaths: '<gold>Топ долины по смертям:'
+    header-kd: '<gold>Топ долины по K/D:'
+    header-damage: '<gold>Топ долины по урону:'
+    header-civs: '<gold>Топ цивилизаций по победам над Повелителем:'
+    line: '<gray><n>. <white><name></white> — <yellow><value>'
+  admin:
+    filled: '<green>Заполнено сундуков: <white><count></white>.'
+    boss-alive: '<red>Повелитель уже в долине.'
+    boss-failed: '<red>Не удалось призвать Повелителя: настройте долину и маркер boss.'

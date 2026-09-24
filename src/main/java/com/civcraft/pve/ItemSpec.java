@@ -156,6 +156,11 @@ public record ItemSpec(String item, double chance, int min, int max, Map<String,
      */
     public static ItemStack create(String id, int amount) {
         if (amount <= 0) return null;
+        if (id.startsWith(PveItems.PREFIX)) {
+            ItemStack pve = PveItems.create(id.substring(PveItems.PREFIX.length()), amount);
+            if (pve == null) warnOnce("pve:" + id, "Unknown PvE item '" + id + "'");
+            return pve;
+        }
         Material material = id.startsWith("minecraft:") ? vanilla(id) : null;
         if (material != null) return new ItemStack(material, amount);
         ItemApi items = CivCraft.get().apiOrNull(ItemApi.class);
@@ -171,6 +176,7 @@ public record ItemSpec(String item, double chance, int min, int max, Map<String,
     /** Whether the stack matches the id (vanilla material or custom item id). */
     public static boolean matches(ItemStack stack, String id) {
         if (stack == null || stack.getType().isAir()) return false;
+        if (id.startsWith(PveItems.PREFIX)) return id.substring(PveItems.PREFIX.length()).equals(PveItems.id(stack));
         String custom = customId(stack);
         if (custom != null) return custom.equals(id);
         Material material = vanilla(id);

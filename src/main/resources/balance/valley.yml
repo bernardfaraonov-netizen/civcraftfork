@@ -1,0 +1,79 @@
+# Air valley and its world boss (spec 04 §11). The map is a custom build: put the world folder next to
+# the main world, then configure it in game: /civadmin area valley setspawn | pos1 | pos2 |
+# zone add <name> SAFE|PVP|BOSS | marker add boss|chest|button.
+world: civ_valley
+load-world: true
+# Teleport cooldown into the valley, random between min and max seconds (CL V0.8).
+teleport-cooldown-seconds: {min: 30, max: 45}
+# Full sky armour is required to pass the portal. Item-module ids per slot; empty list = no check.
+required-armor:
+  helmet: [sky_helmet]
+  chestplate: [sky_chestplate]
+  leggings: [sky_leggings]
+  boots: [sky_boots]
+# Dropped on death in the PvP zone (CL V1.10.4): all soul shards the player carries [assumption].
+soul-shard-id: mat_soul_shard
+top-size: 10
+
+rules:
+  banned-commands: [civ teleport, civ tp, c teleport, c tp, town teleport, town tp, t teleport, t tp,
+                    spawn, kill, k, ec, enderchest, ah, auc, auction]
+  friends-no-damage: true
+  pvp-damage-bonus: 2                 # +2 HP to every hit between players (CL V0.7.75), not the boss
+  default-zone: PVP
+  home-seconds: 10                    # stand still 10 s after pressing Home (CL V0.9.5)
+
+boss:
+  # Spawn times (Moscow time), every 6 hours; players voted for them on Alcor (CL V1.3).
+  spawn-times: ['00:00', '06:00', '12:00', '18:00']
+  lifetime-minutes: 60                # disappears with its reward after an hour
+  entity: wither_skeleton             # [assumption] model; its Wither effect is suppressed
+  scale: 2.0
+  hp: 800                             # CL V1.2
+  damage: 3                           # main page (draft: 2) — spec 04 §22.14
+  speed: 1.0
+  follow-range: 32
+  leash-radius: 40                    # teleported back to its marker beyond this distance
+  regen: {amount: 1, every-seconds: 5}  # [assumption]
+  # [assumption] behaviour after CL V1.4.1: melee plus a periodic knock-back slam.
+  aoe: {every-seconds: 12, radius: 6, damage: 3, knockback: 1.6}
+  # Only valley weapons hurt the boss: sword 2, bow 4, +1 per "Heavenly punishment" level.
+  sword-ids: [sky_sword]
+  bow-ids: [sky_bow]
+  sword-damage: 2
+  bow-damage: 4
+  smite-key: 'civcraft:heavenly_punishment'   # item PDC int with the enchantment level
+  smite-bonus-per-level: 1
+  require-civ: true                   # only members of a civilization can hit it (CL V1.4)
+  stats-lead-minutes: 15              # valley tops count from 15 min before a spawn (CL V1.9)
+  reward:
+    # 100 000 + 25 000 × era of the civilization that landed the last hit [assumption: that civ's era].
+    base-coins: 100000
+    coins-per-era: 25000
+    guaranteed:
+      - {item: 'pve:lucky_block', amount: 1}
+      - {item: mat_soul_shard, amount: 2}
+      - {item: diamond_block, amount: 20}
+    # Exactly one of these, equal chance [assumption].
+    one-of:
+      - {item: mat_legendary_attack_catalyst, amount: 1}
+      - {item: mat_legendary_defense_catalyst, amount: 1}
+      - {item: 'pve:lucky_block', amount: 1}
+      - {item: mat_mercury_t3, amount: 1}
+      - {item: mat_mercury_bath, amount: 9}
+      - {item: mat_metallic_crystal_4, amount: 3}
+      - {item: mat_ionic_crystal_4, amount: 3}
+
+chests:
+  # Refilled this many minutes relative to every boss spawn (negative = before) [assumption].
+  fill-offset-minutes: -10
+  # One item per chest; rolled from the rarest to the most common entry. "tech" = required technology.
+  loot:
+    - {item: arrow, chance: 40, min: 1, max: 32}
+    - {item: cooked_beef, chance: 35, min: 5, max: 16}
+    - {item: potion, potion: swiftness, chance: 15, tech: alchemy}
+    - {item: potion, potion: healing, chance: 15, tech: scientific_method}
+    - {item: potion, potion: strong_healing, chance: 55, tech: biology}
+    - {item: golden_carrot, chance: 5, min: 2, max: 8}
+    - {item: artifact_witch_trick_once, chance: 3}
+    - {item: artifact_travel_boots_once, chance: 3}

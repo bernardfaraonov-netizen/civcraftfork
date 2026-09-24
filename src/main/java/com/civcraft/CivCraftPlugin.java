@@ -28,7 +28,8 @@ public final class CivCraftPlugin extends JavaPlugin {
                 // PvE (mobs, valley & world boss, dungeon, world/town events, ruins, fishing, kits)
                 new com.civcraft.pve.PveModule(),
                 new com.civcraft.mob.MobModule(),
-                new com.civcraft.dungeon.DungeonModule()
+                new com.civcraft.dungeon.DungeonModule(),
+                new com.civcraft.boss.ValleyModule()
         );
     }
 
